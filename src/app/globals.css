@@ -12,8 +12,9 @@
   --quiet-muted: #56635b;   /* secondary text, 5.8:1 */
   --quiet-rule: #d5dbd6;    /* thin rules between sections and rows */
   --quiet-link: #3d6b2c;    /* slime green: links, hover, focus. 5.7:1 */
-  --quiet-sage: #4f6a49;    /* deep sage, the banners' veins darkened: the tint of the slime in the name.
-                               6.1:1 at its palest there. Saturated green stays for action alone */
+  --quiet-sage: #6b8964;    /* sage, a shade darker than the banners' veins: the tint of the slime in the
+                               name. 4.1:1 at its palest there, above the 3:1 a heading needs.
+                               Saturated green stays for action alone */
 }
 
 @theme inline {
