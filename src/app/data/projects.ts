@@ -38,7 +38,7 @@ export const ProjectList: Project[] = [
         hoverDescription: "Through rigorous testing, I developed a feedback form for my university's DEI department.",
         thumbnail: "/placeholders/capstone-project.jpg",
         year: "2022",
-        category: "UX writing and user research"
+        category: "User research"
     },
     {
         path: "home-server",
