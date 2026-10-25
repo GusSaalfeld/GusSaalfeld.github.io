@@ -11,7 +11,7 @@ export default function Header({children}: HeaderProps) {
     return (
         <NavBar>
             <span className="font-sans font-semibold">Augustus Saalfeld</span>
-            <span className="hidden lg:inline ml-3 text-quiet-muted">Technical & science writer</span>
+            <span className="hidden lg:inline ml-3 text-quiet-muted">Technical & Science Writer</span>
             {children && <div>{children}</div>}
         </NavBar>
     );

@@ -8,42 +8,49 @@ export const ProjectList: Project[] = [
         path: "ux-writing",
         title: "UX writing",
         hoverDescription: "Feature announcement + UX microcopy.",
-        thumbnail: "/placeholders/ux-writing.jpg"
+        thumbnail: "/placeholders/ux-writing.jpg",
+        year: "2026"
     },
     {
         path: "scientific-explainer",
         title: "Scientific explainer",
         hoverDescription: "A brief guide to web browsers.",
-        thumbnail: "/placeholders/scientific-explainer.jpg"
+        thumbnail: "/placeholders/scientific-explainer.jpg",
+        year: "2026"
     },
     {
         path: "barista-training",
         title: "Barista training manual",
         hoverDescription: "I developed a training manual for new baristas at my workplace.",
-        thumbnail: "/placeholders/barista-training.jpg"
+        thumbnail: "/placeholders/barista-training.jpg",
+        year: "2026"
     },
     {
         path: "capstone-project",
         title: "Capstone project",
         hoverDescription: "Through rigorous testing, I developed a feedback form for my university's DEI department.",
-        thumbnail: "/placeholders/capstone-project.jpg"
+        thumbnail: "/placeholders/capstone-project.jpg",
+        year: "2022"
     },
     {
         path: "home-server",
         title: "Home server",
         hoverDescription: "",
-        thumbnail: "/placeholders/home-server.jpg"
+        thumbnail: "/placeholders/home-server.jpg",
+        year: "2025–present"
     },
     {
         path: "growing-mushrooms",
         title: "Growing mushrooms",
         hoverDescription: "",
-        thumbnail: "/placeholders/growing-mushrooms.jpg"
+        thumbnail: "/placeholders/growing-mushrooms.jpg",
+        year: "2026"
     },
     {
         path: "creative-writing",
         title: "Creative writing",
         hoverDescription: "",
-        thumbnail: "/placeholders/creative-writing.jpg"
+        thumbnail: "/placeholders/creative-writing.jpg",
+        year: "" // writing from across many years, so no single year
     },
 ];
