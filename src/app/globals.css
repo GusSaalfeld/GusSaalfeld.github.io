@@ -26,9 +26,26 @@
   --color-dust: var(--rpg-dust);
   --color-frame: var(--rpg-frame);
   --color-frame-edge: var(--rpg-frame-edge);
-  /* Pixelify Sans for names, headings and the menu; Atkinson Hyperlegible Mono for reading */
-  --font-pixel: var(--font-pixelify);
+  /* The display font for names, headings and the menu; Atkinson Hyperlegible Mono for reading */
+  --font-pixel: var(--display-font);
   --font-mono: var(--font-atkinson-mono);
+}
+
+/* The display font candidates, switched by FontToggle. Kode Mono until it's clicked */
+:root,
+:root[data-display-font="kode"] {
+  --display-font: var(--font-kode);
+}
+:root[data-display-font="departure"] {
+  --display-font: var(--font-departure);
+}
+:root[data-display-font="chakra"] {
+  --display-font: var(--font-chakra);
+}
+
+/* Departure Mono has one weight. Stop the browser smearing a fake bold over its pixels */
+:root[data-display-font="departure"] .font-pixel {
+  font-synthesis: none;
 }
 
 body {
