@@ -83,7 +83,7 @@ export class SlimeSim {
     });
     this.display = pass(displayFrag, {
       uTrail: { value: null }, uBackground: { value: [0, 0, 0] }, uColour: { value: [1, 1, 1] },
-      uPixelated: { value: 0 },
+      uPixelated: { value: 0 }, uSteps: { value: 0 },
     });
 
     // Deposit and agentsOnly draw one point per agent. The geometry only supplies each point's index.
@@ -305,6 +305,7 @@ export class SlimeSim {
       u.uBackground.value = settings.backgroundColour;
       u.uColour.value = settings.agent.colour;
       u.uPixelated.value = settings.displayFilter === "pixelated" ? 1 : 0;
+      u.uSteps.value = settings.colourSteps;
       this.renderer.render({ scene: this.display });
     }
   }

@@ -49,6 +49,8 @@ export interface SlimeSettings {
   backgroundColour: RGB;
   showAgentsOnly: boolean;    // draw the agents as dots instead of the trail
   displayFilter: "smooth" | "pixelated"; // how the trail is upscaled to the screen: bicubic or blocky
+  colourSteps: number;        // 0 = blend smoothly from backgroundColour to the agent colour.
+                              // n = snap the blend to n even steps, so the trail shows in n distinct shades, like a limited palette
   agent: AgentSettings;
 }
 
@@ -69,6 +71,7 @@ export const defaultSettings: SlimeSettings = {
   backgroundColour: [0.6, 0.52, 0.35],
   showAgentsOnly: false,
   displayFilter: "smooth",
+  colourSteps: 0,
   agent: {
     moveSpeed: 7, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 12, sensorSize: 0,
     colour: [0.18, 0.12, 0.06],

@@ -3,7 +3,7 @@
 /* The same in both color schemes: matches the slime background (backgroundColour in
    SlimeSettings.ts), so the page doesn't flash white before the animation fades in. */
 :root {
-  --background: #99855a;
+  --background: #1f2e16;
   --foreground: #f2e6c9;
 
   /* An amber-monitor palette built on the slime. Panels are the slime's own trail colour,

@@ -16,9 +16,13 @@ const slimeSettings = {
   trailResolution: 320,
   numAgents: 10000,
   displayFilter: "pixelated" as const,
+  // Five greens, like moss on the pier: a dark moss background (#1f2e16, matching --background
+  // in globals.css), then the trail in four even steps up to lichen green (#9cc25a)
+  backgroundColour: [0.12, 0.18, 0.086] as [number, number, number],
+  colourSteps: 4,
   agent: {
     moveSpeed: 3.5, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 6, sensorSize: 0,
-    colour: [0.18, 0.12, 0.06] as [number, number, number],
+    colour: [0.61, 0.76, 0.35] as [number, number, number],
   },
 };
 
