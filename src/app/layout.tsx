@@ -24,18 +24,16 @@ const slimeSettings = {
   trailResolution: 320,
   numAgents: 10000,
   displayFilter: "pixelated" as const,
-  // Colours sampled from the hero photo: bare ground is mud (#7e724c, matching --background
-  // in globals.css). The trail's faint edges are a deep shadow, the dark green on the pier
-  // pilings (#132410), then it passes through seaweed (#848947) and water (#adcfe6)
+  // Colours sampled from the hero photo, dark to light: bare ground is mud (#7e724c, matching
+  // --background in globals.css), and the trail passes through seaweed (#848947) and water (#adcfe6)
   // to ripples (#e2f4fa) where it's strongest
   backgroundColour: [0.494, 0.447, 0.298] as RGB,
   trailPalette: [
-    [0.075, 0.141, 0.063],
     [0.518, 0.537, 0.278],
     [0.678, 0.812, 0.902],
     [0.886, 0.957, 0.98],
   ] as RGB[],
-  colourSteps: 4, // one band per colour: steps land exactly on the 5 stops (background + 4 trail colours)
+  colourSteps: 8,
   agent: {
     moveSpeed: 3.5, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 6, sensorSize: 0,
     colour: [0.886, 0.957, 0.98] as RGB, // only shows when drawing agents as dots
