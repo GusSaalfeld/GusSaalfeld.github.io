@@ -6,12 +6,9 @@ import { useState } from "react";
 // to the next candidate by setting data-display-font on <html>, which globals.css reads.
 // Remove this, and the fonts that lose, once one is chosen
 const Fonts = [
-  { id: "kode", label: "Kode Mono" },
-  { id: "share-tech", label: "Share Tech Mono" },
-  { id: "oxanium", label: "Oxanium" },
-  { id: "tektur", label: "Tektur" },
-  { id: "b612", label: "B612 Mono" },
-  { id: "space", label: "Space Mono" },
+  { id: "workbench", label: "Workbench" },
+  { id: "ibm-vga", label: "IBM VGA 8x16" },
+  { id: "departure", label: "Departure Mono" },
 ];
 
 export default function FontToggle() {
@@ -28,7 +25,7 @@ export default function FontToggle() {
     <button
       type="button"
       onClick={next}
-      className="fixed bottom-4 right-4 z-50 px-4 py-2 bg-slime border-4 border-frame shadow-[0_0_0_4px_#000] font-pixel text-lg text-parchment hover:bg-gold hover:text-slime"
+      className="fixed bottom-4 right-4 z-50 px-4 py-2 bg-slime border-4 border-frame shadow-[0_0_0_4px_#000] font-pixel text-[length:var(--display-s)] text-parchment hover:bg-gold hover:text-slime"
     >
       Font: {Fonts[index].label}
     </button>

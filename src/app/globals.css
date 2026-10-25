@@ -31,29 +31,35 @@
   --font-mono: var(--font-atkinson-mono);
 }
 
-/* The display font candidates, switched by FontToggle. Kode Mono until it's clicked */
+/* The display font candidates, switched by FontToggle. Workbench until it's clicked.
+   Each sets three sizes: s for menus and project titles, m for the name and section titles,
+   l for the page heading (l-mobile below md). A pixel font is crispest at whole multiples
+   of its pixel grid, so Departure Mono steps by 11px and IBM VGA by 16px */
 :root,
-:root[data-display-font="kode"] {
-  --display-font: var(--font-kode);
+:root[data-display-font="workbench"] {
+  --display-font: var(--font-workbench);
+  --display-s: 20px;
+  --display-m: 28px;
+  --display-l-mobile: 32px;
+  --display-l: 40px;
 }
-:root[data-display-font="share-tech"] {
-  --display-font: var(--font-share-tech);
+:root[data-display-font="ibm-vga"] {
+  --display-font: var(--font-ibm-vga);
+  --display-s: 16px;
+  --display-m: 32px;
+  --display-l-mobile: 32px;
+  --display-l: 48px;
 }
-:root[data-display-font="oxanium"] {
-  --display-font: var(--font-oxanium);
-}
-:root[data-display-font="tektur"] {
-  --display-font: var(--font-tektur);
-}
-:root[data-display-font="b612"] {
-  --display-font: var(--font-b612);
-}
-:root[data-display-font="space"] {
-  --display-font: var(--font-space);
+:root[data-display-font="departure"] {
+  --display-font: var(--font-departure);
+  --display-s: 22px;
+  --display-m: 33px;
+  --display-l-mobile: 33px;
+  --display-l: 44px;
 }
 
-/* Share Tech Mono has one weight. Show it as designed rather than with a fake bold */
-:root[data-display-font="share-tech"] .font-pixel {
+/* Every candidate has one weight. Show them as designed: a fake bold smears pixels */
+.font-pixel {
   font-synthesis: none;
 }
 

@@ -22,8 +22,10 @@ export default function Card({ eyebrow, title, description, children, split, bar
       {eyebrow && <p className="text-base text-dust">{eyebrow}</p>}
       {title && (
         <Heading
-          className={`font-pixel font-semibold text-gold text-balance ${
-            split ? "text-[32px] md:text-[40px] leading-[1.15]" : "text-[28px] leading-[1.2]"
+          className={`font-pixel text-gold text-balance ${
+            split
+              ? "text-[length:var(--display-l-mobile)] md:text-[length:var(--display-l)] leading-[1.15]"
+              : "text-[length:var(--display-m)] leading-[1.2]"
           }`}
         >
           {title}

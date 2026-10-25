@@ -1,18 +1,18 @@
 import "./globals.css";
-import { Atkinson_Hyperlegible_Mono, B612_Mono, Kode_Mono, Oxanium, Share_Tech_Mono, Space_Mono, Tektur } from "next/font/google";
+import { Atkinson_Hyperlegible_Mono, Workbench } from "next/font/google";
+import localFont from "next/font/local";
 import Header from "@/app/components/header";
 import FontToggle from "@/app/components/font-toggle";
 import SlimeCanvas from "@/app/components/slime-canvas";
 
-// Candidates for names, headings and the menu, all angular retro-hardware faces like Kode Mono,
-// switched with FontToggle (see globals.css).
+// Pixel font candidates for names, headings and the menu, switched with FontToggle (see globals.css):
+// Workbench, after the Amiga's interface font; IBM VGA 8x16, the DOS PC's own (CC BY-SA 4.0, VileR,
+// int10h.org: needs a credit on the site if chosen); and Departure Mono (SIL OFL). The last two aren't
+// on Google Fonts, so they're bundled in ./fonts with their licenses.
 // Atkinson Hyperlegible Mono, a terminal face built for legibility, for reading
-const kodeMono = Kode_Mono({ subsets: ["latin"], variable: "--font-kode" });
-const shareTechMono = Share_Tech_Mono({ subsets: ["latin"], weight: "400", variable: "--font-share-tech" });
-const oxanium = Oxanium({ subsets: ["latin"], variable: "--font-oxanium" });
-const tektur = Tektur({ subsets: ["latin"], variable: "--font-tektur" });
-const b612Mono = B612_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-b612" });
-const spaceMono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-space" });
+const workbench = Workbench({ subsets: ["latin"], variable: "--font-workbench" });
+const ibmVga = localFont({ src: "./fonts/WebPlus_IBM_VGA_8x16.woff", variable: "--font-ibm-vga" });
+const departureMono = localFont({ src: "./fonts/DepartureMono-Regular.woff2", variable: "--font-departure" });
 const atkinsonMono = Atkinson_Hyperlegible_Mono({ subsets: ["latin"], variable: "--font-atkinson-mono" });
 
 // The slime at the Commodore 64's 320 pixel width, upscaled blocky. Halving the default
@@ -35,7 +35,7 @@ const slimeSettings = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={[kodeMono, shareTechMono, oxanium, tektur, b612Mono, spaceMono, atkinsonMono].map((font) => font.variable).join(" ")}>
+    <html lang="en" className={[workbench, ibmVga, departureMono, atkinsonMono].map((font) => font.variable).join(" ")}>
       <body>
         <SlimeCanvas settings={slimeSettings} />
         <Header />
