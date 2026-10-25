@@ -56,16 +56,15 @@ export default function Portfolio() {
         "My name is Augustus Saalfeld, and I am a programmer turned technical writer who specializes in technical writing, UX writing, and science communications.",
         "I look forward to working with users on a better user experience, as well as with experts to get their message out there.",
       ]}>
-        {/* Pixelated like a game viewport: sizes asks for a small copy of the photo
-            (128 or 256 pixels wide), and the browser scales it up in hard blocks */}
+        {/* The viewport, like the 3D view in The Bard's Tale. About 40% of the frame's width from md up */}
         <Image
-          src="/hero.jpg"
+          src="/hero2.jpg"
           alt="Clam digging on a tidal flat beneath a wooden pier"
-          width={1284}
+          width={1113}
           height={1107}
-          sizes="128px"
+          sizes="(min-width: 768px) 420px, 100vw"
           priority
-          className="block w-full h-auto [image-rendering:pixelated]"
+          className="block w-full h-auto"
         />
       </Card>
       <FeaturedProjects bare projects={ProjectList} />
