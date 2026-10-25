@@ -5,54 +5,63 @@ import type { Project } from "@/app/types";
 // standing in until pictures of the real work are ready. Replace each with the work itself.
 // Each description is one sentence: what it is, who it was for, and what it achieved, in about
 // 15 to 20 words, like the barista manual's. The rest still need rewriting to that pattern.
+// Titles and categories are in sentence case: only the first word and proper nouns capitalised.
+// "[Category]" marks a category still to choose
 export const ProjectList: Project[] = [
     {
         path: "ux-writing",
-        title: "UX Writing – Course export for Canvas",
+        title: "Course export for Canvas",
         hoverDescription: "User interviews, a UX mockup, microcopy and a feature announcement to simulate adding the course export feature to Canvas.",
         thumbnail: "/placeholders/ux-writing.jpg",
-        year: "2026"
+        year: "2026",
+        category: "UX writing"
     },
     {
         path: "scientific-explainer",
         title: "Scientific explainer",
         hoverDescription: "A brief guide to web browsers.",
         thumbnail: "/placeholders/scientific-explainer.jpg",
-        year: "2026"
+        year: "2026",
+        category: "Science writing"
     },
     {
         path: "barista-training",
         title: "Barista training manual",
         hoverDescription: "A training manual that my cafe used to train new baristas.",
         thumbnail: "/placeholders/barista-training.jpg",
-        year: "2026"
+        year: "2026",
+        category: "Technical writing"
     },
     {
         path: "capstone-project",
         title: "Capstone project",
         hoverDescription: "Through rigorous testing, I developed a feedback form for my university's DEI department.",
         thumbnail: "/placeholders/capstone-project.jpg",
-        year: "2022"
+        year: "2022",
+        category: "UX research"
     },
     {
         path: "home-server",
         title: "Home server",
         hoverDescription: "",
         thumbnail: "/placeholders/home-server.jpg",
-        year: "2025–present"
+        year: "Since 2025",
+        category: "[Category]"
     },
     {
         path: "growing-mushrooms",
         title: "Growing mushrooms",
         hoverDescription: "",
         thumbnail: "/placeholders/growing-mushrooms.jpg",
-        year: "2026"
+        year: "2026",
+        category: "[Category]"
     },
     {
         path: "creative-writing",
         title: "Creative writing",
         hoverDescription: "",
         thumbnail: "/placeholders/creative-writing.jpg",
-        year: "" // writing from across many years, so no single year
+        year: "", // writing from across many years, so no single year
+        category: "Creative writing"
     },
 ];

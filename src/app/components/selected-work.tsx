@@ -7,10 +7,11 @@ type SelectedWorkProps = {
   projects: Project[],
 };
 
-// The projects as a ledger, like a bibliography: the year in its own column first, then the title
-// and one sentence on what it is, who it was for and what it achieved, then a small picture at the
-// right edge. On phones the year goes above the title. Rules between rows to scan by. On hover or
-// focus, the title turns slime green and underlines, and the picture's edge turns green with it
+// The projects as a ledger, like a bibliography: the year and the kind of writing in their own
+// column first, then the title and one sentence on what it is, who it was for and what it achieved,
+// then a small picture at the right edge. On phones the year and kind go side by side above the
+// title. Rules between rows to scan by. On hover or focus, the title turns slime green and
+// underlines, and the picture's edge turns green with it
 export default function SelectedWork({ title, projects }: SelectedWorkProps) {
   return (
     <section>
@@ -22,11 +23,13 @@ export default function SelectedWork({ title, projects }: SelectedWorkProps) {
           <li key={project.path}>
             <Link
               href={`/portfolio/${project.path}`}
-              className="group grid grid-cols-[minmax(0,1fr)_5rem] items-start gap-x-6 gap-y-1 py-5 md:grid-cols-[8rem_minmax(0,1fr)_6rem]"
+              className="group grid grid-cols-[minmax(0,1fr)_5rem] items-start gap-x-6 gap-y-1 py-5 md:grid-cols-[9rem_minmax(0,1fr)_6rem]"
             >
-              {/* With no year it still holds the first column from md up, but takes no line on phones */}
-              <span className={`col-span-2 pt-1.5 font-sans text-base tabular-nums text-quiet-muted md:col-span-1 ${project.year ? "" : "hidden md:block"}`}>
-                {project.year}
+              {/* The year, then the kind of writing: stacked from md up, side by side on phones. With
+                  neither, it still holds the first column from md up, but takes no line on phones */}
+              <span className={`col-span-2 flex flex-wrap gap-x-3 pt-1.5 font-sans text-base text-quiet-muted md:col-span-1 md:flex-col ${project.year || project.category ? "" : "hidden md:flex"}`}>
+                {project.year && <span className="tabular-nums">{project.year}</span>}
+                {project.category && <span>{project.category}</span>}
               </span>
               <span className="flex flex-col gap-1">
                 <span className="font-sans text-2xl font-semibold leading-[1.25] text-quiet-ink group-hover:text-quiet-link group-hover:underline group-focus-visible:text-quiet-link underline-offset-4">
