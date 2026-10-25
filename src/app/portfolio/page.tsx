@@ -8,7 +8,7 @@ export default function Portfolio() {
   return (
     <>
       <header className="bg-quiet-paper px-6 md:px-12 pt-12 md:pt-20 pb-16">
-        <h1 className="font-sans text-[clamp(4rem,15vw,13rem)] font-black leading-[0.88] tracking-[-0.03em] [font-stretch:112%] text-quiet-ink">
+        <h1 className="font-sans text-[clamp(2rem,7.5vw,6.5rem)] font-black leading-[0.95] tracking-[-0.03em] [font-stretch:112%] text-quiet-ink">
           Augustus Saalfeld
         </h1>
         <p className="mt-8 font-sans text-xl md:text-2xl text-quiet-muted">
