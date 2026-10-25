@@ -46,7 +46,7 @@ export const ProjectList: Project[] = [
         hoverDescription: "",
         thumbnail: "/placeholders/home-server.jpg",
         year: "Since 2025",
-        category: "[Category]"
+        category: "Self-hosting"
     },
     {
         path: "growing-mushrooms",
