@@ -1,41 +1,48 @@
 @import "tailwindcss";
 
-/* The same in both color schemes: a lab bench. --background matches the dish's benchColour
-   (layout.tsx), so the slime canvas meets the page without a seam. */
+/* The same in both color schemes. A cool, faintly green paper, deep green ink, and one slime green
+   for links. Everything is opaque except the name, the one place the slime shows (.slime-letters). */
 :root {
-  --background: #e6eae8;
-  --foreground: #1c2826;
+  --background: #f3f5f2;
+  --foreground: #1d2a22;
 
-  --lab-bench: #e6eae8;    /* the page: a pale, cool lab bench */
-  --lab-ink: #1c2826;      /* text, 12.5:1 on the bench */
-  --lab-graphite: #4c5a57; /* secondary text, 6:1 */
-  --lab-line: #c9d1ce;     /* rules between sections and rows */
-  --lab-paper: #f6f1e4;    /* label tags, and a hovered row */
-  --lab-marker: #1f4fbf;   /* marker-pen blue: labels, links, focus. 5.9:1 on the bench */
+  --quiet-paper: #f3f5f2;
+  --quiet-ink: #1d2a22;     /* text, 13.6:1 on the paper */
+  --quiet-muted: #56635b;   /* secondary text, 5.8:1 */
+  --quiet-rule: #d5dbd6;    /* thin rules between sections and rows */
+  --quiet-link: #3d6b2c;    /* slime green: links, hover, focus. 5.7:1 */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-lab-bench: var(--lab-bench);
-  --color-lab-ink: var(--lab-ink);
-  --color-lab-graphite: var(--lab-graphite);
-  --color-lab-line: var(--lab-line);
-  --color-lab-paper: var(--lab-paper);
-  --color-lab-marker: var(--lab-marker);
-  /* Instrument Sans for everything you read; Permanent Marker only for labels on the dish */
-  --font-sans: var(--font-instrument);
-  --font-marker: var(--font-permanent-marker);
+  --color-quiet-paper: var(--quiet-paper);
+  --color-quiet-ink: var(--quiet-ink);
+  --color-quiet-muted: var(--quiet-muted);
+  --color-quiet-rule: var(--quiet-rule);
+  --color-quiet-link: var(--quiet-link);
+  /* Archivo, heavy and wide, for the name and headings; Source Serif 4 for reading */
+  --font-sans: var(--font-archivo);
+  --font-serif: var(--font-source-serif);
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-instrument), system-ui, sans-serif;
+  font-family: var(--font-source-serif), Georgia, serif;
 }
 
 :focus-visible {
-  outline: 2px solid var(--lab-marker);
+  outline: 2px solid var(--quiet-link);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 2px;
+}
+
+/* Text the slime shows through. The box is paper and the letters are black; lighten keeps
+   whichever is lighter of this and what's behind it. The slime is darker than the paper, so the
+   box stays paper while the black letters give way to the slime behind them. Nothing between
+   this and the slime canvas may have a background, or the letters show that instead */
+.slime-letters {
+  background: var(--quiet-paper);
+  color: #000;
+  mix-blend-mode: lighten;
 }

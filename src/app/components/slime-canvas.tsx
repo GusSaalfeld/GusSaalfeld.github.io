@@ -3,7 +3,7 @@
 
 import { useEffect, useRef } from "react";
 import { SlimeSim } from "@/app/lib/slime/SlimeSim";
-import type { SlimeSettings } from "@/app/lib/slime/SlimeSettings";
+import { defaultSettings, type SlimeSettings } from "@/app/lib/slime/SlimeSettings";
 import { FOCUS_EVENT, type FocusDetail } from "@/app/lib/slime/Dish";
 
 // settings is optional. Anything you leave out uses the defaults in SlimeSettings.ts.
@@ -111,5 +111,8 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
     simRef.current?.updateSettings(settingsRef.current ?? {});
   }, [settingsKey]);
 
-  return <div ref={hostRef} aria-hidden className="fixed inset-0 -z-10" />;
+  // The host shows the slime's background colour, so anything designed to show the slime still
+  // has a colour behind it when the simulation can't run (reduced motion, or no WebGL2)
+  const [r, g, b] = (settings?.backgroundColour ?? defaultSettings.backgroundColour).map((c) => Math.round(c * 255));
+  return <div ref={hostRef} aria-hidden className="fixed inset-0 -z-10" style={{ background: `rgb(${r} ${g} ${b})` }} />;
 }

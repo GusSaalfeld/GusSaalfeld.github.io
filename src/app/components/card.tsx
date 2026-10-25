@@ -4,28 +4,34 @@ import type { ReactNode } from "react";
 type CardProps = {
   title?: string;
   description?: string | string[], // an array shows each entry as its own paragraph
-  children?: ReactNode,            // shown after the text, an image usually
+  children?: ReactNode,            // shown beside the text from md up, after it below; an image usually
 };
 
-// A section of the lab notebook column: a heading, paragraphs, then children, ruled off above
+// A section of the page: a heading and paragraphs, ruled off above. Opaque paper, so the slime
+// shows only where something asks for it
 export default function Card({ title, description, children }: CardProps) {
   return (
-    <section className="flex flex-col gap-5 border-t border-lab-line px-6 md:px-12 py-10">
-      {title && (
-        <h2 className="max-w-[24ch] text-[1.75rem] md:text-[2rem] font-semibold leading-[1.15] tracking-[-0.01em] text-lab-ink text-balance">
-          {title}
-        </h2>
-      )}
-      {description && (
-        <div className="flex flex-col gap-4 max-w-[62ch]">
-          {[description].flat().map((paragraph) => (
-            <p key={paragraph} className="text-lg leading-[1.6] text-lab-ink text-pretty">
-              {paragraph}
-            </p>
-          ))}
+    <section className="bg-quiet-paper border-t border-quiet-rule px-6 md:px-12 py-12">
+      <div className={`grid gap-8 md:gap-12 ${children ? "md:grid-cols-[minmax(0,62ch)_minmax(0,18rem)]" : ""}`}>
+        <div className="flex flex-col gap-5">
+          {title && (
+            <h2 className="max-w-[24ch] font-sans text-[1.75rem] md:text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink text-balance">
+              {title}
+            </h2>
+          )}
+          {description && (
+            <div className="flex flex-col gap-4 max-w-[62ch]">
+              {[description].flat().map((paragraph) => (
+                // A serif reads best with a little more leading
+                <p key={paragraph} className="text-[1.1875rem] leading-[1.65] text-quiet-ink text-pretty">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          )}
         </div>
-      )}
-      {children && <div>{children}</div>}
+        {children && <div>{children}</div>}
+      </div>
     </section>
   );
 }
