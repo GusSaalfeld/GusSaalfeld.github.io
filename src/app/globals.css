@@ -46,14 +46,22 @@ body {
 
 /* Text the slime shows through. The box is paper and the letters are black; lighten keeps
    whichever is lighter of this and what's behind it. The slime is darker than the paper, so the box
-   stays paper while the black letters give way to the slime. The backdrop filter darkens the slime
-   behind the box first, so the pale banner colours read clearly as letters. Nothing between this
-   and the slime canvas may have a background, or the letters show that instead (see Band) */
+   stays paper while the black letters give way to the slime. Nothing between this and the slime
+   canvas may have a background, or the letters show that instead (see Band) */
 .slime-letters {
   background: var(--quiet-paper);
   color: #000;
   mix-blend-mode: lighten;
-  backdrop-filter: brightness(0.5) saturate(1.3);
+}
+
+/* The same text laid over .slime-letters, tinting the slime in its letters with the link green.
+   Multiply darkens what's beneath by the green: the pale slime comes out near the link green and
+   its veins near the ink, so the name stays in the site's own greens. Around the letters there's
+   no text, so the paper is untouched. It must be a sibling after .slime-letters, not inside it:
+   inside, it would blend with the black letters instead of the slime showing through them */
+.slime-tint {
+  color: var(--quiet-link);
+  mix-blend-mode: multiply;
 }
 
 :focus-visible {
