@@ -9,7 +9,7 @@ export const ProjectList: Project[] = [
     {
         path: "ux-writing",
         title: "Course export for Canvas",
-        hoverDescription: "Microcopy, a UX mockup and a feature announcement for a simulated launch of course export in Canvas.",
+        hoverDescription: "Research, a UX mockup, microcopy and a feature announcement for a simulated launch of course export in Canvas.",
         thumbnail: "/placeholders/ux-writing.jpg",
         year: "2026"
     },
