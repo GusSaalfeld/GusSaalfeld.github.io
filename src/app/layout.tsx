@@ -35,6 +35,14 @@ const slimeSettings = {
     [[0.251, 0.373, 0.157], [0.075, 0.173, 0.047]],
   ] as RGB[][],
   colourSteps: 6, // a multiple of the 2 colours per species, so every colour gets its own band
+  // Tide-pool creatures on top: purple ochre stars, as on the Oregon coast, and a crab in the
+  // photo's beanie orange. Both edged in the panels' slime brown
+  creatures: {
+    starfish: 2, crabs: 1, starfishSize: 9, crabSize: 7, crabSpeed: 8,
+    starfishColour: [0.71, 0.34, 0.5] as RGB,
+    crabColour: [0.78, 0.31, 0.18] as RGB,
+    outlineColour: [0.18, 0.12, 0.06] as RGB,
+  },
   agent: {
     moveSpeed: 3.5, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 6, sensorSize: 0,
     colour: [0.886, 0.957, 0.98] as RGB, // only shows when drawing agents as dots

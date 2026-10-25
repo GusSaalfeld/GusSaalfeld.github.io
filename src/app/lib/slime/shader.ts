@@ -1,6 +1,7 @@
 //shader code imported from shadertoy.
 //GLSL strings
 import { MAX_TRAIL_PALETTE } from "./SlimeSettings";
+import { MAX_CREATURES } from "./Creatures";
 
 // Agents take turns between species, so an agent's species comes from its index. Each species
 // keeps its trail in one channel of the trail texture: species 0 in r, 1 in g, 2 in b, 3 in a.
@@ -207,6 +208,16 @@ uniform vec4 uPaletteSizes; // how many colours each species uses, at least 1
 uniform float uSpeciesCount;
 uniform int uPixelated;     // 1 = nearest texel (blocky), 0 = Catmull-Rom bicubic (smooth and crisp)
 uniform float uSteps;       // 0 = smooth blend, n = n distinct shades above the background
+// Creatures (Creatures.ts). Positions are in trail texels
+uniform float uTime;
+uniform vec4 uStarfish[${MAX_CREATURES}]; // x, y, rotation, leg wave phase
+uniform float uStarfishCount;
+uniform vec4 uCrabs[${MAX_CREATURES}];    // x, y, heading, leg phase
+uniform float uCrabCount;
+uniform vec2 uCreatureSizes; // starfish radius, crab radius
+uniform vec3 uStarfishColour;
+uniform vec3 uCrabColour;
+uniform vec3 uOutline;
 in vec2 vUv;
 out vec4 fragColor;
 
@@ -242,6 +253,69 @@ vec4 sampleCatmullRom(vec2 uv) {
     return r;
 }
 
+const float TAU = 6.2831853;
+
+vec2 rotate(vec2 v, float a) {
+    float c = cos(a), s = sin(a);
+    return vec2(c * v.x - s * v.y, s * v.x + c * v.y);
+}
+
+// Distance from p to the line segment a-b
+float segment(vec2 p, vec2 a, vec2 b) {
+    vec2 pa = p - a, ba = b - a;
+    return length(pa - ba * clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0));
+}
+
+// The creatures are distance shapes, in trail texels: 0 or less is inside, up to 1 is the outline.
+
+// A five-legged star. Each leg sways from the hip, and a wave runs out along it, so the tips
+// move most. The bend grows with distance from the centre, which curls the legs
+float starfish(vec2 p, vec4 star, float size) {
+    vec2 q = p - star.xy;
+    float r = length(q);
+    if (r > size + 2.0) return 1e3;
+    float angle = atan(q.y, q.x) - star.z;
+    float along = r / size; // 0 at the centre, 1 at the tips
+    float d = r - size * 0.3; // the central disc
+    for (int k = 0; k < 5; k++) {
+        float fk = float(k);
+        float sway = 0.18 * sin(uTime * 1.6 + star.w + fk * 1.9);
+        float wave = 0.35 * along * sin(uTime * 2.4 + star.w + fk * 1.3 - along * 3.0);
+        float legAngle = fk * TAU / 5.0 + sway + wave;
+        float diff = mod(angle - legAngle + TAU * 0.5, TAU) - TAU * 0.5; // -pi..pi
+        if (abs(diff) > 1.4) continue;
+        float halfWidth = size * 0.22 * (1.0 - along) + 0.5; // tapering to a point
+        d = min(d, max(r * abs(sin(diff)) - halfWidth, r - size));
+    }
+    return d;
+}
+
+// A crab seen from above, walking sideways. Its x axis runs along heading, its front faces +y.
+// Three legs a side swing in turn while legPhase advances; eye is set on its two eye pixels
+float crab(vec2 p, vec4 c, float size, out bool eye) {
+    eye = false;
+    vec2 q = rotate(p - c.xy, -c.z);
+    if (length(q) > size * 1.7) return 1e3;
+    float d = (length(q / vec2(size * 0.62, size * 0.42)) - 1.0) * size * 0.42; // a wide oval shell
+    for (int side = -1; side <= 1; side += 2) {
+        float s = float(side);
+        if (length(q - vec2(s * size * 0.2, size * 0.32)) < 0.9) eye = true;
+        // A claw: an arm reaching forward to a round pincer
+        vec2 hand = vec2(s * size * 0.62, size * 0.85);
+        d = min(d, segment(q, vec2(s * size * 0.45, size * 0.25), hand) - 0.6);
+        d = min(d, length(q - hand) - size * 0.22);
+        // Legs, the two sides out of step like a real scuttle
+        for (int i = 0; i < 3; i++) {
+            float fi = float(i);
+            float swing = 0.35 * sin(c.w + fi * 2.1 + (side > 0 ? 0.0 : 3.14159));
+            vec2 hip = vec2(s * size * 0.5, -size * 0.05 - fi * size * 0.18);
+            vec2 foot = hip + rotate(vec2(s * size * 0.65, -size * 0.25), s * swing);
+            d = min(d, segment(q, hip, foot) - 0.5);
+        }
+    }
+    return d;
+}
+
 void main() {
     vec4 raw = uPixelated == 1
         ? texelFetch(uTrail, ivec2(vUv * vec2(textureSize(uTrail, 0))), 0)
@@ -264,7 +338,25 @@ void main() {
     int base = s * ${MAX_TRAIL_PALETTE};
     vec3 from = uBackground;
     if (i > 0) from = uPalette[base + i - 1];
-    fragColor = vec4(mix(from, uPalette[base + i], x - float(i)), 1.0);
+    vec3 colour = mix(from, uPalette[base + i], x - float(i));
+
+    // Creatures on top. When pixelated, test each texel's centre so they're drawn in whole texels like the slime
+    vec2 p = vUv * vec2(textureSize(uTrail, 0));
+    if (uPixelated == 1) p = floor(p) + 0.5;
+    for (int k = 0; k < ${MAX_CREATURES}; k++) {
+        if (float(k) >= uStarfishCount) break;
+        float d = starfish(p, uStarfish[k], uCreatureSizes.x);
+        if (d <= 0.0) colour = uStarfishColour;
+        else if (d <= 1.0) colour = uOutline;
+    }
+    for (int k = 0; k < ${MAX_CREATURES}; k++) {
+        if (float(k) >= uCrabCount) break;
+        bool eye;
+        float d = crab(p, uCrabs[k], uCreatureSizes.y, eye);
+        if (d <= 0.0) colour = eye ? uOutline : uCrabColour;
+        else if (d <= 1.0) colour = uOutline;
+    }
+    fragColor = vec4(colour, 1.0);
 }`;
 
 // 

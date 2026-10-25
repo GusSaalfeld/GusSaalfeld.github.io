@@ -8,6 +8,7 @@ import {
 import {
   SlimeSettings, mergeSettings, SPAWN_MODE_INDEX, MAX_SPECIES, MAX_TRAIL_PALETTE,
 } from "./SlimeSettings";
+import { Creatures, MAX_CREATURES } from "./Creatures";
 
 // Phones resize the page a little whenever the address bar slides in or out. A change
 // this small is not worth wiping the trail for: CSS just stretches the canvas slightly.
@@ -41,6 +42,7 @@ export class SlimeSim {
   private display: Mesh;
   private agentsOnly: Mesh;
   private agentGeometry!: Geometry; // one point per agent, shared by deposit and agentsOnly
+  private creatures = new Creatures(); // starfish and crabs, drawn by the display pass
 
   private cssWidth: number;
   private cssHeight: number;
@@ -87,6 +89,12 @@ export class SlimeSim {
       uPalette: { value: new Float32Array(MAX_SPECIES * MAX_TRAIL_PALETTE * 3) },
       uPaletteSizes: { value: [1, 1, 1, 1] }, uSpeciesCount: { value: 1 },
       uPixelated: { value: 0 }, uSteps: { value: 0 },
+      // Creatures, refilled in draw(). Each vec4 array holds MAX_CREATURES slots
+      uTime: { value: 0 },
+      uStarfish: { value: new Float32Array(MAX_CREATURES * 4) }, uStarfishCount: { value: 0 },
+      uCrabs: { value: new Float32Array(MAX_CREATURES * 4) }, uCrabCount: { value: 0 },
+      uCreatureSizes: { value: [0, 0] },
+      uStarfishColour: { value: [0, 0, 0] }, uCrabColour: { value: [0, 0, 0] }, uOutline: { value: [0, 0, 0] },
     });
 
     // Deposit and agentsOnly draw one point per agent. The geometry only supplies each point's index.
@@ -240,6 +248,11 @@ export class SlimeSim {
     const elapsed = this.lastTime ? now - this.lastTime : 0;
     this.lastTime = now;
 
+    // Creatures run on real time, not the simulation's timeScale
+    this.creatures.sync(this.settings.creatures);
+    this.creatures.update(Math.min(elapsed / 1000, MAX_FRAME_SECONDS), this.settings.creatures,
+      this.trailA.width, this.trailA.height);
+
     const { fixedTimeStep, stepsPerFrame } = this.settings;
     this.owed += Math.min(elapsed / 1000, MAX_FRAME_SECONDS) / Math.max(fixedTimeStep, 1e-4);
     const ticks = Math.floor(this.owed);
@@ -325,6 +338,21 @@ export class SlimeSim {
         sizes[s] = used.length;
       });
       u.uSpeciesCount.value = palettes.length;
+
+      // Creatures, converted from 0..1 of the trail to trail texels
+      const { width, height } = this.trailA;
+      const { creatures } = settings;
+      const starfish = u.uStarfish.value as Float32Array;
+      this.creatures.starfish.forEach((s, i) => starfish.set([s.x * width, s.y * height, s.rotation, s.phase], i * 4));
+      const crabs = u.uCrabs.value as Float32Array;
+      this.creatures.crabs.forEach((c, i) => crabs.set([c.x * width, c.y * height, c.heading, c.legPhase], i * 4));
+      u.uTime.value = this.creatures.time;
+      u.uStarfishCount.value = this.creatures.starfish.length;
+      u.uCrabCount.value = this.creatures.crabs.length;
+      u.uCreatureSizes.value = [creatures.starfishSize, creatures.crabSize];
+      u.uStarfishColour.value = creatures.starfishColour;
+      u.uCrabColour.value = creatures.crabColour;
+      u.uOutline.value = creatures.outlineColour;
       u.uPixelated.value = settings.displayFilter === "pixelated" ? 1 : 0;
       u.uSteps.value = settings.colourSteps;
       this.renderer.render({ scene: this.display });

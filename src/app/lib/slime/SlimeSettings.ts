@@ -11,6 +11,18 @@ export const SPAWN_MODE_INDEX: Record<SpawnMode, number> = {
 
 export type RGB = [number, number, number]; // each 0..1
 
+// Creatures drawn over the slime (see Creatures.ts). They don't touch the simulation.
+export interface CreatureSettings {
+  starfish: number;           // how many, at most 4. Each stays put and undulates its legs
+  crabs: number;              // how many, at most 4. Each crawls sideways in a random direction, stops, then sets off again
+  starfishSize: number;       // radius in trail texels
+  crabSize: number;           // radius in trail texels
+  crabSpeed: number;          // trail texels per second while crawling
+  starfishColour: RGB;
+  crabColour: RGB;
+  outlineColour: RGB;         // a one-texel edge around both, and the crab's eyes
+}
+
 // How the agents move and sense, and what colour their trail is.
 export interface AgentSettings {
   // Movement
@@ -56,6 +68,7 @@ export interface SlimeSettings {
                               // Agents take turns between species. Each follows its own species' trail and
                               // avoids the others', as in Lague's multi-species version. Empty = one species
                               // in the agent colour
+  creatures: CreatureSettings;
   agent: AgentSettings;
 }
 
@@ -83,6 +96,10 @@ export const defaultSettings: SlimeSettings = {
   displayFilter: "smooth",
   colourSteps: 0,
   speciesPalettes: [],
+  creatures: {
+    starfish: 0, crabs: 0, starfishSize: 9, crabSize: 7, crabSpeed: 8,
+    starfishColour: [0.71, 0.34, 0.5], crabColour: [0.78, 0.31, 0.18], outlineColour: [0.18, 0.12, 0.06],
+  },
   agent: {
     moveSpeed: 7, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 12, sensorSize: 0,
     colour: [0.18, 0.12, 0.06],
@@ -125,6 +142,7 @@ export function mergeSettings(overrides: Partial<SlimeSettings> = {}): SlimeSett
     backgroundColour: [...(overrides.backgroundColour ?? defaultSettings.backgroundColour)] as RGB,
     speciesPalettes: (overrides.speciesPalettes ?? defaultSettings.speciesPalettes)
       .map((palette) => palette.map((c) => [...c] as RGB)),
+    creatures: { ...defaultSettings.creatures, ...overrides.creatures },
     agent: { ...agent, colour: [...agent.colour] as RGB },
   };
 }
