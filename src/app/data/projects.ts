@@ -44,7 +44,7 @@ export const ProjectList: Project[] = [
         title: "Home server",
         hoverDescription: "",
         thumbnail: "/placeholders/home-server.jpg",
-        year: "Since 2025",
+        year: "2025–present",
         category: "Self-hosting"
     },
     {
