@@ -16,6 +16,7 @@ export interface CreatureSettings {
   starfish: number;           // how many, at most 4. Each stays put and undulates its legs, only where
                               // the page doesn't cover the slime (see SlimeSim.setCovers)
   starfishSize: number;       // radius in trail texels
+  starfishSpeed: number;      // how fast their legs move. 1 = normal, 0.5 = half speed
   starfishColour: RGB;
   outlineColour: RGB;         // a one-texel edge around each starfish
 }
@@ -94,7 +95,7 @@ export const defaultSettings: SlimeSettings = {
   colourSteps: 0,
   speciesPalettes: [],
   creatures: {
-    starfish: 0, starfishSize: 9, starfishColour: [0.71, 0.34, 0.5], outlineColour: [0.18, 0.12, 0.06],
+    starfish: 0, starfishSize: 9, starfishSpeed: 1, starfishColour: [0.71, 0.34, 0.5], outlineColour: [0.18, 0.12, 0.06],
   },
   agent: {
     moveSpeed: 7, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 12, sensorSize: 0,

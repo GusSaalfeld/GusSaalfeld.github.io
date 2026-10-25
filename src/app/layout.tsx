@@ -38,7 +38,7 @@ const slimeSettings = {
   // Purple ochre stars on top, as on the Oregon coast, edged in the panels' slime brown.
   // They sit only in the margins beside the content (see data-slime-cover)
   creatures: {
-    starfish: 2, starfishSize: 9,
+    starfish: 3, starfishSize: 9, starfishSpeed: 0.5,
     starfishColour: [0.71, 0.34, 0.5] as RGB,
     outlineColour: [0.18, 0.12, 0.06] as RGB,
   },

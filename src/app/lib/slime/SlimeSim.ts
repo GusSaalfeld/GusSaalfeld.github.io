@@ -249,7 +249,7 @@ export class SlimeSim {
 
     // Creatures run on real time, not the simulation's timeScale
     this.creatures.sync(this.settings.creatures, this.trailA.width, this.trailA.height);
-    this.creatures.update(Math.min(elapsed / 1000, MAX_FRAME_SECONDS));
+    this.creatures.update(Math.min(elapsed / 1000, MAX_FRAME_SECONDS), this.settings.creatures);
 
     const { fixedTimeStep, stepsPerFrame } = this.settings;
     this.owed += Math.min(elapsed / 1000, MAX_FRAME_SECONDS) / Math.max(fixedTimeStep, 1e-4);

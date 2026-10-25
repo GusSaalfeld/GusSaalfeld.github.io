@@ -21,7 +21,7 @@ interface Starfish { x: number; y: number; rotation: number; phase: number; visi
 export class Creatures {
   readonly starfish: Starfish[] = [];
   covers: Rect[] = []; // where the page hides the slime. Starfish are kept out of these
-  time = 0; // seconds, drives the starfish's leg wave
+  time = 0; // drives the starfish's leg wave. Seconds, scaled by starfishSpeed
 
   // Match the settings' count, and move any starfish the page now covers to an uncovered spot.
   // width and height are the trail's size in texels, for the starfish's radius
@@ -49,8 +49,8 @@ export class Creatures {
     }
   }
 
-  update(dt: number) {
-    this.time += dt;
+  update(dt: number, settings: CreatureSettings) {
+    this.time += dt * settings.starfishSpeed;
   }
 
   // Whether a starfish at x, y lies wholly on screen and clear of every cover and every other starfish
