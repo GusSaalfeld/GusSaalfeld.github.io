@@ -19,7 +19,7 @@ export default function NavBar({ children}: NavBarProps) {
   // Plain paper, ruled off below, its contents lined up with the page's column
   return (
     <div className="sticky top-0 z-50 px-6 md:px-12 bg-quiet-paper border-b border-quiet-rule font-sans text-quiet-ink">
-      <div className="column flex items-center justify-between gap-4 py-4">
+      <div className="column flex items-center justify-between gap-6 py-6">
         {children && <div className="min-w-0 truncate">{children}</div>}
 
         {/* Desktop links */}
