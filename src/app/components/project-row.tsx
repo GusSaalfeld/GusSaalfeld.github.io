@@ -5,18 +5,20 @@ import type { Project } from "@/app/types";
 // One row of the project list: a 4:3 thumbnail of the work, then the title, which leads, above a
 // line about it. From md up, the year sits at the right end of the title's line, like a page
 // number in a table of contents, so the years line up down the list. Narrower, it goes under the
-// title, so the title keeps the row's width. On hover or focus, the title turns slime green and underlines
+// title, so the title keeps the row's width. On hover or focus, the title turns slime green and
+// underlines, and the thumbnail's edge turns green with it
 export default function ProjectRow(project: Project) {
     return (
         <li>
             <Link
                 href={`/portfolio/${project.path}`}
-                className={`group grid items-start gap-x-6 py-6 ${project.thumbnail ? "grid-cols-[6rem_minmax(0,1fr)] md:grid-cols-[10rem_minmax(0,1fr)]" : ""}`}
+                className={`group grid items-start gap-x-6 py-6 ${project.thumbnail ? "grid-cols-[6rem_minmax(0,1fr)] md:grid-cols-[12rem_minmax(0,1fr)]" : ""}`}
             >
                 {project.thumbnail && (
-                    // Decorative beside the title, which names the project for screen readers
-                    <div className="relative aspect-[4/3] overflow-hidden bg-quiet-rule">
-                        <Image src={project.thumbnail} alt="" fill sizes="(min-width: 768px) 160px, 96px" className="object-cover" />
+                    // Decorative beside the title, which names the project for screen readers. The edge
+                    // keeps a white page or screenshot from melting into the paper
+                    <div className="relative aspect-[4/3] overflow-hidden border border-quiet-rule bg-quiet-rule group-hover:border-quiet-link group-focus-visible:border-quiet-link">
+                        <Image src={project.thumbnail} alt="" fill sizes="(min-width: 768px) 192px, 96px" className="object-cover" />
                     </div>
                 )}
                 <div className="flex flex-col gap-2">

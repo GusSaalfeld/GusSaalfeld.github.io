@@ -30,13 +30,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-svh flex-col">
         <SlimeCanvas settings={slimeSettings} />
         <Header />
-        {/* Every page sits on paper between two slime banners. Spacing is in multiples of 24px:
-            sections are 72px apart (96px from md up), with the same around them */}
+        {/* Every page sits between two slime banners, built from paper bands (Band), which space
+            themselves. main has no background, so the name's letters can reach the slime */}
         <SlimeBanner masthead />
-        <main className="bg-quiet-paper px-6 md:px-12 pt-12 pb-18 md:pt-18 md:pb-24">
-          <div className="column flex flex-col gap-18 md:gap-24">
-            {children}   {/* the current page renders here */}
-          </div>
+        <main className="flex flex-col">
+          {children}   {/* the current page renders here */}
         </main>
         <SlimeBanner last />
       </body>
