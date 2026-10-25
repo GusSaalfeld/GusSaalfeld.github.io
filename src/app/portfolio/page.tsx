@@ -8,7 +8,7 @@ export default function Portfolio() {
   return (
     <>
       <header className="bg-quiet-paper px-6 md:px-12 pt-12 md:pt-20 pb-16">
-        <h1 className="font-sans text-[clamp(2rem,7.5vw,6.5rem)] font-black leading-[0.95] tracking-[-0.03em] [font-stretch:112%] text-quiet-ink">
+        <h1 className="font-sans text-[clamp(2.5rem,7.5vw,6.5rem)] font-bold leading-[0.95] tracking-[-0.025em] text-quiet-ink">
           Augustus Saalfeld
         </h1>
         <p className="mt-8 font-sans text-xl md:text-2xl text-quiet-muted">
@@ -31,9 +31,7 @@ export default function Portfolio() {
         />
       </Card>
       <FeaturedProjects projects={ProjectList} />
-      <SlimeBanner />
-      {/* Paper to the bottom of the screen, so the slime never shows below a short page */}
-      <div className="grow bg-quiet-paper min-h-[40svh]" />
+      <SlimeBanner last />
     </>
   );
 }
