@@ -24,16 +24,17 @@ const slimeSettings = {
   trailResolution: 320,
   numAgents: 10000,
   displayFilter: "pixelated" as const,
-  // Colours from the hero photo: the background is the water's hue at a darker slate (#4d7999, matching
-  // --background in globals.css), so the light trail colours stand out against it. The trail passes
-  // through seaweed (#848947) and water (#adcfe6) to ripples (#e2f4fa) where it's strongest
+  // Colours from the hero photo. The background is the water's hue at a darker slate (#4d7999,
+  // matching --background in globals.css). Two species of slime compete over it, each in the
+  // photo's greens, faint to strong
   backgroundColour: [0.302, 0.475, 0.6] as RGB,
-  trailPalette: [
-    [0.518, 0.537, 0.278],
-    [0.678, 0.812, 0.902],
-    [0.886, 0.957, 0.98],
-  ] as RGB[],
-  colourSteps: 6, // a multiple of the 3 gaps between the 4 colours, so every colour gets its own band
+  speciesPalettes: [
+    // Seaweed, a light network: olive from the flats (#848947) to sunlit algae (#aec29d)
+    [[0.518, 0.537, 0.278], [0.682, 0.761, 0.616]],
+    // Moss, a dark network: mid moss (#405f28) to the shadowed moss on the pilings (#132c0c)
+    [[0.251, 0.373, 0.157], [0.075, 0.173, 0.047]],
+  ] as RGB[][],
+  colourSteps: 6, // a multiple of the 2 colours per species, so every colour gets its own band
   agent: {
     moveSpeed: 3.5, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 6, sensorSize: 0,
     colour: [0.886, 0.957, 0.98] as RGB, // only shows when drawing agents as dots

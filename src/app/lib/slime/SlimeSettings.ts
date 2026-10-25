@@ -51,12 +51,17 @@ export interface SlimeSettings {
   displayFilter: "smooth" | "pixelated"; // how the trail is upscaled to the screen: bicubic or blocky
   colourSteps: number;        // 0 = blend smoothly from backgroundColour to the trail colours.
                               // n = snap the blend to n even steps, so the trail shows in n distinct shades, like a limited palette
-  trailPalette: RGB[];        // colours the trail passes through from faint to strong, after backgroundColour,
-                              // evenly spaced. Empty = the agent colour alone. At most MAX_TRAIL_PALETTE
+  speciesPalettes: RGB[][];   // one entry per species, at most MAX_SPECIES: the colours its trail passes through
+                              // from faint to strong, after backgroundColour, evenly spaced (at most MAX_TRAIL_PALETTE).
+                              // Agents take turns between species. Each follows its own species' trail and
+                              // avoids the others', as in Lague's multi-species version. Empty = one species
+                              // in the agent colour
   agent: AgentSettings;
 }
 
-// The display shader's colour array holds the background plus this many trail colours
+// Each species keeps its trail in one channel of the RGBA trail texture
+export const MAX_SPECIES = 4;
+// The display shader holds this many trail colours per species
 export const MAX_TRAIL_PALETTE = 7;
 
 export const defaultSettings: SlimeSettings = {
@@ -77,7 +82,7 @@ export const defaultSettings: SlimeSettings = {
   showAgentsOnly: false,
   displayFilter: "smooth",
   colourSteps: 0,
-  trailPalette: [],
+  speciesPalettes: [],
   agent: {
     moveSpeed: 7, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 12, sensorSize: 0,
     colour: [0.18, 0.12, 0.06],
@@ -118,7 +123,8 @@ export function mergeSettings(overrides: Partial<SlimeSettings> = {}): SlimeSett
     ...defaultSettings,
     ...overrides,
     backgroundColour: [...(overrides.backgroundColour ?? defaultSettings.backgroundColour)] as RGB,
-    trailPalette: (overrides.trailPalette ?? defaultSettings.trailPalette).map((c) => [...c] as RGB),
+    speciesPalettes: (overrides.speciesPalettes ?? defaultSettings.speciesPalettes)
+      .map((palette) => palette.map((c) => [...c] as RGB)),
     agent: { ...agent, colour: [...agent.colour] as RGB },
   };
 }

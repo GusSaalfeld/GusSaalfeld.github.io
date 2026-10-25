@@ -6,7 +6,7 @@ import {
   agentsOnlyVert, agentsOnlyFrag,
 } from "./shader";
 import {
-  SlimeSettings, mergeSettings, SPAWN_MODE_INDEX, MAX_TRAIL_PALETTE,
+  SlimeSettings, mergeSettings, SPAWN_MODE_INDEX, MAX_SPECIES, MAX_TRAIL_PALETTE,
 } from "./SlimeSettings";
 
 // Phones resize the page a little whenever the address bar slides in or out. A change
@@ -75,21 +75,24 @@ export class SlimeSim {
       uAgents: { value: null }, uTrail: { value: null },
       uDeltaTime: { value: 0 }, uStep: { value: 0 },
       uNumAgents: { value: 0 }, uSpawnMode: { value: 0 }, uWrap: { value: 0 },
-      uMove: { value: [0, 0, 0, 0] }, uSensorSize: { value: 1 },
+      uMove: { value: [0, 0, 0, 0] }, uSensorSize: { value: 1 }, uSpeciesCount: { value: 1 },
     });
     this.diffuse = pass(diffuseFrag, {
       uTrail: { value: null }, uDeltaTime: { value: 0 }, uDiffuseRate: { value: 0 },
       uDecayRate: { value: 0 }, uTrailCap: { value: 1 },
     });
     this.display = pass(displayFrag, {
-      uTrail: { value: null }, uStops: { value: [[0, 0, 0], [1, 1, 1]] }, uStopCount: { value: 2 },
+      uTrail: { value: null }, uBackground: { value: [0, 0, 0] },
+      // Every species' colours in one flat array, MAX_TRAIL_PALETTE slots each. Refilled in draw()
+      uPalette: { value: new Float32Array(MAX_SPECIES * MAX_TRAIL_PALETTE * 3) },
+      uPaletteSizes: { value: [1, 1, 1, 1] }, uSpeciesCount: { value: 1 },
       uPixelated: { value: 0 }, uSteps: { value: 0 },
     });
 
     // Deposit and agentsOnly draw one point per agent. The geometry only supplies each point's index.
     const depositProgram = new Program(gl, {
       vertex: depositVert, fragment: depositFrag,
-      uniforms: { uAgents: { value: null }, uTrailWeight: { value: 0 }, uDeltaTime: { value: 0 } },
+      uniforms: { uAgents: { value: null }, uTrailWeight: { value: 0 }, uDeltaTime: { value: 0 }, uSpeciesCount: { value: 1 } },
       depthTest: false,
     });
     depositProgram.setBlendFunc(gl.ONE, gl.ONE); // additive: overlapping points add up
@@ -135,6 +138,12 @@ export class SlimeSim {
     const style = this.gl.canvas.style;
     style.transition = "none";
     style.opacity = "0";
+  }
+
+  // One palette per species. No palettes means one species in the agent colour
+  private palettes() {
+    const { speciesPalettes, agent } = this.settings;
+    return speciesPalettes.length ? speciesPalettes.slice(0, MAX_SPECIES) : [[agent.colour]];
   }
 
   private structureKey() {
@@ -248,6 +257,7 @@ export class SlimeSim {
     const { renderer, settings } = this;
     const { agent } = settings;
     const dt = settings.fixedTimeStep * settings.timeScale; // simulated seconds this step covers
+    const speciesCount = this.palettes().length;
     this.stepCount = (this.stepCount + 1) % 1048576;
 
     // 1. Move agents: read A, write B, swap.
@@ -266,6 +276,7 @@ export class SlimeSim {
     move[2] = (agent.sensorAngleSpacing * Math.PI) / 180;
     move[3] = agent.sensorOffsetDst;
     u.uSensorSize.value = Math.max(0, Math.round(agent.sensorSize));
+    u.uSpeciesCount.value = speciesCount;
     renderer.render({ scene: this.update, target: this.agentsB });
     [this.agentsA, this.agentsB] = [this.agentsB, this.agentsA];
 
@@ -274,6 +285,7 @@ export class SlimeSim {
     d.uAgents.value = this.agentsA.texture;
     d.uTrailWeight.value = settings.trailWeight;
     d.uDeltaTime.value = dt;
+    d.uSpeciesCount.value = speciesCount;
     renderer.render({ scene: this.deposit, target: this.trailA, clear: false });
 
     // 3. Blur and fade: read A, write B, swap.
@@ -302,10 +314,17 @@ export class SlimeSim {
     } else {
       const u = this.display.program.uniforms;
       u.uTrail.value = this.trailA.texture;
-      const trail = settings.trailPalette.length ? settings.trailPalette : [settings.agent.colour];
-      const stops = [settings.backgroundColour, ...trail.slice(0, MAX_TRAIL_PALETTE)];
-      u.uStops.value = stops;
-      u.uStopCount.value = stops.length;
+      u.uBackground.value = settings.backgroundColour;
+      const palette = u.uPalette.value as Float32Array; // reused every frame to avoid garbage
+      const sizes = u.uPaletteSizes.value as number[];
+      const palettes = this.palettes();
+      palettes.forEach((colours, s) => {
+        // A species with no colours of its own falls back to the agent colour
+        const used = (colours.length ? colours : [settings.agent.colour]).slice(0, MAX_TRAIL_PALETTE);
+        used.forEach((c, i) => palette.set(c, (s * MAX_TRAIL_PALETTE + i) * 3));
+        sizes[s] = used.length;
+      });
+      u.uSpeciesCount.value = palettes.length;
       u.uPixelated.value = settings.displayFilter === "pixelated" ? 1 : 0;
       u.uSteps.value = settings.colourSteps;
       this.renderer.render({ scene: this.display });
