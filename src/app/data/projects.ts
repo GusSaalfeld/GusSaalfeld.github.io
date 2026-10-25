@@ -9,8 +9,8 @@ import type { Project } from "@/app/types";
 export const ProjectList: Project[] = [
     {
         path: "ux-writing",
-        title: "Adding a new course export feature to Canvas",
-        hoverDescription: "User interviews, a UX mockup, microcopy and a feature announcement to simulate adding the course export feature to Canvas.",
+        title: "Adding the new Course export feature to Canvas",
+        hoverDescription: "User interviews, a UX mockup, microcopy and a feature announcement to simulate adding the Course export feature to Canvas.",
         thumbnail: "/placeholders/ux-writing.jpg",
         year: "2026",
         category: "UX writing"
