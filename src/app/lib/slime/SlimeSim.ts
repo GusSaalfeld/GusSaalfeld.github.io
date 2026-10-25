@@ -85,14 +85,15 @@ export class SlimeSim {
     });
     this.display = pass(displayFrag, {
       uTrail: { value: null }, uBackground: { value: [0, 0, 0] },
-      // Every species' colours in one flat array, MAX_TRAIL_PALETTE slots each. Refilled in draw()
-      uPalette: { value: new Float32Array(MAX_SPECIES * MAX_TRAIL_PALETTE * 3) },
+      // Every species' colours in one flat array, MAX_TRAIL_PALETTE slots each. Refilled in draw().
+      // Uniform arrays must be plain arrays: OGL skips a typed array for a uniform declared as an array
+      uPalette: { value: new Array(MAX_SPECIES * MAX_TRAIL_PALETTE * 3).fill(0) },
       uPaletteSizes: { value: [1, 1, 1, 1] }, uSpeciesCount: { value: 1 },
       uPixelated: { value: 0 }, uSteps: { value: 0 },
       // Creatures, refilled in draw(). Each vec4 array holds MAX_CREATURES slots
       uTime: { value: 0 },
-      uStarfish: { value: new Float32Array(MAX_CREATURES * 4) }, uStarfishCount: { value: 0 },
-      uCrabs: { value: new Float32Array(MAX_CREATURES * 4) }, uCrabCount: { value: 0 },
+      uStarfish: { value: new Array(MAX_CREATURES * 4).fill(0) }, uStarfishCount: { value: 0 },
+      uCrabs: { value: new Array(MAX_CREATURES * 4).fill(0) }, uCrabCount: { value: 0 },
       uCreatureSizes: { value: [0, 0] },
       uStarfishColour: { value: [0, 0, 0] }, uCrabColour: { value: [0, 0, 0] }, uOutline: { value: [0, 0, 0] },
     });
@@ -328,13 +329,13 @@ export class SlimeSim {
       const u = this.display.program.uniforms;
       u.uTrail.value = this.trailA.texture;
       u.uBackground.value = settings.backgroundColour;
-      const palette = u.uPalette.value as Float32Array; // reused every frame to avoid garbage
+      const palette = u.uPalette.value as number[]; // reused every frame to avoid garbage
       const sizes = u.uPaletteSizes.value as number[];
       const palettes = this.palettes();
       palettes.forEach((colours, s) => {
         // A species with no colours of its own falls back to the agent colour
         const used = (colours.length ? colours : [settings.agent.colour]).slice(0, MAX_TRAIL_PALETTE);
-        used.forEach((c, i) => palette.set(c, (s * MAX_TRAIL_PALETTE + i) * 3));
+        used.forEach((c, i) => palette.splice((s * MAX_TRAIL_PALETTE + i) * 3, 3, ...c));
         sizes[s] = used.length;
       });
       u.uSpeciesCount.value = palettes.length;
@@ -342,10 +343,10 @@ export class SlimeSim {
       // Creatures, converted from 0..1 of the trail to trail texels
       const { width, height } = this.trailA;
       const { creatures } = settings;
-      const starfish = u.uStarfish.value as Float32Array;
-      this.creatures.starfish.forEach((s, i) => starfish.set([s.x * width, s.y * height, s.rotation, s.phase], i * 4));
-      const crabs = u.uCrabs.value as Float32Array;
-      this.creatures.crabs.forEach((c, i) => crabs.set([c.x * width, c.y * height, c.heading, c.legPhase], i * 4));
+      const starfish = u.uStarfish.value as number[];
+      this.creatures.starfish.forEach((s, i) => starfish.splice(i * 4, 4, s.x * width, s.y * height, s.rotation, s.phase));
+      const crabs = u.uCrabs.value as number[];
+      this.creatures.crabs.forEach((c, i) => crabs.splice(i * 4, 4, c.x * width, c.y * height, c.heading, c.legPhase));
       u.uTime.value = this.creatures.time;
       u.uStarfishCount.value = this.creatures.starfish.length;
       u.uCrabCount.value = this.creatures.crabs.length;
