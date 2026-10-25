@@ -12,6 +12,8 @@
   --quiet-muted: #56635b;   /* secondary text, 5.8:1 */
   --quiet-rule: #d5dbd6;    /* thin rules between sections and rows */
   --quiet-link: #3d6b2c;    /* slime green: links, hover, focus. 5.7:1 */
+  --quiet-sage: #4f6a49;    /* deep sage, the banners' veins darkened: the tint of the slime in the name.
+                               6.1:1 at its palest there. Saturated green stays for action alone */
 }
 
 @theme inline {
@@ -58,13 +60,13 @@ body {
   backdrop-filter: brightness(0.8) contrast(2);
 }
 
-/* The same text laid over .slime-letters, tinting the slime in its letters with the link green.
-   Multiply darkens what's beneath by the green: the pale slime comes out near the link green and
-   its veins near the ink, so the name stays in the site's own greens. Around the letters there's
+/* The same text laid over .slime-letters, tinting the slime in its letters deep sage. Multiply
+   darkens what's beneath by the sage: the pale slime comes out deep sage and its veins near the
+   ink, so the name reads as the same slime as the banners, darker. Around the letters there's
    no text, so the paper is untouched. It must be a sibling after .slime-letters, not inside it:
    inside, it would blend with the black letters instead of the slime showing through them */
 .slime-tint {
-  color: var(--quiet-link);
+  color: var(--quiet-sage);
   mix-blend-mode: multiply;
 }
 

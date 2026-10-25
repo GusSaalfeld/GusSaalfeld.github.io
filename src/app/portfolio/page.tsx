@@ -12,7 +12,7 @@ const NAME = `px-6 md:px-12 ${PAGE_TOP} font-sans text-[clamp(2.5rem,6vw,4.75rem
 export default function Portfolio() {
   return (
     <>
-      {/* The name shows the slime through its letters (.slime-letters), tinted the link green by
+      {/* The name shows the slime through its letters (.slime-letters), tinted deep sage by
           an exact copy laid over it (.slime-tint). The heading is its own full-width paper strip,
           so its letters reach the slime behind the page */}
       <div className="relative">
