@@ -33,7 +33,7 @@ const slimeSettings = {
     [0.678, 0.812, 0.902],
     [0.886, 0.957, 0.98],
   ] as RGB[],
-  colourSteps: 8,
+  colourSteps: 6, // a multiple of the 3 gaps between the 4 colours, so every colour gets its own band
   agent: {
     moveSpeed: 3.5, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 6, sensorSize: 0,
     colour: [0.886, 0.957, 0.98] as RGB, // only shows when drawing agents as dots
