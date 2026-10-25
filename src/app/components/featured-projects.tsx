@@ -11,7 +11,7 @@ export default function FeaturedProjects({ title, projects }: FeaturedProjectsPr
   return (
     <section>
       <h2 className="mb-6 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">
-        {title ?? "Featured projects"}
+        {title ?? "Selected work"}
       </h2>
       <ul className="flex flex-col divide-y divide-quiet-rule border-y border-quiet-rule">
         {projects.map((proj) => (
