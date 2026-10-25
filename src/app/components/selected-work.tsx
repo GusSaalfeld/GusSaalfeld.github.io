@@ -160,8 +160,10 @@ function LeadAndIndex({ projects }: { projects: Project[] }) {
   );
 }
 
-// 6. A ledger, like a bibliography: the year in its own column first, then the title and
-// description, then a small picture at the right edge. On phones the year goes above the title
+// 6. A ledger, like a bibliography: the year in its own column first, then the title, what it is
+// and who it's for, and its purpose, then a small picture at the right edge. Each line has its own
+// look (ink sans title, muted sans format, muted serif purpose) so the eye can skim down any one.
+// On phones the year goes above the title
 function Ledger({ projects }: { projects: Project[] }) {
   return (
     <ul className="flex flex-col divide-y divide-quiet-rule border-y border-quiet-rule">
@@ -175,6 +177,7 @@ function Ledger({ projects }: { projects: Project[] }) {
             <span className={`${YEAR} col-span-2 pt-1.5 md:col-span-1 ${project.year ? "" : "hidden md:block"}`}>{project.year}</span>
             <span className="flex flex-col gap-1">
               <span className={`${TITLE} text-2xl`}>{project.title}</span>
+              {project.format && <span className="font-sans text-base text-quiet-muted">{project.format}</span>}
               {project.hoverDescription && <span className={DESCRIPTION}>{project.hoverDescription}</span>}
             </span>
             <Thumbnail project={project} sizes="96px" />
