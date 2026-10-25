@@ -1,6 +1,6 @@
 import Band, { PAGE_TOP, SECTION_GAP } from "@/app/components/band";
 import DownloadLink from "@/app/components/download-link";
-import FeaturedProjects from "@/app/components/featured-projects";
+import SelectedWork from "@/app/components/selected-work";
 import { ProjectList } from "@/app/data/projects";
 
 // The name's layout and type, shared by the heading and the tint laid over it so their letters
@@ -44,7 +44,7 @@ export default function Portfolio() {
         </div>
       </Band>
       <Band className={SECTION_GAP}>
-        <FeaturedProjects projects={ProjectList} />
+        <SelectedWork projects={ProjectList} />
       </Band>
     </>
   );
