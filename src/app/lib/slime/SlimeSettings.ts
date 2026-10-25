@@ -18,7 +18,11 @@ export interface CreatureSettings {
   starfishSize: number;       // radius in trail texels
   starfishSpeed: number;      // how fast their legs move. 1 = normal, 0.5 = half speed
   starfishColour: RGB;
-  fish: boolean;              // a fish that now and then swims across the screen, one way or the other, and off the far edge
+  anemones: number;           // how many, at most 4. Placed like starfish. They pull their tentacles in
+                              // when the torch shines on them, then slowly reopen
+  anemoneSize: number;        // radius in trail texels, tentacles out
+  anemoneColour: RGB;
+  fish: boolean;             // a fish that now and then swims across the screen, one way or the other, and off the far edge
   fishSize: number;           // half its length in trail texels
   fishSpeed: number;          // trail texels per second
   fishInterval: number;       // seconds between one fish leaving and the next arriving, give or take a second
@@ -34,6 +38,12 @@ export interface TorchSettings {
   ambient: number;            // brightness outside the light, 0..1
   creatureAmbient: number;    // the same for the creatures. Lower than ambient, so they show mainly in the light
   colour: RGB;                // a faint warm tint the light adds
+  // With the torch on, the light also shows a pebbled pool floor and shimmering caustics, and the
+  // fish and anemones react to it
+  slimeAversion: number;      // how strongly the slime turns away from the light, as real slime mould does. 0 = it ignores the light
+  plankton: number;           // moving the light leaves a glowing wake, like disturbed plankton. Its brightness, 0 = off.
+                              // The wake uses the trail's third channel, so it needs two species or fewer
+  planktonColour: RGB;
 }
 
 // How the agents move and sense, and what colour their trail is.
@@ -112,10 +122,14 @@ export const defaultSettings: SlimeSettings = {
   speciesPalettes: [],
   creatures: {
     starfish: 0, starfishSize: 9, starfishSpeed: 1, starfishColour: [0.71, 0.34, 0.5],
+    anemones: 0, anemoneSize: 14, anemoneColour: [0.88, 0.48, 0.6],
     fish: false, fishSize: 7, fishSpeed: 70, fishInterval: 5, fishColour: [0.56, 0.79, 0.94],
     outlineColour: [0.18, 0.12, 0.06],
   },
-  torch: { enabled: false, radius: 70, ambient: 0.35, creatureAmbient: 0.12, colour: [1, 0.78, 0.42] },
+  torch: {
+    enabled: false, radius: 70, ambient: 0.35, creatureAmbient: 0.12, colour: [1, 0.78, 0.42],
+    slimeAversion: 0, plankton: 0, planktonColour: [0.75, 0.97, 1],
+  },
   agent: {
     moveSpeed: 7, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 12, sensorSize: 0,
     colour: [0.18, 0.12, 0.06],

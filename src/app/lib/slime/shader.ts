@@ -57,9 +57,17 @@ uniform float uWrap;        // 1 = wrap around the edges, 0 = bounce off them
 uniform vec4 uMove;         // moveSpeed, turnSpeed (radians per second), sensor angle (radians), sensor distance
 uniform float uSensorSize;
 uniform float uSpeciesCount;
+uniform vec2 uLight;         // the torch, in trail texels
+uniform vec2 uLightAversion; // the torch's radius, and how strongly agents turn from its light (0 = not at all)
 out vec4 fragColor;
 ${hash}
 ${species}
+
+// How brightly the torch lights a point, 0..1, with the same falloff the display pass draws
+float lightAt(vec2 point) {
+    if (uLightAversion.y <= 0.0) return 0.0;
+    return 1.0 - smoothstep(uLightAversion.x * 0.35, uLightAversion.x, distance(point, uLight));
+}
 
 const float TAU = 6.2831853;
 
@@ -126,6 +134,11 @@ void main() {
     float left  = sense(pos, heading + uMove.z, uMove.w, radius, size, weight);
     float mid   = sense(pos, heading,           uMove.w, radius, size, weight);
     float right = sense(pos, heading - uMove.z, uMove.w, radius, size, weight);
+    // Slime mould shuns light: each sensor scores lower the brighter the torch shines where it points
+    vec2 ahead = vec2(cos(heading), sin(heading)) * uMove.w;
+    left  -= uLightAversion.y * lightAt(pos + vec2(cos(heading + uMove.z), sin(heading + uMove.z)) * uMove.w);
+    mid   -= uLightAversion.y * lightAt(pos + ahead);
+    right -= uLightAversion.y * lightAt(pos + vec2(cos(heading - uMove.z), sin(heading - uMove.z)) * uMove.w);
 
     float strength = toRange01(random);
     float turn = uMove.y * uDeltaTime;
@@ -218,11 +231,17 @@ uniform vec4 uFish;          // x, y, direction (1 = swimming right, -1 = left),
 uniform float uFishSwimming; // 1 while a fish is crossing
 uniform float uFishSize;     // half its length
 uniform vec3 uFishColour;
+uniform vec4 uAnemones[${MAX_CREATURES}]; // x, y, sway phase, how far its tentacles are out (0..1)
+uniform float uAnemoneCount;
+uniform float uAnemoneSize;  // radius, tentacles out
+uniform vec3 uAnemoneColour;
 uniform vec3 uOutline;
 // The torch (TorchSettings). uLight is in trail texels
 uniform vec2 uLight;
 uniform vec4 uTorch;         // radius, ambient, creature ambient, 1 = on
 uniform vec3 uTorchColour;
+uniform float uPlankton;     // brightness of the glowing wake in the trail's third channel, 0 = off
+uniform vec3 uPlanktonColour;
 in vec2 vUv;
 out vec4 fragColor;
 
@@ -300,6 +319,51 @@ float fish(vec2 p, vec4 f, float size, out bool eye) {
     return min(d, tail);
 }
 
+// A sea anemone seen from above: a central disc ringed by twelve tentacles that sway, a wave
+// running out along each. a.w is how far they're out: drawn in, only stubs show around the disc
+float anemone(vec2 p, vec4 a, float size) {
+    vec2 q = p - a.xy;
+    float r = length(q);
+    if (r > size + 2.0) return 1e3;
+    float along = r / size;
+    float sway = 0.22 * a.w * sin(uTime * 1.3 + a.z - along * 3.0);
+    float sector = TAU / 12.0;
+    float local = mod(atan(q.y, q.x) + sway + sector * 0.5, sector) - sector * 0.5; // angle from the nearest tentacle
+    float reach = size * (0.42 + 0.58 * a.w);
+    float tentacle = max(r * abs(sin(local)) - (size * 0.07 + 0.5), r - reach);
+    return min(r - size * 0.32, tentacle);
+}
+
+// The pool floor, only seen by torchlight: rounded pebbles in shades of the deep water, with
+// darker sand between them. A Voronoi pattern: each pebble is the cell around a jittered point
+float hash12(vec2 v) { return fract(sin(dot(v, vec2(127.1, 311.7))) * 43758.5453); }
+vec2 hash22(vec2 v) { return vec2(hash12(v), hash12(v + 17.31)); }
+vec3 poolFloor(vec2 p) {
+    vec2 g = p / 14.0; // pebbles about 14 texels across
+    vec2 cell = floor(g), f = fract(g);
+    float nearest = 8.0, second = 8.0;
+    vec2 id = cell;
+    for (int y = -1; y <= 1; y++) {
+        for (int x = -1; x <= 1; x++) {
+            vec2 o = vec2(float(x), float(y));
+            vec2 r = o + 0.15 + 0.7 * hash22(cell + o) - f;
+            float d = dot(r, r);
+            if (d < nearest) { second = nearest; nearest = d; id = cell + o; }
+            else if (d < second) second = d;
+        }
+    }
+    float gap = sqrt(second) - sqrt(nearest); // small near the edge between two pebbles
+    vec3 pebble = uBackground * (1.15 + 0.6 * hash12(id));
+    return mix(uBackground * 0.7, pebble, smoothstep(0.04, 0.2, gap));
+}
+
+// Caustics: the shifting net of light that ripples on a pool floor, a product of two slow wobbling waves
+float caustics(vec2 p) {
+    float a = sin(p.x * 0.16 + uTime * 1.4 + sin(p.y * 0.11 + uTime * 0.9) * 2.0);
+    float b = sin(p.y * 0.15 - uTime * 1.1 + sin(p.x * 0.09 - uTime * 0.7) * 2.0);
+    return pow(max(0.0, 1.0 - abs(a + b) * 0.6), 4.0);
+}
+
 void main() {
     vec4 raw = uPixelated == 1
         ? texelFetch(uTrail, ivec2(vUv * vec2(textureSize(uTrail, 0))), 0)
@@ -315,18 +379,21 @@ void main() {
     // Snap to even steps. Faint trail below the first step stays background, and the min lets a full trail reach the top step
     if (uSteps > 0.0) t = min(floor(t * (uSteps + 1.0)), uSteps) / uSteps;
 
-    // Walk that species' colour stops, background first: t picks a pair of neighbours and blends between them
+    // This pixel in trail texels. When pixelated, each texel's centre, so shapes are drawn in whole texels like the slime
+    vec2 p = vUv * vec2(textureSize(uTrail, 0));
+    if (uPixelated == 1) p = floor(p) + 0.5;
+
+    // Walk that species' colour stops, background first: t picks a pair of neighbours and blends
+    // between them. With the torch on, the background is the pebbled pool floor
     int n = int(uPaletteSizes[s]);
     float x = t * float(n);
     int i = min(int(x), n - 1);
     int base = s * ${MAX_TRAIL_PALETTE};
-    vec3 from = uBackground;
+    vec3 from = uTorch.w > 0.5 ? poolFloor(p) : uBackground;
     if (i > 0) from = uPalette[base + i - 1];
     vec3 colour = mix(from, uPalette[base + i], x - float(i));
 
-    // Starfish on top. When pixelated, test each texel's centre so they're drawn in whole texels like the slime
-    vec2 p = vUv * vec2(textureSize(uTrail, 0));
-    if (uPixelated == 1) p = floor(p) + 0.5;
+    // Creatures on top
     bool creature = false; // whether this pixel shows a creature, for the torch
     for (int k = 0; k < ${MAX_CREATURES}; k++) {
         if (float(k) >= uStarfishCount) break;
@@ -335,7 +402,14 @@ void main() {
         if (d <= 0.0) colour = uStarfishColour;
         else if (d <= 1.0) colour = uOutline;
     }
-    // The fish swims in front of the starfish
+    for (int k = 0; k < ${MAX_CREATURES}; k++) {
+        if (float(k) >= uAnemoneCount) break;
+        float d = anemone(p, uAnemones[k], uAnemoneSize);
+        if (d <= 1.0) creature = true;
+        if (d <= 0.0) colour = uAnemoneColour;
+        else if (d <= 1.0) colour = uOutline;
+    }
+    // The fish swims in front of the rest
     if (uFishSwimming > 0.5) {
         bool eye;
         float d = fish(p, uFish, uFishSize, eye);
@@ -349,8 +423,10 @@ void main() {
     if (uTorch.w > 0.5) {
         float lit = 1.0 - smoothstep(uTorch.x * 0.35, uTorch.x, distance(p, uLight));
         float ambient = creature ? uTorch.z : uTorch.y;
-        colour = colour * mix(ambient, 1.0, lit) + uTorchColour * 0.12 * lit;
+        colour = colour * mix(ambient, 1.0, lit) + uTorchColour * (0.12 + 0.18 * caustics(p)) * lit;
     }
+    // The plankton wake glows by itself, so the torch doesn't dim it
+    if (uPlankton > 0.0) colour += uPlanktonColour * uPlankton * clamp(raw.b, 0.0, 1.0);
     fragColor = vec4(colour, 1.0);
 }`;
 
@@ -397,6 +473,42 @@ out vec4 fragColor;
 
 void main() {
     fragColor = vDeposit;
+}`;
+
+// The plankton wake: a scatter of points along the path the torch's light just moved, added to
+// the trail's third channel. Each point lands at a random spot along the path, jittered sideways
+export const splashVert = /* glsl */ `#version 300 es
+precision highp float;
+precision highp int;
+in float aId;               // which point this is
+uniform vec2 uFrom;         // where the light was, in trail texels
+uniform vec2 uTo;           // where it is now
+uniform vec2 uSize;         // the trail's size in texels
+uniform float uStep;        // seeds the random numbers, so each frame scatters differently
+uniform float uSpread;      // how far sideways a point can land, in texels
+uniform float uAmount;      // the most glow a point adds
+flat out float vAmount;
+${hash}
+
+void main() {
+    uint s = hash(uint(aId) + hash(uint(uStep) + 77u));
+    float along = toRange01(s); s = hash(s);
+    float angle = toRange01(s) * 6.2831853; s = hash(s);
+    float reach = sqrt(toRange01(s)) * uSpread; s = hash(s);
+    vec2 pos = mix(uFrom, uTo, along) + vec2(cos(angle), sin(angle)) * reach;
+    gl_Position = vec4(pos / uSize * 2.0 - 1.0, 0.0, 1.0);
+    gl_PointSize = 2.0;
+    vAmount = uAmount * (0.4 + 0.6 * toRange01(s));
+}`;
+
+// Additive blending (set in SlimeSim) adds it to the trail
+export const splashFrag = /* glsl */ `#version 300 es
+precision highp float;
+flat in float vAmount;
+out vec4 fragColor;
+
+void main() {
+    fragColor = vec4(0.0, 0.0, vAmount, 0.0);
 }`;
 
 // Shows the agents themselves as dots (the showAgentsOnly setting).

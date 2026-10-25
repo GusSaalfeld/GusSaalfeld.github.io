@@ -3,7 +3,7 @@ import { Renderer, Program, Mesh, Triangle, Geometry, RenderTarget } from "ogl";
 import type { OGLRenderingContext } from "ogl";
 import {
   fullscreenVert, updateAgentFrag, depositVert, depositFrag, diffuseFrag, displayFrag,
-  agentsOnlyVert, agentsOnlyFrag,
+  agentsOnlyVert, agentsOnlyFrag, splashVert, splashFrag,
 } from "./shader";
 import {
   SlimeSettings, mergeSettings, SPAWN_MODE_INDEX, MAX_SPECIES, MAX_TRAIL_PALETTE,
@@ -26,6 +26,12 @@ const WARMUP_FADE_SECONDS = 4; // fade-in once the warmup finishes
 const POINTER_IDLE_MS = 4000;
 const LIGHT_FOLLOW_RATE = 6; // how quickly the light catches up with its target, per second
 
+// The plankton wake (see splash()): points scattered per frame, how much glow each adds at most,
+// and the light speed, in trail texels per second, at which the wake is brightest
+const SPLASH_POINTS = 24;
+const SPLASH_POINT_GLOW = 0.5;
+const SPLASH_FULL_SPEED = 300;
+
 export class SlimeSim {
   // Edit these at any time. Live settings apply on the next step. For structural ones
   // (agent count, trail resolution, spawn mode) use updateSettings().
@@ -45,6 +51,7 @@ export class SlimeSim {
   private diffuse: Mesh;
   private display: Mesh;
   private agentsOnly: Mesh;
+  private splashMesh: Mesh;         // the plankton wake
   private agentGeometry!: Geometry; // one point per agent, shared by deposit and agentsOnly
   private creatures = new Creatures(); // starfish, drawn by the display pass
   // The torch's light, 0..1 of the canvas with y up. It eases toward the pointer, or drifts when
@@ -87,6 +94,7 @@ export class SlimeSim {
       uDeltaTime: { value: 0 }, uStep: { value: 0 },
       uNumAgents: { value: 0 }, uSpawnMode: { value: 0 }, uWrap: { value: 0 },
       uMove: { value: [0, 0, 0, 0] }, uSensorSize: { value: 1 }, uSpeciesCount: { value: 1 },
+      uLight: { value: [0, 0] }, uLightAversion: { value: [1, 0] },
     });
     this.diffuse = pass(diffuseFrag, {
       uTrail: { value: null }, uDeltaTime: { value: 0 }, uDiffuseRate: { value: 0 },
@@ -105,6 +113,9 @@ export class SlimeSim {
       uStarfishSize: { value: 0 }, uStarfishColour: { value: [0, 0, 0] }, uOutline: { value: [0, 0, 0] },
       uFish: { value: [0, 0, 1, 0] }, uFishSwimming: { value: 0 }, uFishSize: { value: 0 }, uFishColour: { value: [0, 0, 0] },
       uLight: { value: [0, 0] }, uTorch: { value: [0, 1, 1, 0] }, uTorchColour: { value: [0, 0, 0] },
+      uPlankton: { value: 0 }, uPlanktonColour: { value: [0, 0, 0] },
+      uAnemones: { value: new Array(MAX_CREATURES * 4).fill(0) }, uAnemoneCount: { value: 0 },
+      uAnemoneSize: { value: 0 }, uAnemoneColour: { value: [0, 0, 0] },
     });
 
     // Deposit and agentsOnly draw one point per agent. The geometry only supplies each point's index.
@@ -116,6 +127,21 @@ export class SlimeSim {
     depositProgram.setBlendFunc(gl.ONE, gl.ONE); // additive: overlapping points add up
     const agentsGeometry = new Geometry(gl, { aId: { size: 1, data: new Float32Array(1) } });
     this.deposit = new Mesh(gl, { geometry: agentsGeometry, program: depositProgram, mode: gl.POINTS });
+    // The plankton wake: a fixed handful of points, each placed at random by splashVert
+    const splashProgram = new Program(gl, {
+      vertex: splashVert, fragment: splashFrag,
+      uniforms: {
+        uFrom: { value: [0, 0] }, uTo: { value: [0, 0] }, uSize: { value: [1, 1] },
+        uStep: { value: 0 }, uSpread: { value: 0 }, uAmount: { value: 0 },
+      },
+      depthTest: false,
+    });
+    splashProgram.setBlendFunc(gl.ONE, gl.ONE);
+    const splashGeometry = new Geometry(gl, {
+      aId: { size: 1, data: Float32Array.from({ length: SPLASH_POINTS }, (_, i) => i) },
+    });
+    this.splashMesh = new Mesh(gl, { geometry: splashGeometry, program: splashProgram, mode: gl.POINTS });
+
     this.agentsOnly = new Mesh(gl, {
       geometry: agentsGeometry,
       program: new Program(gl, {
@@ -258,10 +284,16 @@ export class SlimeSim {
     const elapsed = this.lastTime ? now - this.lastTime : 0;
     this.lastTime = now;
 
-    // Creatures run on real time, not the simulation's timeScale
-    this.creatures.sync(this.settings.creatures, this.trailA.width, this.trailA.height);
-    this.creatures.update(Math.min(elapsed / 1000, MAX_FRAME_SECONDS), this.settings.creatures, this.trailA.width);
-    this.moveLight(Math.min(elapsed / 1000, MAX_FRAME_SECONDS), now);
+    // Creatures and the torch run on real time, not the simulation's timeScale
+    const dt = Math.min(elapsed / 1000, MAX_FRAME_SECONDS);
+    const { creatures, torch } = this.settings;
+    const { width, height } = this.trailA;
+    const from = { ...this.light };
+    this.moveLight(dt, now);
+    this.splash(from, dt);
+    this.creatures.sync(creatures, width, height);
+    this.creatures.update(dt, creatures, width, height,
+      torch.enabled ? { x: this.light.x, y: this.light.y, radius: torch.radius } : null);
 
     const { fixedTimeStep, stepsPerFrame } = this.settings;
     this.owed += Math.min(elapsed / 1000, MAX_FRAME_SECONDS) / Math.max(fixedTimeStep, 1e-4);
@@ -299,6 +331,9 @@ export class SlimeSim {
     move[2] = (agent.sensorAngleSpacing * Math.PI) / 180;
     move[3] = agent.sensorOffsetDst;
     u.uSensorSize.value = Math.max(0, Math.round(agent.sensorSize));
+    const { torch } = settings;
+    u.uLight.value = [this.light.x * this.trailA.width, this.light.y * this.trailA.height];
+    u.uLightAversion.value = [torch.radius, torch.enabled ? torch.slimeAversion : 0];
     u.uSpeciesCount.value = speciesCount;
     renderer.render({ scene: this.update, target: this.agentsB });
     [this.agentsA, this.agentsB] = [this.agentsB, this.agentsA];
@@ -371,6 +406,15 @@ export class SlimeSim {
       u.uLight.value = [this.light.x * width, this.light.y * height];
       u.uTorch.value = [torch.radius, torch.ambient, torch.creatureAmbient, torch.enabled ? 1 : 0];
       u.uTorchColour.value = torch.colour;
+      u.uPlankton.value = torch.enabled ? torch.plankton : 0;
+      u.uPlanktonColour.value = torch.planktonColour;
+
+      const anemones = u.uAnemones.value as number[];
+      const shownAnemones = this.creatures.anemones.filter((a) => a.visible);
+      shownAnemones.forEach((a, i) => anemones.splice(i * 4, 4, a.x * width, a.y * height, a.phase, a.open));
+      u.uAnemoneCount.value = shownAnemones.length;
+      u.uAnemoneSize.value = creatures.anemoneSize;
+      u.uAnemoneColour.value = creatures.anemoneColour;
       u.uPixelated.value = settings.displayFilter === "pixelated" ? 1 : 0;
       u.uSteps.value = settings.colourSteps;
       this.renderer.render({ scene: this.display });
@@ -384,6 +428,28 @@ export class SlimeSim {
   }
 
   // Ease the light toward the pointer, or along a slow looping drift when the pointer is idle
+  // Leave a glowing plankton wake along the path the light moved this frame, from `from` to where
+  // it is now. The faster it moved, the brighter the wake, so a still light leaves none
+  private splash(from: { x: number; y: number }, dt: number) {
+    const { torch } = this.settings;
+    if (!torch.enabled || torch.plankton <= 0 || dt <= 0) return;
+    const { width, height } = this.trailA;
+    const fromTexels = [from.x * width, from.y * height];
+    const toTexels = [this.light.x * width, this.light.y * height];
+    const speed = Math.hypot(toTexels[0] - fromTexels[0], toTexels[1] - fromTexels[1]) / dt; // texels per second
+    const amount = Math.min(1, speed / SPLASH_FULL_SPEED) * SPLASH_POINT_GLOW;
+    if (amount < 0.01) return;
+
+    const u = this.splashMesh.program.uniforms;
+    u.uFrom.value = fromTexels;
+    u.uTo.value = toTexels;
+    u.uSize.value = [width, height];
+    u.uStep.value = (this.stepCount + Math.floor(Math.random() * 1000)) % 1048576;
+    u.uSpread.value = torch.radius * 0.25;
+    u.uAmount.value = amount;
+    this.renderer.render({ scene: this.splashMesh, target: this.trailA, clear: false });
+  }
+
   private moveLight(dt: number, now: number) {
     this.driftTime += dt;
     const idle = !this.pointer || now - this.pointer.time > POINTER_IDLE_MS;

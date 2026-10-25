@@ -27,12 +27,20 @@ const slimeSettings = {
   creatures: {
     starfish: 3, starfishSize: 18, starfishSpeed: 0.5,
     starfishColour: [0.71, 0.34, 0.5] as RGB,
+    // Pink anemones that close up when the torch shines on them
+    anemones: 2, anemoneSize: 16,
+    anemoneColour: [0.9, 0.5, 0.64] as RGB,
     fish: true, fishSize: 14, fishSpeed: 140, fishInterval: 5,
     fishColour: [0.56, 0.79, 0.94] as RGB,
     outlineColour: [0.03, 0.08, 0.12] as RGB,
   },
-  // A warm torch, about 200px across on a typical screen
-  torch: { enabled: true, radius: 70, ambient: 0.35, creatureAmbient: 0.12, colour: [1, 0.784, 0.42] as RGB },
+  // A warm torch, about 200px across on a typical screen. It shows the pebbled floor and caustics,
+  // the slime retreats from it as real slime mould shuns light, and moving it stirs up a glowing
+  // plankton wake that the slime flows around
+  torch: {
+    enabled: true, radius: 70, ambient: 0.35, creatureAmbient: 0.12, colour: [1, 0.784, 0.42] as RGB,
+    slimeAversion: 3, plankton: 1, planktonColour: [0.75, 0.97, 1] as RGB,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
