@@ -21,7 +21,7 @@ export const ProjectList: Project[] = [
         hoverDescription: "A beginner's guide to what goes on behind the scenes whenever you look up a website in your web browser.",
         thumbnail: "/placeholders/scientific-explainer.jpg",
         year: "2026",
-        category: "Science writing"
+        category: "Technical writing"
     },
     {
         path: "barista-training",
