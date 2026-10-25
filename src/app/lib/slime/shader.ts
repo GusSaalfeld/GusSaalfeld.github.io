@@ -2,6 +2,7 @@
 //GLSL strings
 import { MAX_TRAIL_PALETTE } from "./SlimeSettings";
 import { MAX_CREATURES } from "./Creatures";
+import { MAX_FOOD } from "./Dish";
 
 // Agents take turns between species, so an agent's species comes from its index. Each species
 // keeps its trail in one channel of the trail texture: species 0 in r, 1 in g, 2 in b, 3 in a.
@@ -59,6 +60,8 @@ uniform float uSensorSize;
 uniform float uSpeciesCount;
 uniform vec2 uLight;         // the torch, in trail texels
 uniform vec2 uLightAversion; // the torch's radius, and how strongly agents turn from its light (0 = not at all)
+uniform vec3 uDish;          // the petri dish's centre and radius in trail texels. Radius 0 = no dish
+uniform float uRespawnChance; // chance an agent goes back to a fresh spawn this step
 out vec4 fragColor;
 ${hash}
 ${species}
@@ -91,6 +94,8 @@ vec4 spawn(uint index, vec2 size) {
             angle = atan(toCentre.y, toCentre.x);
         }
     }                                       // else point: the centre
+    // In a dish, every spawn mode starts agents at random inside it
+    if (uDish.z > 0.0) start = uDish.xy + sqrt(r1) * vec2(cos(r2 * TAU), sin(r2 * TAU)) * uDish.z * 0.95;
 
     return vec4(clamp(start / size, 0.0, 0.9999), angle, 1.0);
 }
@@ -124,6 +129,8 @@ void main() {
     // A new texture is all zeros.
     // If alpha == 0, the agent hasn't been placed yet.
     if (agent.a == 0.0) agent = spawn(index, size);
+    // Now and then send an agent back to a fresh spawn (respawnRate), which breaks up big empty cells
+    else if (toRange01(hash(index * 7919u + hash(uint(uStep) + 4421u))) < uRespawnChance) agent = spawn(index, size);
 
     vec2 pos = agent.xy * size; // in trail texels
     float heading = agent.z;
@@ -164,6 +171,13 @@ void main() {
         // Hit an edge: stay inside and pick a new random direction.
         heading = toRange01(hash(random)) * TAU;
         next = clamp(next, vec2(0.0), size - 1.0);
+    }
+    // The dish's wall: stay put and turn back inward, give or take a radian. An agent left
+    // outside (the dish moved, or a resize) hops back just inside
+    if (uDish.z > 0.0 && distance(next, uDish.xy) > uDish.z) {
+        vec2 inward = uDish.xy - pos;
+        heading = atan(inward.y, inward.x) + (toRange01(hash(random + 1u)) - 0.5) * 2.0;
+        next = distance(pos, uDish.xy) > uDish.z ? uDish.xy - normalize(inward) * uDish.z * 0.95 : pos;
     }
     heading = mod(heading, TAU); // keep the angle small so cos/sin stay accurate
 
@@ -242,6 +256,16 @@ uniform vec4 uTorch;         // radius, ambient, creature ambient, 1 = on
 uniform vec3 uTorchColour;
 uniform float uPlankton;     // brightness of the glowing wake in the trail's third channel, 0 = off
 uniform vec3 uPlanktonColour;
+// The petri dish (DishSettings), in trail texels
+uniform vec3 uDish;          // centre and radius. Radius 0 = no dish
+uniform vec3 uBench;
+uniform vec3 uRim;
+uniform vec2 uFood[${MAX_FOOD}];  // the oats' centres
+uniform float uFoodCount;
+uniform float uFoodSize;
+uniform vec3 uOat;
+uniform float uFocus;        // which oat is ringed, -1 for none
+uniform vec3 uFocusColour;
 in vec2 vUv;
 out vec4 fragColor;
 
@@ -357,6 +381,40 @@ vec3 poolFloor(vec2 p) {
     return mix(uBackground * 0.7, pebble, smoothstep(0.04, 0.2, gap));
 }
 
+// The petri dish around the slime's colour at p: oat flakes on the agar, a ring around the
+// focused one, then the glass rim, and outside it the bench with the dish's soft shadow.
+// Edges blend over a texel so the circle stays smooth when the trail is upscaled
+vec3 petriDish(vec2 p, vec3 colour) {
+    float edge = 0.75;
+    for (int k = 0; k < ${MAX_FOOD}; k++) {
+        if (float(k) >= uFoodCount) break;
+        // Each oat a flattened oval, turned its own way
+        float a = float(k) * 1.7;
+        vec2 q = p - uFood[k];
+        q = vec2(cos(a) * q.x + sin(a) * q.y, -sin(a) * q.x + cos(a) * q.y);
+        float d = (length(q / vec2(1.0, 0.65)) - 1.0) * uFoodSize * 0.65;
+        colour = mix(colour, uOat * 0.72, 1.0 - smoothstep(0.0, edge, d - 1.0)); // its darker edge
+        colour = mix(colour, uOat, 1.0 - smoothstep(0.0, edge, d));
+        if (float(k) == uFocus) {
+            float ring = abs(length(p - uFood[k]) - uFoodSize * 2.4) - 0.9;
+            colour = mix(colour, uFocusColour, 1.0 - smoothstep(0.0, edge, ring));
+        }
+    }
+
+    float d = distance(p, uDish.xy) - uDish.z; // negative inside the dish
+    float rim = max(2.0, uDish.z * 0.03);
+    // The glass, lit from the top left
+    vec2 toward = normalize(p - uDish.xy + 1e-4);
+    float shine = smoothstep(0.55, 1.0, dot(toward, normalize(vec2(-1.0, 1.0))));
+    vec3 glass = mix(uRim, vec3(1.0), 0.15 + 0.6 * shine);
+    // The bench, shaded a little in the dish's shadow, cast down and to the right
+    float shadowD = distance(p, uDish.xy + vec2(rim * 0.8, -rim * 1.2)) - uDish.z - rim;
+    vec3 bench = uBench * (1.0 - 0.14 * (1.0 - smoothstep(0.0, rim * 5.0, shadowD)));
+
+    colour = mix(colour, glass, smoothstep(-edge, 0.0, d));
+    return mix(colour, bench, smoothstep(rim - edge, rim, d));
+}
+
 // Caustics: the shifting net of light that ripples on a pool floor, a product of two slow wobbling waves
 float caustics(vec2 p) {
     float a = sin(p.x * 0.16 + uTime * 1.4 + sin(p.y * 0.11 + uTime * 0.9) * 2.0);
@@ -427,6 +485,8 @@ void main() {
     }
     // The plankton wake glows by itself, so the torch doesn't dim it
     if (uPlankton > 0.0) colour += uPlanktonColour * uPlankton * clamp(raw.b, 0.0, 1.0);
+
+    if (uDish.z > 0.0) colour = petriDish(p, colour);
     fragColor = vec4(colour, 1.0);
 }`;
 
@@ -509,6 +569,30 @@ out vec4 fragColor;
 
 void main() {
     fragColor = vec4(0.0, 0.0, vAmount, 0.0);
+}`;
+
+// The oats give off trail every step, so the slime is drawn to them. One point per oat, a few
+// texels across, added to the first species' channel
+export const foodVert = /* glsl */ `#version 300 es
+precision highp float;
+in float aId;               // which oat this is
+uniform vec2 uFood[${MAX_FOOD}];  // the oats' centres, in trail texels
+uniform vec2 uSize;         // the trail's size in texels
+uniform float uPointSize;
+
+void main() {
+    gl_Position = vec4(uFood[int(aId)] / uSize * 2.0 - 1.0, 0.0, 1.0);
+    gl_PointSize = uPointSize;
+}`;
+
+// Additive blending (set in SlimeSim) adds it to the trail
+export const foodFrag = /* glsl */ `#version 300 es
+precision highp float;
+uniform float uAmount;
+out vec4 fragColor;
+
+void main() {
+    fragColor = vec4(uAmount, 0.0, 0.0, 0.0);
 }`;
 
 // Shows the agents themselves as dots (the showAgentsOnly setting).

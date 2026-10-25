@@ -4,6 +4,7 @@
 import { useEffect, useRef } from "react";
 import { SlimeSim } from "@/app/lib/slime/SlimeSim";
 import type { SlimeSettings } from "@/app/lib/slime/SlimeSettings";
+import { FOCUS_EVENT, type FocusDetail } from "@/app/lib/slime/Dish";
 
 // settings is optional. Anything you leave out uses the defaults in SlimeSettings.ts.
 // Changing it while mounted updates the running simulation.
@@ -66,6 +67,13 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
           : { left: r.left, right: r.right, top: r.top, bottom: r.bottom };
       });
       sim.setCovers(boxes, host.clientWidth, host.clientHeight);
+
+      // The petri dish fills the element marked data-slime-dish, a circle inside its box
+      const dish = document.querySelector<HTMLElement>("[data-slime-dish]")?.getBoundingClientRect();
+      if (dish) {
+        sim.setDish(dish.left + dish.width / 2, dish.top + dish.height / 2, Math.min(dish.width, dish.height) / 2,
+          host.clientWidth, host.clientHeight);
+      }
     };
     measureCovers();
     const coverTimer = window.setInterval(measureCovers, 500);
@@ -73,6 +81,10 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
     // The torch follows the pointer. The canvas fills the window, so client coordinates are canvas coordinates
     const onPointerMove = (e: PointerEvent) => sim.setPointer(e.clientX, e.clientY, host.clientWidth, host.clientHeight);
     window.addEventListener("pointermove", onPointerMove, { passive: true });
+
+    // Ring the oat for whichever project the page points to
+    const onFocus = (e: Event) => sim.setFocus((e as CustomEvent<FocusDetail>).detail.index);
+    window.addEventListener(FOCUS_EVENT, onFocus);
 
     let raf = 0;
     const loop = (now: number) => {
@@ -85,6 +97,7 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
       window.clearTimeout(timer);
       window.clearInterval(coverTimer);
       window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener(FOCUS_EVENT, onFocus);
       observer.disconnect();
       cancelAnimationFrame(raf);
       sim.dispose();

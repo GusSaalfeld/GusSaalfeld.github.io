@@ -1,49 +1,41 @@
 @import "tailwindcss";
 
-/* The same in both color schemes: a tide pool at night. --background matches the slime's
-   backgroundColour (layout.tsx), so the page doesn't flash before the animation fades in. */
+/* The same in both color schemes: a lab bench. --background matches the dish's benchColour
+   (layout.tsx), so the slime canvas meets the page without a seam. */
 :root {
-  --background: #0f2536;
-  --foreground: #e8eef1;
+  --background: #e6eae8;
+  --foreground: #1c2826;
 
-  --pool-night: #0f2536;     /* deep water */
-  --pool-surface: #132e43;   /* panels: the water's surface, a shade lighter */
-  --pool-edge: #21455f;      /* panel edges, dividers, a hovered row */
-  --pool-moonlight: #e8eef1; /* body text, 12:1 on the surface */
-  --pool-mist: #a9bfcb;      /* secondary text, 7.3:1 */
-  --pool-torch: #ffc86b;     /* the torch's warm light: links, focus, the tagline. 9.2:1 */
+  --lab-bench: #e6eae8;    /* the page: a pale, cool lab bench */
+  --lab-ink: #1c2826;      /* text, 12.5:1 on the bench */
+  --lab-graphite: #4c5a57; /* secondary text, 6:1 */
+  --lab-line: #c9d1ce;     /* rules between sections and rows */
+  --lab-paper: #f6f1e4;    /* label tags, and a hovered row */
+  --lab-marker: #1f4fbf;   /* marker-pen blue: labels, links, focus. 5.9:1 on the bench */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-pool-night: var(--pool-night);
-  --color-pool-surface: var(--pool-surface);
-  --color-pool-edge: var(--pool-edge);
-  --color-pool-moonlight: var(--pool-moonlight);
-  --color-pool-mist: var(--pool-mist);
-  --color-pool-torch: var(--pool-torch);
-  /* Bricolage Grotesque for display, Atkinson Hyperlegible Next for reading */
-  --font-display: var(--font-bricolage);
-  --font-sans: var(--font-atkinson);
+  --color-lab-bench: var(--lab-bench);
+  --color-lab-ink: var(--lab-ink);
+  --color-lab-graphite: var(--lab-graphite);
+  --color-lab-line: var(--lab-line);
+  --color-lab-paper: var(--lab-paper);
+  --color-lab-marker: var(--lab-marker);
+  /* Instrument Sans for everything you read; Permanent Marker only for labels on the dish */
+  --font-sans: var(--font-instrument);
+  --font-marker: var(--font-permanent-marker);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-atkinson), system-ui, sans-serif;
+  font-family: var(--font-instrument), system-ui, sans-serif;
 }
 
 :focus-visible {
-  outline: 2px solid var(--pool-torch);
+  outline: 2px solid var(--lab-marker);
   outline-offset: 3px;
-  border-radius: 6px;
-}
-
-/* A panel on the water's surface. Slightly see-through, with the pool blurred beneath it */
-.panel {
-  background: rgb(19 46 67 / 0.9);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--pool-edge);
-  border-radius: 20px;
+  border-radius: 4px;
 }

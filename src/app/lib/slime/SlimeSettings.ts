@@ -46,6 +46,21 @@ export interface TorchSettings {
   planktonColour: RGB;
 }
 
+// A petri dish: the slime stays inside a circle placed by an element marked data-slime-dish
+// (SlimeSim.setDish), on a bench of benchColour. Oat flakes in the dish give off trail all the
+// time, so the slime finds them and links them up, as in the Tokyo rail network experiment.
+// backgroundColour is the agar inside the dish
+export interface DishSettings {
+  enabled: boolean;
+  food: number;               // oat flakes, at most 12. Positions come from foodPosition() in Dish.ts
+  foodWeight: number;         // trail each oat gives off per second
+  foodSize: number;           // an oat's radius in trail texels
+  benchColour: RGB;           // outside the dish
+  rimColour: RGB;             // the glass rim
+  oatColour: RGB;
+  focusColour: RGB;           // the ring around a focused oat (SlimeSim.setFocus)
+}
+
 // How the agents move and sense, and what colour their trail is.
 export interface AgentSettings {
   // Movement
@@ -93,6 +108,7 @@ export interface SlimeSettings {
                               // in the agent colour
   creatures: CreatureSettings;
   torch: TorchSettings;
+  dish: DishSettings;
   agent: AgentSettings;
 }
 
@@ -129,6 +145,11 @@ export const defaultSettings: SlimeSettings = {
   torch: {
     enabled: false, radius: 70, ambient: 0.35, creatureAmbient: 0.12, colour: [1, 0.78, 0.42],
     slimeAversion: 0, plankton: 0, planktonColour: [0.75, 0.97, 1],
+  },
+  dish: {
+    enabled: false, food: 0, foodWeight: 4, foodSize: 4,
+    benchColour: [0.9, 0.918, 0.91], rimColour: [0.78, 0.82, 0.81],
+    oatColour: [0.85, 0.77, 0.6], focusColour: [0.96, 0.95, 0.89],
   },
   agent: {
     moveSpeed: 7, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 12, sensorSize: 0,
@@ -174,6 +195,7 @@ export function mergeSettings(overrides: Partial<SlimeSettings> = {}): SlimeSett
       .map((palette) => palette.map((c) => [...c] as RGB)),
     creatures: { ...defaultSettings.creatures, ...overrides.creatures },
     torch: { ...defaultSettings.torch, ...overrides.torch },
+    dish: { ...defaultSettings.dish, ...overrides.dish },
     agent: { ...agent, colour: [...agent.colour] as RGB },
   };
 }

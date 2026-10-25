@@ -3,12 +3,13 @@ import { Renderer, Program, Mesh, Triangle, Geometry, RenderTarget } from "ogl";
 import type { OGLRenderingContext } from "ogl";
 import {
   fullscreenVert, updateAgentFrag, depositVert, depositFrag, diffuseFrag, displayFrag,
-  agentsOnlyVert, agentsOnlyFrag, splashVert, splashFrag,
+  agentsOnlyVert, agentsOnlyFrag, splashVert, splashFrag, foodVert, foodFrag,
 } from "./shader";
 import {
   SlimeSettings, mergeSettings, SPAWN_MODE_INDEX, MAX_SPECIES, MAX_TRAIL_PALETTE,
 } from "./SlimeSettings";
 import { Creatures, MAX_CREATURES } from "./Creatures";
+import { MAX_FOOD, foodPosition } from "./Dish";
 
 // Phones resize the page a little whenever the address bar slides in or out. A change
 // this small is not worth wiping the trail for: CSS just stretches the canvas slightly.
@@ -52,6 +53,11 @@ export class SlimeSim {
   private display: Mesh;
   private agentsOnly: Mesh;
   private splashMesh: Mesh;         // the plankton wake
+  private foodMesh: Mesh;           // the petri dish's oats, giving off trail
+  // The petri dish, 0..1 of the canvas with y up (radius as a fraction of the width), from setDish().
+  // Null until the page places it
+  private dish: { x: number; y: number; radius: number } | null = null;
+  private focus = -1;               // which oat is ringed (setFocus), -1 for none
   private agentGeometry!: Geometry; // one point per agent, shared by deposit and agentsOnly
   private creatures = new Creatures(); // starfish, drawn by the display pass
   // The torch's light, 0..1 of the canvas with y up. It eases toward the pointer, or drifts when
@@ -95,6 +101,7 @@ export class SlimeSim {
       uNumAgents: { value: 0 }, uSpawnMode: { value: 0 }, uWrap: { value: 0 },
       uMove: { value: [0, 0, 0, 0] }, uSensorSize: { value: 1 }, uSpeciesCount: { value: 1 },
       uLight: { value: [0, 0] }, uLightAversion: { value: [1, 0] },
+      uDish: { value: [0, 0, 0] }, uRespawnChance: { value: 0 },
     });
     this.diffuse = pass(diffuseFrag, {
       uTrail: { value: null }, uDeltaTime: { value: 0 }, uDiffuseRate: { value: 0 },
@@ -116,6 +123,9 @@ export class SlimeSim {
       uPlankton: { value: 0 }, uPlanktonColour: { value: [0, 0, 0] },
       uAnemones: { value: new Array(MAX_CREATURES * 4).fill(0) }, uAnemoneCount: { value: 0 },
       uAnemoneSize: { value: 0 }, uAnemoneColour: { value: [0, 0, 0] },
+      uDish: { value: [0, 0, 0] }, uBench: { value: [0, 0, 0] }, uRim: { value: [0, 0, 0] },
+      uFood: { value: new Array(MAX_FOOD * 2).fill(0) }, uFoodCount: { value: 0 }, uFoodSize: { value: 0 },
+      uOat: { value: [0, 0, 0] }, uFocus: { value: -1 }, uFocusColour: { value: [0, 0, 0] },
     });
 
     // Deposit and agentsOnly draw one point per agent. The geometry only supplies each point's index.
@@ -141,6 +151,21 @@ export class SlimeSim {
       aId: { size: 1, data: Float32Array.from({ length: SPLASH_POINTS }, (_, i) => i) },
     });
     this.splashMesh = new Mesh(gl, { geometry: splashGeometry, program: splashProgram, mode: gl.POINTS });
+
+    // The oats: one point each. simulate() sets how many are drawn
+    const foodProgram = new Program(gl, {
+      vertex: foodVert, fragment: foodFrag,
+      uniforms: {
+        uFood: { value: new Array(MAX_FOOD * 2).fill(0) }, uSize: { value: [1, 1] },
+        uPointSize: { value: 1 }, uAmount: { value: 0 },
+      },
+      depthTest: false,
+    });
+    foodProgram.setBlendFunc(gl.ONE, gl.ONE);
+    const foodGeometry = new Geometry(gl, {
+      aId: { size: 1, data: Float32Array.from({ length: MAX_FOOD }, (_, i) => i) },
+    });
+    this.foodMesh = new Mesh(gl, { geometry: foodGeometry, program: foodProgram, mode: gl.POINTS });
 
     this.agentsOnly = new Mesh(gl, {
       geometry: agentsGeometry,
@@ -334,6 +359,8 @@ export class SlimeSim {
     const { torch } = settings;
     u.uLight.value = [this.light.x * this.trailA.width, this.light.y * this.trailA.height];
     u.uLightAversion.value = [torch.radius, torch.enabled ? torch.slimeAversion : 0];
+    u.uDish.value = this.dishTexels();
+    u.uRespawnChance.value = Math.max(0, settings.respawnRate) * dt;
     u.uSpeciesCount.value = speciesCount;
     renderer.render({ scene: this.update, target: this.agentsB });
     [this.agentsA, this.agentsB] = [this.agentsB, this.agentsA];
@@ -345,6 +372,7 @@ export class SlimeSim {
     d.uDeltaTime.value = dt;
     d.uSpeciesCount.value = speciesCount;
     renderer.render({ scene: this.deposit, target: this.trailA, clear: false });
+    this.feed(dt);
 
     // 3. Blur and fade: read A, write B, swap.
     const f = this.diffuse.program.uniforms;
@@ -415,6 +443,18 @@ export class SlimeSim {
       u.uAnemoneCount.value = shownAnemones.length;
       u.uAnemoneSize.value = creatures.anemoneSize;
       u.uAnemoneColour.value = creatures.anemoneColour;
+
+      const { dish } = settings;
+      const food = this.foodTexels();
+      u.uDish.value = this.dishTexels();
+      u.uBench.value = dish.benchColour;
+      u.uRim.value = dish.rimColour;
+      (u.uFood.value as number[]).splice(0, food.length, ...food);
+      u.uFoodCount.value = food.length / 2;
+      u.uFoodSize.value = dish.foodSize;
+      u.uOat.value = dish.oatColour;
+      u.uFocus.value = this.focus;
+      u.uFocusColour.value = dish.focusColour;
       u.uPixelated.value = settings.displayFilter === "pixelated" ? 1 : 0;
       u.uSteps.value = settings.colourSteps;
       this.renderer.render({ scene: this.display });
@@ -464,6 +504,48 @@ export class SlimeSim {
 
   // Tell the simulation which parts of the canvas the page hides, as CSS pixel boxes measured from
   // the canvas's top left. Starfish are kept out of them. width and height are the canvas's CSS size
+  // Place the petri dish: its centre and radius in CSS pixels from the canvas's top left.
+  // width and height are the canvas's CSS size. Ignored unless dish.enabled
+  setDish(x: number, y: number, radius: number, width: number, height: number) {
+    this.dish = { x: x / width, y: 1 - y / height, radius: radius / width };
+  }
+
+  // Ring oat `index` (one per project on the page), or none with -1
+  setFocus(index: number) {
+    this.focus = index;
+  }
+
+  // The dish as centre and radius in trail texels, or all zeros for no dish. Trail texels are
+  // square, so the radius scales with the width alone
+  private dishTexels(): number[] {
+    if (!this.settings.dish.enabled || !this.dish) return [0, 0, 0];
+    const { width, height } = this.trailA;
+    return [this.dish.x * width, this.dish.y * height, this.dish.radius * width];
+  }
+
+  // The oats' centres in trail texels, flattened x, y, x, y...
+  private foodTexels(): number[] {
+    const [cx, cy, r] = this.dishTexels();
+    if (r === 0) return [];
+    const count = Math.min(MAX_FOOD, Math.max(0, Math.floor(this.settings.dish.food)));
+    return Array.from({ length: count }, (_, i) => foodPosition(i, count))
+      .flatMap((f) => [cx + f.x * r, cy + f.y * r]);
+  }
+
+  // The oats give off a little trail every step, so the slime is drawn to them
+  private feed(dt: number) {
+    const food = this.foodTexels();
+    if (food.length === 0) return;
+    const { width, height } = this.trailA;
+    const u = this.foodMesh.program.uniforms;
+    (u.uFood.value as number[]).splice(0, food.length, ...food);
+    u.uSize.value = [width, height];
+    u.uPointSize.value = Math.max(1, this.settings.dish.foodSize * 1.5);
+    u.uAmount.value = this.settings.dish.foodWeight * dt;
+    this.foodMesh.geometry.setDrawRange(0, food.length / 2);
+    this.renderer.render({ scene: this.foodMesh, target: this.trailA, clear: false });
+  }
+
   setCovers(boxes: { left: number; top: number; right: number; bottom: number }[], width: number, height: number) {
     // To 0..1 of the trail, flipping y: the trail's y runs up from the bottom
     this.creatures.covers = boxes.map((b) => ({

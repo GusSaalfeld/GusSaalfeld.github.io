@@ -1,56 +1,56 @@
 import "./globals.css";
-import { Atkinson_Hyperlegible_Next, Bricolage_Grotesque } from "next/font/google";
+import { Instrument_Sans, Permanent_Marker } from "next/font/google";
 import Header from "@/app/components/header";
+import DishLabels from "@/app/components/dish-labels";
 import SlimeCanvas from "@/app/components/slime-canvas";
+import { ProjectList } from "@/app/data/projects";
 import type { RGB } from "@/app/lib/slime/SlimeSettings";
 
-// Bricolage Grotesque, characterful and narrowable, for display; Atkinson Hyperlegible Next for reading
-const bricolage = Bricolage_Grotesque({ subsets: ["latin"], axes: ["opsz", "wdth"], variable: "--font-bricolage" });
-const atkinson = Atkinson_Hyperlegible_Next({ subsets: ["latin"], variable: "--font-atkinson" });
+// Instrument Sans for everything you read; Permanent Marker, like a lab marker pen, only for the dish's labels
+const instrument = Instrument_Sans({ subsets: ["latin"], axes: ["wdth"], variable: "--font-instrument" });
+const marker = Permanent_Marker({ subsets: ["latin"], weight: "400", variable: "--font-permanent-marker" });
 
-// A tide pool at night. The slime glows faintly in the dark water, and a torch that follows the
-// pointer lights it up and shows the creatures. Smooth and at full resolution, so it reads as organic
+// Slime mould in a petri dish, as in the 2010 experiment where Physarum grew a network between
+// oat flakes laid out like the cities around Tokyo, much like the real rail network. Here each
+// oat is a project, so the slime maps the work
 const slimeSettings = {
+  numAgents: 30000,
   respawnRate: 0.05,
   warmupSeconds: 3,
-  // Deep water (#0f2536, matching --background in globals.css)
-  backgroundColour: [0.059, 0.145, 0.212] as RGB,
-  speciesPalettes: [
-    // Two bioluminescent species, glowing brighter where their trails are strongest:
-    // green, #4c9a2a to #a3e363
-    [[0.298, 0.604, 0.165], [0.64, 0.892, 0.388]],
-    // and sea-glow cyan, #1f8a87 to #7ee6da
-    [[0.122, 0.541, 0.529], [0.494, 0.902, 0.855]],
-  ] as RGB[][],
-  // Purple ochre stars, as on the Oregon coast, and a pale blue fish that crosses about every
-  // 5 seconds. Edged in a darker night blue. Starfish sit only in the margins (see data-slime-cover)
-  creatures: {
-    starfish: 3, starfishSize: 18, starfishSpeed: 0.5,
-    starfishColour: [0.71, 0.34, 0.5] as RGB,
-    // Pink anemones that close up when the torch shines on them
-    anemones: 2, anemoneSize: 16,
-    anemoneColour: [0.9, 0.5, 0.64] as RGB,
-    fish: true, fishSize: 14, fishSpeed: 140, fishInterval: 5,
-    fishColour: [0.56, 0.79, 0.94] as RGB,
-    outlineColour: [0.03, 0.08, 0.12] as RGB,
-  },
-  // A warm torch, about 200px across on a typical screen. It shows the pebbled floor and caustics,
-  // the slime retreats from it as real slime mould shuns light, and moving it stirs up a glowing
-  // plankton wake that the slime flows around
-  torch: {
-    enabled: true, radius: 70, ambient: 0.35, creatureAmbient: 0.12, colour: [1, 0.784, 0.42] as RGB,
-    slimeAversion: 3, plankton: 1, planktonColour: [0.75, 0.97, 1] as RGB,
+  // The agar, dark like a dish on a black lab mat, so the yellow shows (#3d3a30)
+  backgroundColour: [0.239, 0.227, 0.188] as RGB,
+  // Physarum polycephalum's own yellow, deep where faint (#b8860b) to bright (#ffd84d)
+  speciesPalettes: [[[0.722, 0.525, 0.043], [0.878, 0.659, 0.071], [1, 0.847, 0.302]]] as RGB[][],
+  dish: {
+    enabled: true,
+    food: ProjectList.length, // one oat per project, in list order
+    foodWeight: 20, foodSize: 5,
+    benchColour: [0.902, 0.918, 0.91] as RGB,   // the page (#e6eae8, matching --background in globals.css)
+    rimColour: [0.78, 0.82, 0.81] as RGB,
+    oatColour: [0.85, 0.77, 0.6] as RGB,
+    focusColour: [0.965, 0.945, 0.894] as RGB,  // label paper (#f6f1e4)
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${atkinson.variable}`}>
+    <html lang="en" className={`${instrument.variable} ${marker.variable}`}>
       <body>
         <SlimeCanvas settings={slimeSettings} />
+        {/* Where the petri dish sits: the slime canvas draws it in this box. Fixed, so the dish stays
+            put while the page scrolls: the right half from lg up, otherwise the top of the screen */}
+        <div
+          data-slime-dish
+          aria-hidden
+          className="pointer-events-none fixed left-1/2 top-[96px] aspect-square w-[min(84vw,46svh)] -translate-x-1/2 lg:left-auto lg:right-[6vw] lg:top-[calc(50%+24px)] lg:w-[min(38vw,74svh)] lg:translate-x-0 lg:-translate-y-1/2"
+        />
+        <DishLabels count={ProjectList.length} />
         <Header />
-        <main className="flex flex-col">
-          {children}   {/* the current page renders here */}
+        {/* The notebook column. Below lg it starts under the dish and covers it as it scrolls */}
+        <main className="relative z-10 pt-[calc(min(84vw,46svh)+150px)] lg:w-1/2 lg:pt-0">
+          <div className="min-h-svh bg-lab-bench pb-16 lg:bg-transparent">
+            {children}   {/* the current page renders here */}
+          </div>
         </main>
       </body>
     </html>
