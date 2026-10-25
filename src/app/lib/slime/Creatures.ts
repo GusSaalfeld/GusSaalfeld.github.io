@@ -15,8 +15,14 @@ const PLACEMENT_TRIES = 60;
 const random = (min: number, max: number) => min + Math.random() * (max - min);
 
 // rotation turns the whole star, and phase offsets its leg wave so starfish don't move in step.
-// A starfish with nowhere uncovered to sit is hidden until room opens up
-interface Starfish { x: number; y: number; rotation: number; phase: number; visible: boolean }
+// side is the half of the screen it keeps to. A starfish with nowhere uncovered to sit there is
+// hidden until room opens up
+type Side = "left" | "right" | "any";
+interface Starfish { x: number; y: number; rotation: number; phase: number; side: Side; visible: boolean }
+
+// The first starfish keeps to the left half and the second to the right, so with room on both
+// sides of the content there's always one on each. Any more go wherever there's room
+const sideFor = (index: number): Side => (index === 0 ? "left" : index === 1 ? "right" : "any");
 
 export class Creatures {
   readonly starfish: Starfish[] = [];
@@ -28,7 +34,9 @@ export class Creatures {
   sync(settings: CreatureSettings, width: number, height: number) {
     const count = Math.min(MAX_CREATURES, Math.max(0, Math.floor(settings.starfish)));
     while (this.starfish.length < count) {
-      this.starfish.push({ x: 0, y: 0, rotation: random(0, TAU), phase: random(0, TAU), visible: false });
+      this.starfish.push({
+        x: 0, y: 0, rotation: random(0, TAU), phase: random(0, TAU), side: sideFor(this.starfish.length), visible: false,
+      });
     }
     this.starfish.length = count;
 
@@ -38,9 +46,11 @@ export class Creatures {
     for (const star of this.starfish) {
       if (star.visible && this.fits(star.x, star.y, rx, ry)) continue;
       star.visible = false;
-      // Try random spots until one is clear. Most of the screen may be covered, so this can fail
+      // Try random spots on its side until one is clear. Most of the screen may be covered, so this can fail
+      const minX = star.side === "right" ? 0.5 : rx;
+      const maxX = star.side === "left" ? 0.5 : 1 - rx;
       for (let i = 0; i < PLACEMENT_TRIES; i++) {
-        const x = random(rx, 1 - rx), y = random(ry, 1 - ry);
+        const x = random(minX, maxX), y = random(ry, 1 - ry);
         if (this.fits(x, y, rx, ry)) {
           Object.assign(star, { x, y, visible: true });
           break;
