@@ -18,7 +18,7 @@ export const ProjectList: Project[] = [
     {
         path: "scientific-explainer",
         title: "What happens when you type youtube.com into the web browser?",
-        hoverDescription: "A brief guide to web browsers.",
+        hoverDescription: "A beginner's guide to what goes on behind the scenes whenever you look up a website in your web browser.",
         thumbnail: "/placeholders/scientific-explainer.jpg",
         year: "2026",
         category: "Science writing"
