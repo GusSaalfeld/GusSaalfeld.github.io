@@ -24,8 +24,13 @@ interface Starfish { x: number; y: number; rotation: number; phase: number; side
 // sides of the content there's always one on each. Any more go wherever there's room
 const sideFor = (index: number): Side => (index === 0 ? "left" : index === 1 ? "right" : "any");
 
+// One fish at a time. Between crossings it waits offscreen. direction is 1 for left to right,
+// -1 for right to left. wag drives its tail
+interface Fish { x: number; y: number; direction: number; wag: number; swimming: boolean; wait: number }
+
 export class Creatures {
   readonly starfish: Starfish[] = [];
+  readonly fish: Fish = { x: 0, y: 0, direction: 1, wag: 0, swimming: false, wait: random(1, 5) };
   covers: Rect[] = []; // where the page hides the slime. Starfish are kept out of these
   time = 0; // drives the starfish's leg wave. Seconds, scaled by starfishSpeed
 
@@ -59,8 +64,31 @@ export class Creatures {
     }
   }
 
-  update(dt: number, settings: CreatureSettings) {
+  // Advance by dt real seconds. width is the trail's width in texels, for the fish's speed
+  update(dt: number, settings: CreatureSettings, width: number) {
     this.time += dt * settings.starfishSpeed;
+
+    const fish = this.fish;
+    if (!settings.fish) {
+      fish.swimming = false;
+      return;
+    }
+    // Far enough past the edge that the whole fish is out of sight, tail and outline included
+    const offscreen = (settings.fishSize * 1.3 + 2) / width;
+    if (!fish.swimming) {
+      fish.wait -= dt;
+      if (fish.wait > 0) return;
+      fish.direction = Math.random() < 0.5 ? 1 : -1;
+      fish.x = fish.direction > 0 ? -offscreen : 1 + offscreen;
+      fish.y = random(0.15, 0.85);
+      fish.swimming = true;
+    }
+    fish.x += (fish.direction * settings.fishSpeed * dt) / width;
+    fish.wag += dt * 9;
+    if (fish.x < -offscreen || fish.x > 1 + offscreen) {
+      fish.swimming = false;
+      fish.wait = settings.fishInterval + random(-1, 1);
+    }
   }
 
   // Whether a starfish at x, y lies wholly on screen and clear of every cover and every other starfish

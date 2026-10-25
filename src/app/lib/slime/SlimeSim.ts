@@ -94,6 +94,7 @@ export class SlimeSim {
       uTime: { value: 0 },
       uStarfish: { value: new Array(MAX_CREATURES * 4).fill(0) }, uStarfishCount: { value: 0 },
       uStarfishSize: { value: 0 }, uStarfishColour: { value: [0, 0, 0] }, uOutline: { value: [0, 0, 0] },
+      uFish: { value: [0, 0, 1, 0] }, uFishSwimming: { value: 0 }, uFishSize: { value: 0 }, uFishColour: { value: [0, 0, 0] },
     });
 
     // Deposit and agentsOnly draw one point per agent. The geometry only supplies each point's index.
@@ -249,7 +250,7 @@ export class SlimeSim {
 
     // Creatures run on real time, not the simulation's timeScale
     this.creatures.sync(this.settings.creatures, this.trailA.width, this.trailA.height);
-    this.creatures.update(Math.min(elapsed / 1000, MAX_FRAME_SECONDS), this.settings.creatures);
+    this.creatures.update(Math.min(elapsed / 1000, MAX_FRAME_SECONDS), this.settings.creatures, this.trailA.width);
 
     const { fixedTimeStep, stepsPerFrame } = this.settings;
     this.owed += Math.min(elapsed / 1000, MAX_FRAME_SECONDS) / Math.max(fixedTimeStep, 1e-4);
@@ -348,6 +349,12 @@ export class SlimeSim {
       u.uStarfishSize.value = creatures.starfishSize;
       u.uStarfishColour.value = creatures.starfishColour;
       u.uOutline.value = creatures.outlineColour;
+      const { fish } = this.creatures;
+      const fishUniform = u.uFish.value as number[];
+      fishUniform.splice(0, 4, fish.x * width, fish.y * height, fish.direction, fish.wag);
+      u.uFishSwimming.value = fish.swimming ? 1 : 0;
+      u.uFishSize.value = creatures.fishSize;
+      u.uFishColour.value = creatures.fishColour;
       u.uPixelated.value = settings.displayFilter === "pixelated" ? 1 : 0;
       u.uSteps.value = settings.colourSteps;
       this.renderer.render({ scene: this.display });

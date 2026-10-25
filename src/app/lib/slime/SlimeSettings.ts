@@ -18,7 +18,12 @@ export interface CreatureSettings {
   starfishSize: number;       // radius in trail texels
   starfishSpeed: number;      // how fast their legs move. 1 = normal, 0.5 = half speed
   starfishColour: RGB;
-  outlineColour: RGB;         // a one-texel edge around each starfish
+  fish: boolean;              // a fish that now and then swims across the screen, one way or the other, and off the far edge
+  fishSize: number;           // half its length in trail texels
+  fishSpeed: number;          // trail texels per second
+  fishInterval: number;       // seconds between one fish leaving and the next arriving, give or take a second
+  fishColour: RGB;
+  outlineColour: RGB;         // a one-texel edge around each creature, and the fish's eye
 }
 
 // How the agents move and sense, and what colour their trail is.
@@ -95,7 +100,9 @@ export const defaultSettings: SlimeSettings = {
   colourSteps: 0,
   speciesPalettes: [],
   creatures: {
-    starfish: 0, starfishSize: 9, starfishSpeed: 1, starfishColour: [0.71, 0.34, 0.5], outlineColour: [0.18, 0.12, 0.06],
+    starfish: 0, starfishSize: 9, starfishSpeed: 1, starfishColour: [0.71, 0.34, 0.5],
+    fish: false, fishSize: 7, fishSpeed: 70, fishInterval: 5, fishColour: [0.56, 0.79, 0.94],
+    outlineColour: [0.18, 0.12, 0.06],
   },
   agent: {
     moveSpeed: 7, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 12, sensorSize: 0,

@@ -40,6 +40,9 @@ const slimeSettings = {
   creatures: {
     starfish: 3, starfishSize: 9, starfishSpeed: 0.5,
     starfishColour: [0.71, 0.34, 0.5] as RGB,
+    // A pale blue fish crosses about every 5 seconds, either way, behind the content
+    fish: true, fishSize: 7, fishSpeed: 70, fishInterval: 5,
+    fishColour: [0.56, 0.79, 0.94] as RGB,
     outlineColour: [0.18, 0.12, 0.06] as RGB,
   },
   agent: {

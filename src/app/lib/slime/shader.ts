@@ -214,6 +214,10 @@ uniform vec4 uStarfish[${MAX_CREATURES}]; // x, y, rotation, leg wave phase
 uniform float uStarfishCount;
 uniform float uStarfishSize; // radius
 uniform vec3 uStarfishColour;
+uniform vec4 uFish;          // x, y, direction (1 = swimming right, -1 = left), tail wag phase
+uniform float uFishSwimming; // 1 while a fish is crossing
+uniform float uFishSize;     // half its length
+uniform vec3 uFishColour;
 uniform vec3 uOutline;
 in vec2 vUv;
 out vec4 fragColor;
@@ -275,6 +279,23 @@ float starfish(vec2 p, vec4 star, float size) {
     return d;
 }
 
+// A fish seen from the side: an oval body and a fan-shaped tail that wags from where it joins the body.
+// Mirrored to face the way it swims. eye is set on its eye pixel
+float fish(vec2 p, vec4 f, float size, out bool eye) {
+    vec2 q = (p - f.xy) * vec2(f.z, 1.0); // now +x is always forward
+    eye = length(q - vec2(size * 0.45, size * 0.08)) < 0.9;
+    if (length(q) > size * 1.5) return 1e3;
+    vec2 body = q - vec2(size * 0.1, 0.0);
+    float d = (length(body / vec2(size * 0.62, size * 0.34)) - 1.0) * size * 0.34;
+    // The tail, rotated about its root by the wag. It widens toward the end: half height 0.7 of
+    // its distance from the root, out to half the body's length
+    float a = 0.35 * sin(f.w);
+    vec2 t = q - vec2(-size * 0.45, 0.0);
+    t = vec2(cos(a) * t.x + sin(a) * t.y, -sin(a) * t.x + cos(a) * t.y);
+    float tail = max(max(t.x, -t.x - size * 0.55), abs(t.y) + t.x * 0.7);
+    return min(d, tail);
+}
+
 void main() {
     vec4 raw = uPixelated == 1
         ? texelFetch(uTrail, ivec2(vUv * vec2(textureSize(uTrail, 0))), 0)
@@ -306,6 +327,13 @@ void main() {
         if (float(k) >= uStarfishCount) break;
         float d = starfish(p, uStarfish[k], uStarfishSize);
         if (d <= 0.0) colour = uStarfishColour;
+        else if (d <= 1.0) colour = uOutline;
+    }
+    // The fish swims in front of the starfish
+    if (uFishSwimming > 0.5) {
+        bool eye;
+        float d = fish(p, uFish, uFishSize, eye);
+        if (d <= 0.0) colour = eye ? uOutline : uFishColour;
         else if (d <= 1.0) colour = uOutline;
     }
     fragColor = vec4(colour, 1.0);
