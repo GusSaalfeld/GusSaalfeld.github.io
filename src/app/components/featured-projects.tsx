@@ -12,11 +12,11 @@ type FeaturedProjectsProps = {
 export default function FeaturedProjects({ title, projects, bare }: FeaturedProjectsProps) {
   const roster = (
     <div className="panel p-4 md:p-6">
-      <h2 className="px-3 pt-1 pb-4 font-gothic text-[36px] leading-none text-c64-yellow">
+      <h2 className="px-3 pt-1 pb-4 font-pixel font-semibold text-[28px] leading-[1.2] text-gold">
         {title ?? "Featured projects"}
       </h2>
       {/* Column headings. Hidden from screen readers, since each row's link already reads as title then description */}
-      <div aria-hidden className="hidden sm:grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-x-6 px-3 pb-1 mb-2 border-b-4 border-c64-brown text-xl text-c64-grey">
+      <div aria-hidden className="hidden sm:grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-x-6 px-3 pb-1 mb-2 border-b-4 border-frame-edge font-pixel text-lg text-dust">
         <span>Name</span>
         <span>Description</span>
       </div>

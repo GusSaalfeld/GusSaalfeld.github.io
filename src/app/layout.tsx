@@ -1,12 +1,12 @@
 import "./globals.css";
-import { Jacquarda_Bastarda_9, VT323 } from "next/font/google";
+import { Atkinson_Hyperlegible_Mono, Pixelify_Sans } from "next/font/google";
 import Header from "@/app/components/header";
 import SlimeCanvas from "@/app/components/slime-canvas";
 
-// VT323, a terminal face, for everything, and Jacquarda Bastarda 9, a pixel blackletter,
-// for names and section titles: an 80s fantasy RPG like The Bard's Tale
-const vt323 = VT323({ subsets: ["latin"], weight: "400", variable: "--font-vt323" });
-const bastarda = Jacquarda_Bastarda_9({ subsets: ["latin"], weight: "400", variable: "--font-bastarda" });
+// Pixelify Sans, a sturdy pixel face, for names, headings and the menu, like an 80s RPG
+// such as The Bard's Tale. Atkinson Hyperlegible Mono, a terminal face built for legibility, for reading
+const pixelify = Pixelify_Sans({ subsets: ["latin"], variable: "--font-pixelify" });
+const atkinsonMono = Atkinson_Hyperlegible_Mono({ subsets: ["latin"], variable: "--font-atkinson-mono" });
 
 // The slime at the Commodore 64's 320 pixel width, upscaled blocky. Halving the default
 // resolution halves the distances and quarters the agents, so the pattern keeps its scale
@@ -24,7 +24,7 @@ const slimeSettings = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${vt323.variable} ${bastarda.variable}`}>
+    <html lang="en" className={`${pixelify.variable} ${atkinsonMono.variable}`}>
       <body>
         <SlimeCanvas settings={slimeSettings} />
         <Header />

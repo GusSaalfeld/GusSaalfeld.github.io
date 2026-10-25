@@ -4,55 +4,55 @@
    SlimeSettings.ts), so the page doesn't flash white before the animation fades in. */
 :root {
   --background: #99855a;
-  --foreground: #ffffff;
+  --foreground: #f2e6c9;
 
-  /* A slice of the Commodore 64 palette. Its orange and brown sit right beside the slime's own colours */
-  --c64-black: #000000;   /* panels, like the screen in The Bard's Tale */
-  --c64-white: #ffffff;   /* body text */
-  --c64-grey: #959595;    /* secondary text */
-  --c64-yellow: #b8c76f;  /* names and headings */
-  --c64-cyan: #70a4b2;    /* the selection bar */
-  --c64-orange: #6f4f25;  /* the frame */
-  --c64-brown: #433900;   /* the frame's inner edges */
+  /* An amber-monitor palette built on the slime. Panels are the slime's own trail colour,
+     which glares less behind light text than pure black. Every text colour passes 7:1 on it */
+  --rpg-slime: #2e1f0f;      /* panels */
+  --rpg-parchment: #f2e6c9;  /* body text, 12.8:1 */
+  --rpg-gold: #f0b85a;       /* names, headings and the selection bar, 8.9:1 */
+  --rpg-dust: #c9b28a;       /* secondary text, 7.8:1 */
+  --rpg-frame: #6f4f25;      /* the frame, from the Commodore 64 palette */
+  --rpg-frame-edge: #433900; /* the frame's inner edges */
+  --rpg-black: #000000;      /* the frame's outer line */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-c64-black: var(--c64-black);
-  --color-c64-white: var(--c64-white);
-  --color-c64-grey: var(--c64-grey);
-  --color-c64-yellow: var(--c64-yellow);
-  --color-c64-cyan: var(--c64-cyan);
-  --color-c64-orange: var(--c64-orange);
-  --color-c64-brown: var(--c64-brown);
-  /* VT323 for everything, the pixel blackletter only for names and section titles */
-  --font-pixel: var(--font-vt323);
-  --font-gothic: var(--font-bastarda);
+  --color-slime: var(--rpg-slime);
+  --color-parchment: var(--rpg-parchment);
+  --color-gold: var(--rpg-gold);
+  --color-dust: var(--rpg-dust);
+  --color-frame: var(--rpg-frame);
+  --color-frame-edge: var(--rpg-frame-edge);
+  /* Pixelify Sans for names, headings and the menu; Atkinson Hyperlegible Mono for reading */
+  --font-pixel: var(--font-pixelify);
+  --font-mono: var(--font-atkinson-mono);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-vt323), monospace;
+  font-family: var(--font-atkinson-mono), monospace;
 }
 
-/* A thick solid outline, like a cursor block */
+/* A thick solid outline, like a cursor block. Parchment, so it still shows on the gold selection bar */
 :focus-visible {
-  outline: 4px solid var(--c64-yellow);
+  outline: 3px solid var(--rpg-parchment);
   outline-offset: 0;
 }
 
 /* The screen frame: orange, edged in brown, with a black outer line. Its padding and the gaps
    between panels show the orange, so panels look cut into one frame rather than floating */
 .frame {
-  background: var(--c64-orange);
+  background: var(--rpg-frame);
   padding: 8px;
-  box-shadow: 0 0 0 4px var(--c64-brown), 0 0 0 8px var(--c64-black);
+  box-shadow: 0 0 0 4px var(--rpg-frame-edge), 0 0 0 8px var(--rpg-black);
 }
 
-/* A black panel inside the frame, with a brown inner edge */
+/* A slime-brown panel inside the frame, with a darker inner edge */
 .panel {
-  background: var(--c64-black);
-  box-shadow: inset 0 0 0 4px var(--c64-brown);
+  background: var(--rpg-slime);
+  box-shadow: inset 0 0 0 4px var(--rpg-frame-edge);
 }

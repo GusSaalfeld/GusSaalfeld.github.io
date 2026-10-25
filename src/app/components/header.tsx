@@ -8,8 +8,8 @@ type HeaderProps = {
 export default function Header({children}: HeaderProps) {
     return (
         <NavBar>
-            <span className="font-gothic text-[27px] leading-none text-c64-yellow">Augustus Saalfeld</span>
-            <span className="hidden sm:inline text-c64-grey">Tech & science writer</span>
+            <span className="font-semibold text-2xl leading-none text-gold">Augustus Saalfeld</span>
+            <span className="hidden sm:inline text-dust">Tech & science writer</span>
             {children && <div>{children}</div>}
         </NavBar>
     );

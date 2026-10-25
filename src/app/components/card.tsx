@@ -19,11 +19,11 @@ export default function Card({ eyebrow, title, description, children, split, bar
 
   const text = (
     <>
-      {eyebrow && <p className="text-xl text-c64-grey">{eyebrow}</p>}
+      {eyebrow && <p className="text-base text-dust">{eyebrow}</p>}
       {title && (
         <Heading
-          className={`text-c64-yellow text-balance ${
-            split ? "text-[36px] md:text-[44px] leading-[1.05]" : "text-[32px] leading-[1.1]"
+          className={`font-pixel font-semibold text-gold text-balance ${
+            split ? "text-[32px] md:text-[40px] leading-[1.15]" : "text-[28px] leading-[1.2]"
           }`}
         >
           {title}
@@ -32,7 +32,7 @@ export default function Card({ eyebrow, title, description, children, split, bar
       {description && (
         <div className="flex flex-col gap-4 max-w-[60ch]">
           {[description].flat().map((paragraph) => (
-            <p key={paragraph} className="text-[22px] leading-[1.35] text-c64-white text-pretty">
+            <p key={paragraph} className="text-lg leading-[1.6] text-parchment text-pretty">
               {paragraph}
             </p>
           ))}
