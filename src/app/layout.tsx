@@ -1,16 +1,18 @@
 import "./globals.css";
-import { Atkinson_Hyperlegible_Mono, Chakra_Petch, Kode_Mono } from "next/font/google";
-import localFont from "next/font/local";
+import { Atkinson_Hyperlegible_Mono, B612_Mono, Kode_Mono, Oxanium, Share_Tech_Mono, Space_Mono, Tektur } from "next/font/google";
 import Header from "@/app/components/header";
 import FontToggle from "@/app/components/font-toggle";
 import SlimeCanvas from "@/app/components/slime-canvas";
 
-// Three candidates for names, headings and the menu, switched with FontToggle (see globals.css):
-// Kode Mono, Departure Mono (a refined pixel face, not on Google Fonts, so it's bundled), and Chakra Petch.
+// Candidates for names, headings and the menu, all angular retro-hardware faces like Kode Mono,
+// switched with FontToggle (see globals.css).
 // Atkinson Hyperlegible Mono, a terminal face built for legibility, for reading
 const kodeMono = Kode_Mono({ subsets: ["latin"], variable: "--font-kode" });
-const departureMono = localFont({ src: "./fonts/DepartureMono-Regular.woff2", variable: "--font-departure" });
-const chakraPetch = Chakra_Petch({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-chakra" });
+const shareTechMono = Share_Tech_Mono({ subsets: ["latin"], weight: "400", variable: "--font-share-tech" });
+const oxanium = Oxanium({ subsets: ["latin"], variable: "--font-oxanium" });
+const tektur = Tektur({ subsets: ["latin"], variable: "--font-tektur" });
+const b612Mono = B612_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-b612" });
+const spaceMono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-space" });
 const atkinsonMono = Atkinson_Hyperlegible_Mono({ subsets: ["latin"], variable: "--font-atkinson-mono" });
 
 // The slime at the Commodore 64's 320 pixel width, upscaled blocky. Halving the default
@@ -33,7 +35,7 @@ const slimeSettings = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${kodeMono.variable} ${departureMono.variable} ${chakraPetch.variable} ${atkinsonMono.variable}`}>
+    <html lang="en" className={[kodeMono, shareTechMono, oxanium, tektur, b612Mono, spaceMono, atkinsonMono].map((font) => font.variable).join(" ")}>
       <body>
         <SlimeCanvas settings={slimeSettings} />
         <Header />

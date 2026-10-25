@@ -36,15 +36,24 @@
 :root[data-display-font="kode"] {
   --display-font: var(--font-kode);
 }
-:root[data-display-font="departure"] {
-  --display-font: var(--font-departure);
+:root[data-display-font="share-tech"] {
+  --display-font: var(--font-share-tech);
 }
-:root[data-display-font="chakra"] {
-  --display-font: var(--font-chakra);
+:root[data-display-font="oxanium"] {
+  --display-font: var(--font-oxanium);
+}
+:root[data-display-font="tektur"] {
+  --display-font: var(--font-tektur);
+}
+:root[data-display-font="b612"] {
+  --display-font: var(--font-b612);
+}
+:root[data-display-font="space"] {
+  --display-font: var(--font-space);
 }
 
-/* Departure Mono has one weight. Stop the browser smearing a fake bold over its pixels */
-:root[data-display-font="departure"] .font-pixel {
+/* Share Tech Mono has one weight. Show it as designed rather than with a fake bold */
+:root[data-display-font="share-tech"] .font-pixel {
   font-synthesis: none;
 }
 

@@ -7,8 +7,11 @@ import { useState } from "react";
 // Remove this, and the fonts that lose, once one is chosen
 const Fonts = [
   { id: "kode", label: "Kode Mono" },
-  { id: "departure", label: "Departure Mono" },
-  { id: "chakra", label: "Chakra Petch" },
+  { id: "share-tech", label: "Share Tech Mono" },
+  { id: "oxanium", label: "Oxanium" },
+  { id: "tektur", label: "Tektur" },
+  { id: "b612", label: "B612 Mono" },
+  { id: "space", label: "Space Mono" },
 ];
 
 export default function FontToggle() {
