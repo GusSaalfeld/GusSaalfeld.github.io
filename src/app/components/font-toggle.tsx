@@ -25,6 +25,7 @@ export default function FontToggle() {
     <button
       type="button"
       onClick={next}
+      data-slime-cover
       className="fixed bottom-4 right-4 z-50 px-4 py-2 bg-slime border-4 border-frame shadow-[0_0_0_4px_#000] font-pixel text-[length:var(--display-s)] text-parchment hover:bg-gold hover:text-slime"
     >
       Font: {Fonts[index].label}

@@ -28,5 +28,5 @@ export default function FeaturedProjects({ title, projects, bare }: FeaturedProj
     </div>
   );
 
-  return bare ? roster : <div className="frame">{roster}</div>;
+  return bare ? roster : <div className="frame" data-slime-cover="column">{roster}</div>;
 }

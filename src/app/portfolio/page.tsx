@@ -51,7 +51,7 @@ const ProjectList: Project[] = [
 export default function Portfolio() {
   return (
     // One frame around every panel, like a single game screen
-    <div className="frame flex flex-col gap-2 w-full max-w-5xl mx-auto">
+    <div data-slime-cover="column" className="frame flex flex-col gap-2 w-full max-w-5xl mx-auto">
       <Card bare split title="Writer with a background in software, storytelling, and user testing." description={[
         "My name is Augustus Saalfeld, and I am a programmer turned technical writer who specializes in technical writing, UX writing, and science communications.",
         "I look forward to working with users on a better user experience, as well as with experts to get their message out there.",

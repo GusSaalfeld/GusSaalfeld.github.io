@@ -42,7 +42,7 @@ export class SlimeSim {
   private display: Mesh;
   private agentsOnly: Mesh;
   private agentGeometry!: Geometry; // one point per agent, shared by deposit and agentsOnly
-  private creatures = new Creatures(); // starfish and crabs, drawn by the display pass
+  private creatures = new Creatures(); // starfish, drawn by the display pass
 
   private cssWidth: number;
   private cssHeight: number;
@@ -90,12 +90,10 @@ export class SlimeSim {
       uPalette: { value: new Array(MAX_SPECIES * MAX_TRAIL_PALETTE * 3).fill(0) },
       uPaletteSizes: { value: [1, 1, 1, 1] }, uSpeciesCount: { value: 1 },
       uPixelated: { value: 0 }, uSteps: { value: 0 },
-      // Creatures, refilled in draw(). Each vec4 array holds MAX_CREATURES slots
+      // Starfish, refilled in draw(). uStarfish holds MAX_CREATURES vec4 slots
       uTime: { value: 0 },
       uStarfish: { value: new Array(MAX_CREATURES * 4).fill(0) }, uStarfishCount: { value: 0 },
-      uCrabs: { value: new Array(MAX_CREATURES * 4).fill(0) }, uCrabCount: { value: 0 },
-      uCreatureSizes: { value: [0, 0] },
-      uStarfishColour: { value: [0, 0, 0] }, uCrabColour: { value: [0, 0, 0] }, uOutline: { value: [0, 0, 0] },
+      uStarfishSize: { value: 0 }, uStarfishColour: { value: [0, 0, 0] }, uOutline: { value: [0, 0, 0] },
     });
 
     // Deposit and agentsOnly draw one point per agent. The geometry only supplies each point's index.
@@ -250,9 +248,8 @@ export class SlimeSim {
     this.lastTime = now;
 
     // Creatures run on real time, not the simulation's timeScale
-    this.creatures.sync(this.settings.creatures);
-    this.creatures.update(Math.min(elapsed / 1000, MAX_FRAME_SECONDS), this.settings.creatures,
-      this.trailA.width, this.trailA.height);
+    this.creatures.sync(this.settings.creatures, this.trailA.width, this.trailA.height);
+    this.creatures.update(Math.min(elapsed / 1000, MAX_FRAME_SECONDS));
 
     const { fixedTimeStep, stepsPerFrame } = this.settings;
     this.owed += Math.min(elapsed / 1000, MAX_FRAME_SECONDS) / Math.max(fixedTimeStep, 1e-4);
@@ -340,24 +337,30 @@ export class SlimeSim {
       });
       u.uSpeciesCount.value = palettes.length;
 
-      // Creatures, converted from 0..1 of the trail to trail texels
+      // The visible starfish, converted from 0..1 of the trail to trail texels
       const { width, height } = this.trailA;
       const { creatures } = settings;
       const starfish = u.uStarfish.value as number[];
-      this.creatures.starfish.forEach((s, i) => starfish.splice(i * 4, 4, s.x * width, s.y * height, s.rotation, s.phase));
-      const crabs = u.uCrabs.value as number[];
-      this.creatures.crabs.forEach((c, i) => crabs.splice(i * 4, 4, c.x * width, c.y * height, c.heading, c.legPhase));
+      const visible = this.creatures.starfish.filter((s) => s.visible);
+      visible.forEach((s, i) => starfish.splice(i * 4, 4, s.x * width, s.y * height, s.rotation, s.phase));
       u.uTime.value = this.creatures.time;
-      u.uStarfishCount.value = this.creatures.starfish.length;
-      u.uCrabCount.value = this.creatures.crabs.length;
-      u.uCreatureSizes.value = [creatures.starfishSize, creatures.crabSize];
+      u.uStarfishCount.value = visible.length;
+      u.uStarfishSize.value = creatures.starfishSize;
       u.uStarfishColour.value = creatures.starfishColour;
-      u.uCrabColour.value = creatures.crabColour;
       u.uOutline.value = creatures.outlineColour;
       u.uPixelated.value = settings.displayFilter === "pixelated" ? 1 : 0;
       u.uSteps.value = settings.colourSteps;
       this.renderer.render({ scene: this.display });
     }
+  }
+
+  // Tell the simulation which parts of the canvas the page hides, as CSS pixel boxes measured from
+  // the canvas's top left. Starfish are kept out of them. width and height are the canvas's CSS size
+  setCovers(boxes: { left: number; top: number; right: number; bottom: number }[], width: number, height: number) {
+    // To 0..1 of the trail, flipping y: the trail's y runs up from the bottom
+    this.creatures.covers = boxes.map((b) => ({
+      x0: b.left / width, x1: b.right / width, y0: 1 - b.bottom / height, y1: 1 - b.top / height,
+    }));
   }
 
   // Losing the context frees every texture, program, and buffer at once.

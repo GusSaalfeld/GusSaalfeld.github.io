@@ -1,74 +1,64 @@
 // src/lib/slime/Creatures.ts
-// Starfish and crabs drawn over the slime by the display pass. This file only tracks where they
-// are and what they're doing; displayFrag draws them. Positions are 0..1 of the trail, so they
+// Starfish drawn over the slime by the display pass. This file only tracks where they are;
+// displayFrag draws them. Positions are 0..1 of the trail (y up, as in the shader), so they
 // survive a resize.
 import type { CreatureSettings } from "./SlimeSettings";
 
-// The display shader has room for this many of each creature
+// The display shader has room for this many starfish
 export const MAX_CREATURES = 4;
 
+// Part of the screen the page covers, 0..1 of the trail with y up
+export interface Rect { x0: number; y0: number; x1: number; y1: number }
+
 const TAU = Math.PI * 2;
+const PLACEMENT_TRIES = 60;
 const random = (min: number, max: number) => min + Math.random() * (max - min);
 
-// Each starfish stays put. rotation turns the whole star, and phase offsets its leg wave
-// so starfish don't move in step
-interface Starfish { x: number; y: number; rotation: number; phase: number }
-
-// A crab walks sideways along heading for a while, stops, then picks a new heading.
-// legPhase only advances while it walks, so its legs freeze when it stops
-interface Crab { x: number; y: number; heading: number; legPhase: number; walking: boolean; timer: number }
+// rotation turns the whole star, and phase offsets its leg wave so starfish don't move in step.
+// A starfish with nowhere uncovered to sit is hidden until room opens up
+interface Starfish { x: number; y: number; rotation: number; phase: number; visible: boolean }
 
 export class Creatures {
   readonly starfish: Starfish[] = [];
-  readonly crabs: Crab[] = [];
+  covers: Rect[] = []; // where the page hides the slime. Starfish are kept out of these
   time = 0; // seconds, drives the starfish's leg wave
 
-  // Add or remove creatures to match the settings. Existing ones keep their places
-  sync(settings: CreatureSettings) {
-    const starfishCount = Math.min(MAX_CREATURES, Math.max(0, Math.floor(settings.starfish)));
-    const crabCount = Math.min(MAX_CREATURES, Math.max(0, Math.floor(settings.crabs)));
-    // Kept away from the edges so a starfish is never cut in half
-    while (this.starfish.length < starfishCount) {
-      this.starfish.push({ x: random(0.1, 0.9), y: random(0.1, 0.9), rotation: random(0, TAU), phase: random(0, TAU) });
+  // Match the settings' count, and move any starfish the page now covers to an uncovered spot.
+  // width and height are the trail's size in texels, for the starfish's radius
+  sync(settings: CreatureSettings, width: number, height: number) {
+    const count = Math.min(MAX_CREATURES, Math.max(0, Math.floor(settings.starfish)));
+    while (this.starfish.length < count) {
+      this.starfish.push({ x: 0, y: 0, rotation: random(0, TAU), phase: random(0, TAU), visible: false });
     }
-    while (this.crabs.length < crabCount) {
-      this.crabs.push({ x: random(0.1, 0.9), y: random(0.1, 0.9), heading: random(0, TAU), legPhase: 0, walking: false, timer: random(0, 2) });
+    this.starfish.length = count;
+
+    // The radius as 0..1 of each axis, plus a texel for the outline
+    const rx = (settings.starfishSize + 1.5) / width;
+    const ry = (settings.starfishSize + 1.5) / height;
+    for (const star of this.starfish) {
+      if (star.visible && this.fits(star.x, star.y, rx, ry)) continue;
+      star.visible = false;
+      // Try random spots until one is clear. Most of the screen may be covered, so this can fail
+      for (let i = 0; i < PLACEMENT_TRIES; i++) {
+        const x = random(rx, 1 - rx), y = random(ry, 1 - ry);
+        if (this.fits(x, y, rx, ry)) {
+          Object.assign(star, { x, y, visible: true });
+          break;
+        }
+      }
     }
-    this.starfish.length = starfishCount;
-    this.crabs.length = crabCount;
   }
 
-  // Advance by dt real seconds. width and height are the trail's size in texels, so crabSpeed
-  // (texels per second) covers the same ground in both directions
-  update(dt: number, settings: CreatureSettings, width: number, height: number) {
+  update(dt: number) {
     this.time += dt;
-    const margin = 0.05;
+  }
 
-    for (const crab of this.crabs) {
-      crab.timer -= dt;
-      if (!crab.walking) {
-        if (crab.timer <= 0) {
-          crab.walking = true;
-          crab.heading = random(0, TAU);
-          crab.timer = random(1.5, 4); // seconds of walking
-        }
-        continue;
-      }
-
-      crab.x += (Math.cos(crab.heading) * settings.crabSpeed * dt) / width;
-      crab.y += (Math.sin(crab.heading) * settings.crabSpeed * dt) / height;
-      crab.legPhase += dt * 14; // legs scuttle fast
-
-      // Near an edge, turn back the way it came
-      if (crab.x < margin || crab.x > 1 - margin) crab.heading = Math.PI - crab.heading;
-      if (crab.y < margin || crab.y > 1 - margin) crab.heading = -crab.heading;
-      crab.x = Math.min(1 - margin, Math.max(margin, crab.x));
-      crab.y = Math.min(1 - margin, Math.max(margin, crab.y));
-
-      if (crab.timer <= 0) {
-        crab.walking = false;
-        crab.timer = random(1, 3); // seconds standing still
-      }
-    }
+  // Whether a starfish at x, y lies wholly on screen and clear of every cover and every other starfish
+  private fits(x: number, y: number, rx: number, ry: number) {
+    if (x < rx || x > 1 - rx || y < ry || y > 1 - ry) return false;
+    const overlaps = (r: Rect) => x + rx > r.x0 && x - rx < r.x1 && y + ry > r.y0 && y - ry < r.y1;
+    if (this.covers.some(overlaps)) return false;
+    return !this.starfish.some((s) => s.visible && (s.x !== x || s.y !== y)
+      && Math.abs(s.x - x) < rx * 2 && Math.abs(s.y - y) < ry * 2);
   }
 }

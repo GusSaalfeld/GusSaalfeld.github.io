@@ -13,14 +13,11 @@ export type RGB = [number, number, number]; // each 0..1
 
 // Creatures drawn over the slime (see Creatures.ts). They don't touch the simulation.
 export interface CreatureSettings {
-  starfish: number;           // how many, at most 4. Each stays put and undulates its legs
-  crabs: number;              // how many, at most 4. Each crawls sideways in a random direction, stops, then sets off again
+  starfish: number;           // how many, at most 4. Each stays put and undulates its legs, only where
+                              // the page doesn't cover the slime (see SlimeSim.setCovers)
   starfishSize: number;       // radius in trail texels
-  crabSize: number;           // radius in trail texels
-  crabSpeed: number;          // trail texels per second while crawling
   starfishColour: RGB;
-  crabColour: RGB;
-  outlineColour: RGB;         // a one-texel edge around both, and the crab's eyes
+  outlineColour: RGB;         // a one-texel edge around each starfish
 }
 
 // How the agents move and sense, and what colour their trail is.
@@ -97,8 +94,7 @@ export const defaultSettings: SlimeSettings = {
   colourSteps: 0,
   speciesPalettes: [],
   creatures: {
-    starfish: 0, crabs: 0, starfishSize: 9, crabSize: 7, crabSpeed: 8,
-    starfishColour: [0.71, 0.34, 0.5], crabColour: [0.78, 0.31, 0.18], outlineColour: [0.18, 0.12, 0.06],
+    starfish: 0, starfishSize: 9, starfishColour: [0.71, 0.34, 0.5], outlineColour: [0.18, 0.12, 0.06],
   },
   agent: {
     moveSpeed: 7, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 12, sensorSize: 0,

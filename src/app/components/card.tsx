@@ -55,5 +55,5 @@ export default function Card({ eyebrow, title, description, children, split, bar
     </div>
   );
 
-  return bare ? panels : <div className="frame">{panels}</div>;
+  return bare ? panels : <div className="frame" data-slime-cover="column">{panels}</div>;
 }

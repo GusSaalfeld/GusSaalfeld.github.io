@@ -53,6 +53,23 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
     });
     observer.observe(host);
 
+    // Tell the simulation what the page covers, so starfish sit only where they can be seen.
+    // Mark an element data-slime-cover to keep starfish out from behind it, or
+    // data-slime-cover="column" for content that scrolls: it covers its full width from the top
+    // of the screen to the bottom, since scrolling moves it over every height. Measured twice
+    // a second, which also catches resizes and page changes.
+    const measureCovers = () => {
+      const boxes = [...document.querySelectorAll<HTMLElement>("[data-slime-cover]")].map((el) => {
+        const r = el.getBoundingClientRect();
+        return el.dataset.slimeCover === "column"
+          ? { left: r.left, right: r.right, top: 0, bottom: host.clientHeight }
+          : { left: r.left, right: r.right, top: r.top, bottom: r.bottom };
+      });
+      sim.setCovers(boxes, host.clientWidth, host.clientHeight);
+    };
+    measureCovers();
+    const coverTimer = window.setInterval(measureCovers, 500);
+
     let raf = 0;
     const loop = (now: number) => {
       sim.frame(now);
@@ -62,6 +79,7 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
 
     return () => {
       window.clearTimeout(timer);
+      window.clearInterval(coverTimer);
       observer.disconnect();
       cancelAnimationFrame(raf);
       sim.dispose();

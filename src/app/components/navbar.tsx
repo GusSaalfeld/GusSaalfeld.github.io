@@ -19,7 +19,7 @@ export default function NavBar({ children}: NavBarProps) {
   // A panel-coloured bar edged like the frame, all in the pixel face.
   // Like an 80s game, nothing fades: the selection bar jumps
   return (
-    <div className="sticky top-0 z-50 flex items-center justify-between gap-4 px-6 md:px-8 py-3 bg-slime border-b-4 border-frame shadow-[0_4px_0_0_var(--rpg-frame-edge)] font-pixel text-[length:var(--display-s)] text-parchment">
+    <div data-slime-cover className="sticky top-0 z-50 flex items-center justify-between gap-4 px-6 md:px-8 py-3 bg-slime border-b-4 border-frame shadow-[0_4px_0_0_var(--rpg-frame-edge)] font-pixel text-[length:var(--display-s)] text-parchment">
       {children && <div className="flex items-baseline gap-4 min-w-0">{children}</div>}
 
       {/* Desktop links */}
