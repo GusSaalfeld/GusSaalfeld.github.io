@@ -14,7 +14,8 @@ export default function Portfolio() {
         {/* The lede: set in the reading face, as the first line of the writing. Room for two
             sentences, about 30 to 45 words, in three or four lines */}
         <p className="mt-6 max-w-[44ch] text-2xl leading-[1.4] text-quiet-ink text-pretty">
-          Writer with a background in software, storytelling, and user testing.
+          As a programmer turned writer, I explain complex topics clearly. I write documentation that
+          helps people use software, and articles that help your research reach more readers.
         </p>
       </header>
       <FeaturedProjects projects={ProjectList} />
