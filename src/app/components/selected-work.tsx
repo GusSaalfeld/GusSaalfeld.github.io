@@ -10,13 +10,16 @@ type SelectedWorkProps = {
   projects: Project[],
 };
 
-// Three layouts for the list, to compare. A temporary button switches between them; remove it,
+// Six layouts for the list, to compare. A temporary button switches between them; remove it,
 // and the layouts that lose, once one is chosen
-type Layout = "index" | "compact" | "grid";
+type Layout = "index" | "compact" | "grid" | "text" | "lead" | "ledger";
 const Layouts: { id: Layout; label: string }[] = [
   { id: "index", label: "Index with preview" },
   { id: "compact", label: "Compact list" },
   { id: "grid", label: "Card grid" },
+  { id: "text", label: "Text only" },
+  { id: "lead", label: "Lead project and index" },
+  { id: "ledger", label: "Ledger" },
 ];
 
 // Shared by every layout. The title turns slime green and underlines on hover or focus, and the
@@ -103,18 +106,78 @@ function CompactList({ projects }: { projects: Project[] }) {
   );
 }
 
-// 3. Two columns of cards: a large picture, then the title, year and description under it
+// 3. Cards: a picture, then the title, year and description under it. Three columns from md up,
+// two from sm, so each picture stays modest
 function CardGrid({ projects }: { projects: Project[] }) {
   return (
-    <ul className="grid gap-x-12 gap-y-12 sm:grid-cols-2">
+    <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 md:grid-cols-3">
       {projects.map((project) => (
         <li key={project.path}>
-          <Link href={`/portfolio/${project.path}`} className="group flex flex-col gap-4">
-            <Thumbnail project={project} sizes="(min-width: 640px) 440px, 100vw" />
+          <Link href={`/portfolio/${project.path}`} className="group flex flex-col gap-3">
+            <Thumbnail project={project} sizes="(min-width: 768px) 290px, (min-width: 640px) 50vw, 100vw" />
             <span className="flex flex-col gap-1">
-              <TitleLine project={project} size="text-2xl" />
+              <TitleLine project={project} size="text-xl" />
+              {project.hoverDescription && <span className="text-base leading-[1.55] text-quiet-muted">{project.hoverDescription}</span>}
+            </span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// 4. Text only: the index without pictures. The quietest; the writing carries it
+function TextOnly({ projects }: { projects: Project[] }) {
+  return (
+    <ul className="flex flex-col divide-y divide-quiet-rule border-y border-quiet-rule">
+      {projects.map((project) => (
+        <li key={project.path}>
+          <Link href={`/portfolio/${project.path}`} className="group flex flex-col gap-1 py-5">
+            <TitleLine project={project} size="text-2xl" />
+            {project.hoverDescription && <span className={DESCRIPTION}>{project.hoverDescription}</span>}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// 5. The first project as a lead, its picture large beside its text, then the rest as a text index.
+// Puts the strongest piece first, so order the list by strength
+function LeadAndIndex({ projects }: { projects: Project[] }) {
+  const [lead, ...rest] = projects;
+  return (
+    <div className="flex flex-col gap-12">
+      <Link href={`/portfolio/${lead.path}`} className="group grid items-center gap-6 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:gap-12">
+        <Thumbnail project={lead} sizes="(min-width: 768px) 540px, 100vw" />
+        <span className="flex flex-col gap-2">
+          <TitleLine project={lead} size="text-[2rem]" />
+          {lead.hoverDescription && <span className={DESCRIPTION}>{lead.hoverDescription}</span>}
+        </span>
+      </Link>
+      <TextOnly projects={rest} />
+    </div>
+  );
+}
+
+// 6. A ledger, like a bibliography: the year in its own column first, then the title and
+// description, then a small picture at the right edge. On phones the year goes above the title
+function Ledger({ projects }: { projects: Project[] }) {
+  return (
+    <ul className="flex flex-col divide-y divide-quiet-rule border-y border-quiet-rule">
+      {projects.map((project) => (
+        <li key={project.path}>
+          <Link
+            href={`/portfolio/${project.path}`}
+            className="group grid grid-cols-[minmax(0,1fr)_5rem] items-start gap-x-6 gap-y-1 py-5 md:grid-cols-[8rem_minmax(0,1fr)_6rem]"
+          >
+            {/* With no year it still holds the first column from md up, but takes no line on phones */}
+            <span className={`${YEAR} col-span-2 pt-1.5 md:col-span-1 ${project.year ? "" : "hidden md:block"}`}>{project.year}</span>
+            <span className="flex flex-col gap-1">
+              <span className={`${TITLE} text-2xl`}>{project.title}</span>
               {project.hoverDescription && <span className={DESCRIPTION}>{project.hoverDescription}</span>}
             </span>
+            <Thumbnail project={project} sizes="96px" />
           </Link>
         </li>
       ))}
@@ -134,6 +197,9 @@ export default function SelectedWork({ title, projects }: SelectedWorkProps) {
       {current === "index" && <IndexWithPreview projects={projects} />}
       {current === "compact" && <CompactList projects={projects} />}
       {current === "grid" && <CardGrid projects={projects} />}
+      {current === "text" && <TextOnly projects={projects} />}
+      {current === "lead" && <LeadAndIndex projects={projects} />}
+      {current === "ledger" && <Ledger projects={projects} />}
 
       {/* The temporary layout switch */}
       <button
