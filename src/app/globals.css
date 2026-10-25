@@ -47,11 +47,15 @@ body {
 /* Text the slime shows through. The box is paper and the letters are black; lighten keeps
    whichever is lighter of this and what's behind it. The slime is darker than the paper, so the box
    stays paper while the black letters give way to the slime. Nothing between this and the slime
-   canvas may have a background, or the letters show that instead (see Band) */
+   canvas may have a background, or the letters show that instead (see Band).
+   The backdrop filter stretches the slime's contrast behind the letters only, so its veins read
+   clearly: the palest slime lands just under the paper (about 0.93 at most, against the paper's
+   0.96, so it never shows around the letters) and the veins fall to about a third of that */
 .slime-letters {
   background: var(--quiet-paper);
   color: #000;
   mix-blend-mode: lighten;
+  backdrop-filter: brightness(0.8) contrast(2);
 }
 
 /* The same text laid over .slime-letters, tinting the slime in its letters with the link green.
