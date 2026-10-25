@@ -1,40 +1,38 @@
 // src/components/ui/Card.tsx
 import type { ReactNode } from "react";
-import TitleBar from "./title-bar";
 
 type CardProps = {
-  windowTitle?: string, // shown in a title bar across the top. Leave out for no title bar
   eyebrow?: string,
   title?: string;
   description?: string | string[], // an array shows each entry as its own paragraph
   children?: ReactNode,
-  // Two columns with no visible divide: title and description on the left, children on the right
+  // Two panels, like The Bard's Tale's screen: children in the viewport on the left,
+  // title and description in the text window on the right
   split?: boolean,
-  // No window frame of its own, for a section inside a shared window
+  // No frame of its own, for panels inside a shared frame
   bare?: boolean
 };
 
-export default function Card({ windowTitle, eyebrow, title, description, children, split, bare }: CardProps) {
+export default function Card({ eyebrow, title, description, children, split, bare }: CardProps) {
   // A split card is the page's hero, so its title is the page heading
   const Heading = split ? "h1" : "h3";
 
   const text = (
     <>
-      {eyebrow && <p className="text-sm font-medium text-ink/70">{eyebrow}</p>}
+      {eyebrow && <p className="text-xl text-c64-grey">{eyebrow}</p>}
       {title && (
         <Heading
-          className={`font-semibold text-slime text-balance ${
-            split ? "text-3xl md:text-4xl leading-[1.1] tracking-[-0.8px]" : "text-2xl leading-[1.2] tracking-[-0.48px]"
+          className={`text-c64-yellow text-balance ${
+            split ? "text-[36px] md:text-[44px] leading-[1.05]" : "text-[32px] leading-[1.1]"
           }`}
         >
           {title}
         </Heading>
       )}
       {description && (
-        <div className="flex flex-col gap-4 max-w-[65ch]">
+        <div className="flex flex-col gap-4 max-w-[60ch]">
           {[description].flat().map((paragraph) => (
-            // Serif body text gets more leading than sans would
-            <p key={paragraph} className="text-lg leading-[1.6] text-ink text-pretty">
+            <p key={paragraph} className="text-[22px] leading-[1.35] text-c64-white text-pretty">
               {paragraph}
             </p>
           ))}
@@ -43,26 +41,17 @@ export default function Card({ windowTitle, eyebrow, title, description, childre
     </>
   );
 
-  return (
-    <div className={bare ? "" : "win-raised bg-face p-[3px] text-ink"}>
-      {windowTitle && <TitleBar title={windowTitle} />}
-      {/* The window face shows around a sunken paper well, where the reading happens */}
-      <div className="p-2 md:p-3">
-        <div className={`win-sunken bg-paper ${split ? "grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-8 md:gap-10 items-center md:p-10" : "flex flex-col gap-4"} p-6`}>
-          {split ? (
-            <>
-              <div className="flex flex-col gap-5">{text}</div>
-              {/* Right half shows first when stacked on small screens */}
-              <div className="order-first md:order-none">{children}</div>
-            </>
-          ) : (
-            <>
-              {text}
-              {children && <div>{children}</div>}
-            </>
-          )}
-        </div>
-      </div>
+  const panels = split ? (
+    <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-2">
+      <div className="panel p-3">{children}</div>
+      <div className="panel flex flex-col justify-center gap-5 p-6 md:p-8">{text}</div>
+    </div>
+  ) : (
+    <div className="panel flex flex-col gap-4 p-6">
+      {text}
+      {children && <div>{children}</div>}
     </div>
   );
+
+  return bare ? panels : <div className="frame">{panels}</div>;
 }

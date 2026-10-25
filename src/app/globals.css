@@ -4,71 +4,55 @@
    SlimeSettings.ts), so the page doesn't flash white before the animation fades in. */
 :root {
   --background: #99855a;
-  --foreground: #ededed;
+  --foreground: #ffffff;
 
-  /* 90s Windows palette, in dark brown and white to match the snakeskin slime */
-  --win-accent: #2e1f0f;       /* the slime's trail colour */
-  --win-accent-light: #6b4f2a;
-  --win-highlight: #ffffff;
-  --win-light: #efe7d6;
-  --win-shadow: #8a7550;
-  --win-dark: #1f1408;
-
-  /* Window chrome takes a tan face from the slime palette, where Windows 98 used grey.
-     Reading happens on paper, in sunken wells */
-  --win-face: #cfc3a3;
-  --win-paper: #fbf8f1;
-  --win-ink: #1f1408;
+  /* A slice of the Commodore 64 palette. Its orange and brown sit right beside the slime's own colours */
+  --c64-black: #000000;   /* panels, like the screen in The Bard's Tale */
+  --c64-white: #ffffff;   /* body text */
+  --c64-grey: #959595;    /* secondary text */
+  --c64-yellow: #b8c76f;  /* names and headings */
+  --c64-cyan: #70a4b2;    /* the selection bar */
+  --c64-orange: #6f4f25;  /* the frame */
+  --c64-brown: #433900;   /* the frame's inner edges */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-face: var(--win-face);
-  --color-paper: var(--win-paper);
-  --color-ink: var(--win-ink);
-  --color-slime: var(--win-accent);
-  --font-serif: var(--font-fraunces);
-  --font-mono: var(--font-plex-mono);
+  --color-c64-black: var(--c64-black);
+  --color-c64-white: var(--c64-white);
+  --color-c64-grey: var(--c64-grey);
+  --color-c64-yellow: var(--c64-yellow);
+  --color-c64-cyan: var(--c64-cyan);
+  --color-c64-orange: var(--c64-orange);
+  --color-c64-brown: var(--c64-brown);
+  /* VT323 for everything, the pixel blackletter only for names and section titles */
+  --font-pixel: var(--font-vt323);
+  --font-gothic: var(--font-bastarda);
 }
 
-/* The machine speaks in mono (chrome, menus), the writer in serif (everything else) */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-fraunces), Georgia, serif;
-  /* Fraunces' SOFT axis rounds its corners: 0 is crisp, 100 is fully soft. Halfway keeps it organic but professional */
-  font-variation-settings: "SOFT" 50;
+  font-family: var(--font-vt323), monospace;
 }
 
-/* Windows 98's dotted focus rectangle */
+/* A thick solid outline, like a cursor block */
 :focus-visible {
-  outline: 2px dotted currentColor;
-  outline-offset: -4px;
+  outline: 4px solid var(--c64-yellow);
+  outline-offset: 0;
 }
 
-/* Raised 3D edge, lit from the top left: windows, buttons, menus */
-.win-raised {
-  border: 2px solid;
-  border-color: var(--win-highlight) var(--win-dark) var(--win-dark) var(--win-highlight);
-  box-shadow: inset 1px 1px 0 var(--win-light), inset -1px -1px 0 var(--win-shadow);
+/* The screen frame: orange, edged in brown, with a black outer line. Its padding and the gaps
+   between panels show the orange, so panels look cut into one frame rather than floating */
+.frame {
+  background: var(--c64-orange);
+  padding: 8px;
+  box-shadow: 0 0 0 4px var(--c64-brown), 0 0 0 8px var(--c64-black);
 }
 
-/* Sunken 3D edge: image frames and pressed buttons */
-.win-sunken {
-  border: 2px solid;
-  border-color: var(--win-shadow) var(--win-highlight) var(--win-highlight) var(--win-shadow);
-  box-shadow: inset 1px 1px 0 var(--win-dark), inset -1px -1px 0 var(--win-light);
-}
-
-/* Window title bar: a Windows 98 style gradient, dark to lighter brown */
-.win-titlebar {
-  display: flex;
-  align-items: center;
-  padding: 6px 10px;
-  background: linear-gradient(90deg, var(--win-accent), var(--win-accent-light));
-  color: #fff;
-  font-family: var(--font-plex-mono), monospace;
-  font-size: 1rem; /* same as the site title in the navbar */
-  font-weight: 700;
+/* A black panel inside the frame, with a brown inner edge */
+.panel {
+  background: var(--c64-black);
+  box-shadow: inset 0 0 0 4px var(--c64-brown);
 }
