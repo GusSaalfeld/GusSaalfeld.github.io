@@ -50,7 +50,7 @@ export const ProjectList: Project[] = [
     {
         path: "growing-mushrooms",
         title: "How to grow oyster mushrooms at home",
-        hoverDescription: "",
+        hoverDescription: "A how-to guide that walks beginners through growing oyster mushrooms at home.",
         thumbnail: "/placeholders/growing-mushrooms.jpg",
         year: "2026",
         category: "How-to guide"
