@@ -32,6 +32,14 @@ body {
   font-family: var(--font-source-serif), Georgia, serif;
 }
 
+/* The page's one column, centred: wide enough for the intro's text and photo side by side.
+   The text inside stays left-aligned. Sections pad the screen's edges themselves */
+@utility column {
+  width: 100%;
+  max-width: 58rem;
+  margin-inline: auto;
+}
+
 :focus-visible {
   outline: 2px solid var(--quiet-link);
   outline-offset: 3px;

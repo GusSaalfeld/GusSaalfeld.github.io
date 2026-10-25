@@ -12,7 +12,7 @@ type CardProps = {
 export default function Card({ title, description, children }: CardProps) {
   return (
     <section className="bg-quiet-paper border-t border-quiet-rule px-6 md:px-12 py-12">
-      <div className={`grid gap-8 md:gap-12 ${children ? "md:grid-cols-[minmax(0,62ch)_minmax(0,18rem)]" : ""}`}>
+      <div className={`column grid gap-8 md:gap-12 ${children ? "md:grid-cols-[minmax(0,62ch)_minmax(0,18rem)]" : ""}`}>
         <div className="flex flex-col gap-5">
           {title && (
             <h2 className="max-w-[24ch] font-sans text-[1.75rem] md:text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink text-balance">

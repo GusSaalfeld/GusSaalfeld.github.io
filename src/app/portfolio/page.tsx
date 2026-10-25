@@ -8,12 +8,14 @@ export default function Portfolio() {
   return (
     <>
       <header className="bg-quiet-paper px-6 md:px-12 pt-12 md:pt-20 pb-16">
-        <h1 className="font-sans text-[clamp(2.5rem,7.5vw,6.5rem)] font-bold leading-[0.95] tracking-[-0.025em] text-quiet-ink">
-          Augustus Saalfeld
-        </h1>
-        <p className="mt-8 font-sans text-xl md:text-2xl text-quiet-muted">
-          Tech & science writer
-        </p>
+        <div className="column">
+          <h1 className="font-sans text-[clamp(2.5rem,7.5vw,6.5rem)] font-bold leading-[0.95] tracking-[-0.025em] text-quiet-ink">
+            Augustus Saalfeld
+          </h1>
+          <p className="mt-8 font-sans text-xl md:text-2xl text-quiet-muted">
+            Tech & science writer
+          </p>
+        </div>
       </header>
       <SlimeBanner />
       <Card title="Writer with a background in software, storytelling, and user testing." description={[
