@@ -24,10 +24,10 @@ const slimeSettings = {
   trailResolution: 320,
   numAgents: 10000,
   displayFilter: "pixelated" as const,
-  // Colours sampled from the hero photo, dark to light: bare ground is mud (#7e724c, matching
-  // --background in globals.css), and the trail passes through seaweed (#848947) and water (#adcfe6)
-  // to ripples (#e2f4fa) where it's strongest
-  backgroundColour: [0.494, 0.447, 0.298] as RGB,
+  // Colours from the hero photo: the background is the water's hue at a darker slate (#4d7999, matching
+  // --background in globals.css), so the light trail colours stand out against it. The trail passes
+  // through seaweed (#848947) and water (#adcfe6) to ripples (#e2f4fa) where it's strongest
+  backgroundColour: [0.302, 0.475, 0.6] as RGB,
   trailPalette: [
     [0.518, 0.537, 0.278],
     [0.678, 0.812, 0.902],
