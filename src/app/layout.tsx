@@ -8,8 +8,7 @@ import type { RGB } from "@/app/lib/slime/SlimeSettings";
 const archivo = Archivo({ subsets: ["latin"], axes: ["wdth"], variable: "--font-archivo" });
 const sourceSerif = Source_Serif_4({ subsets: ["latin"], axes: ["opsz"], variable: "--font-source-serif" });
 
-// The slime only shows through the letters of the name (.slime-letters), so it's sized for that:
-// fresh greens on deep green, smooth, every colour darker than the paper as .slime-letters needs
+// The slime only shows in the two banners around the content (SlimeBanner): fresh greens on deep green, smooth
 const slimeSettings = {
   respawnRate: 0.05,
   warmupSeconds: 3,

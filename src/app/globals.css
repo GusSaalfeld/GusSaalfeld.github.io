@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 /* The same in both color schemes. A cool, faintly green paper, deep green ink, and one slime green
-   for links. Everything is opaque except the name, the one place the slime shows (.slime-letters). */
+   for links. Everything is opaque paper except the slime banners (SlimeBanner), the only places the
+   slime shows. */
 :root {
   --background: #f3f5f2;
   --foreground: #1d2a22;
@@ -35,14 +36,4 @@ body {
   outline: 2px solid var(--quiet-link);
   outline-offset: 3px;
   border-radius: 2px;
-}
-
-/* Text the slime shows through. The box is paper and the letters are black; lighten keeps
-   whichever is lighter of this and what's behind it. The slime is darker than the paper, so the
-   box stays paper while the black letters give way to the slime behind them. Nothing between
-   this and the slime canvas may have a background, or the letters show that instead */
-.slime-letters {
-  background: var(--quiet-paper);
-  color: #000;
-  mix-blend-mode: lighten;
 }
