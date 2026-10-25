@@ -28,8 +28,9 @@ export default function Portfolio() {
       <Band className={`pt-6 ${SECTION_GAP}`}>
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-12">
           {/* Set in the reading face, as the first line of the writing. Room for two sentences,
-              about 30 to 45 words: three lines from md up, at 52 characters beside the buttons */}
-          <p className="max-w-[44ch] md:max-w-[52ch] text-2xl leading-[1.4] text-quiet-ink text-pretty">
+              about 30 to 45 words, at up to 52 characters beside the buttons. A step down the type
+              scale on short screens, to 20px */}
+          <p className="max-w-[44ch] md:max-w-[52ch] text-2xl short:text-xl leading-[1.4] text-quiet-ink text-pretty">
             As a programmer turned writer, I explain complex topics clearly. I write documentation that
             helps people use software, and articles that help your research reach a wider audience.
           </p>
