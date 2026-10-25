@@ -13,25 +13,38 @@
   --win-light: #efe7d6;
   --win-shadow: #8a7550;
   --win-dark: #1f1408;
+
+  /* Window chrome takes a tan face from the slime palette, where Windows 98 used grey.
+     Reading happens on paper, in sunken wells */
+  --win-face: #cfc3a3;
+  --win-paper: #fbf8f1;
+  --win-ink: #1f1408;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-plex-sans);
+  --color-face: var(--win-face);
+  --color-paper: var(--win-paper);
+  --color-ink: var(--win-ink);
+  --color-slime: var(--win-accent);
   --font-serif: var(--font-fraunces);
   --font-mono: var(--font-plex-mono);
 }
 
+/* The machine speaks in mono (chrome, menus), the writer in serif (everything else) */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-plex-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-fraunces), Georgia, serif;
+  /* Fraunces' SOFT axis rounds its corners: 0 is crisp, 100 is fully soft. Halfway keeps it organic but professional */
+  font-variation-settings: "SOFT" 50;
 }
 
-/* Fraunces' SOFT axis rounds its corners: 0 is crisp, 100 is fully soft. Halfway keeps it organic but professional */
-.font-serif {
-  font-variation-settings: "SOFT" 50;
+/* Windows 98's dotted focus rectangle */
+:focus-visible {
+  outline: 2px dotted currentColor;
+  outline-offset: -4px;
 }
 
 /* Raised 3D edge, lit from the top left: windows, buttons, menus */

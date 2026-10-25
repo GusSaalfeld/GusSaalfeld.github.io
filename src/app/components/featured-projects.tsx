@@ -1,32 +1,33 @@
-// src/components/ui/Card.tsx
-import type { ReactNode } from "react";
-import ProjectIcon from "./project-icon";
+import ProjectRow from "./project-row";
+import type { Project } from "@/app/types";
 
-type CardProps = {
+type FeaturedProjectsProps = {
   title?: string;
-  description?: string,
   projects: Project[],
   // No window frame of its own, for a section inside a shared window
   bare?: boolean,
 };
 
-export default function FeaturedProjects({ title, description, projects, bare }: CardProps) {
+// Projects as a details list, like Windows Explorer's Details view
+export default function FeaturedProjects({ title, projects, bare }: FeaturedProjectsProps) {
   return (
-    <div className={bare ? "" : "win-raised bg-white p-[3px] text-black"}>
-      <h2 className="px-8 pt-8 font-serif text-2xl font-semibold leading-[1.2] tracking-[-0.48px] text-[var(--win-accent)]">
-        {title ?? "Featured Projects"}
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 p-8">
-        {projects.map((proj, i) => (
-          <ProjectIcon
-            key={proj.path}
-            path={proj.path}
-            title={proj.title}
-            hoverDescription={proj.hoverDescription}
-            iconPath={proj.iconPath}
-            wide={projects.length % 2 === 1 && i === projects.length - 1}
-          />
-        ))}
+    <div className={bare ? "" : "win-raised bg-face p-[3px] text-ink"}>
+      <div className="px-2 pb-2 md:px-3 md:pb-3">
+        <div className="win-sunken bg-paper p-2 md:p-4">
+          <h2 className="px-4 pt-4 pb-4 text-2xl font-semibold leading-[1.2] tracking-[-0.48px] text-slime">
+            {title ?? "Featured projects"}
+          </h2>
+          {/* Column headers, as raised buttons. Hidden from screen readers, since each row's link already reads as title then description */}
+          <div aria-hidden className="hidden sm:grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] font-mono text-sm font-semibold text-ink">
+            <span className="win-raised bg-face px-4 py-1">Name</span>
+            <span className="win-raised bg-face px-4 py-1">Description</span>
+          </div>
+          <ul className="flex flex-col py-1">
+            {projects.map((proj) => (
+              <ProjectRow key={proj.path} {...proj} />
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

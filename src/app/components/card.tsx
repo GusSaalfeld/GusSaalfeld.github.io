@@ -20,10 +20,10 @@ export default function Card({ windowTitle, eyebrow, title, description, childre
 
   const text = (
     <>
-      {eyebrow && <p className="text-sm font-medium tracking-[-0.09px] text-[rgba(0,0,0,0.55)]">{eyebrow}</p>}
+      {eyebrow && <p className="text-sm font-medium text-ink/70">{eyebrow}</p>}
       {title && (
         <Heading
-          className={`font-serif font-semibold text-[var(--win-accent)] text-balance ${
+          className={`font-semibold text-slime text-balance ${
             split ? "text-3xl md:text-4xl leading-[1.1] tracking-[-0.8px]" : "text-2xl leading-[1.2] tracking-[-0.48px]"
           }`}
         >
@@ -31,9 +31,10 @@ export default function Card({ windowTitle, eyebrow, title, description, childre
         </Heading>
       )}
       {description && (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4 max-w-[65ch]">
           {[description].flat().map((paragraph) => (
-            <p key={paragraph} className="text-lg font-medium leading-[1.45] tracking-[-0.09px] text-[rgba(0,0,0,0.7)] text-pretty">
+            // Serif body text gets more leading than sans would
+            <p key={paragraph} className="text-lg leading-[1.6] text-ink text-pretty">
               {paragraph}
             </p>
           ))}
@@ -43,21 +44,24 @@ export default function Card({ windowTitle, eyebrow, title, description, childre
   );
 
   return (
-    <div className={bare ? "" : "win-raised bg-white p-[3px] text-black"}>
+    <div className={bare ? "" : "win-raised bg-face p-[3px] text-ink"}>
       {windowTitle && <TitleBar title={windowTitle} />}
-      <div className={`${split ? "grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-8 md:gap-10 items-center md:p-10" : "flex flex-col gap-4"} p-8`}>
-        {split ? (
-          <>
-            <div className="flex flex-col gap-5">{text}</div>
-            {/* Right half shows first when stacked on small screens */}
-            <div className="order-first md:order-none">{children}</div>
-          </>
-        ) : (
-          <>
-            {text}
-            {children && <div>{children}</div>}
-          </>
-        )}
+      {/* The window face shows around a sunken paper well, where the reading happens */}
+      <div className="p-2 md:p-3">
+        <div className={`win-sunken bg-paper ${split ? "grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-8 md:gap-10 items-center md:p-10" : "flex flex-col gap-4"} p-6`}>
+          {split ? (
+            <>
+              <div className="flex flex-col gap-5">{text}</div>
+              {/* Right half shows first when stacked on small screens */}
+              <div className="order-first md:order-none">{children}</div>
+            </>
+          ) : (
+            <>
+              {text}
+              {children && <div>{children}</div>}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
