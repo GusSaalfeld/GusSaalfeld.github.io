@@ -23,7 +23,7 @@ export const ProjectList: Project[] = [
     {
         path: "barista-training",
         title: "Barista training manual",
-        hoverDescription: "A training manual for new baristas at my workplace that [what it changed for them].",
+        hoverDescription: "A training manual that my cafe used to train new baristas.",
         thumbnail: "/placeholders/barista-training.jpg",
         year: "2026"
     },
