@@ -29,8 +29,8 @@ const slimeSettings = {
   // photo's greens, faint to strong
   backgroundColour: [0.302, 0.475, 0.6] as RGB,
   speciesPalettes: [
-    // Seaweed, a light network: olive from the flats (#848947) to sunlit algae (#aec29d)
-    [[0.518, 0.537, 0.278], [0.682, 0.761, 0.616]],
+    // Seaweed, a light network in vibrant greens: leaf green (#6eb530) to bright spring green (#a3e363)
+    [[0.433, 0.711, 0.189], [0.64, 0.892, 0.388]],
     // Moss, a dark network: mid moss (#405f28) to the shadowed moss on the pilings (#132c0c)
     [[0.251, 0.373, 0.157], [0.075, 0.173, 0.047]],
   ] as RGB[][],
