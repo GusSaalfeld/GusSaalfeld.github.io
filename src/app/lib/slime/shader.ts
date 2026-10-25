@@ -187,8 +187,8 @@ export const displayFrag = /* glsl */ `#version 300 es
 precision highp float;
 precision highp sampler2D;
 uniform sampler2D uTrail;
-uniform vec3 uBackground;
-uniform vec3 uColour;
+uniform vec3 uStops[8];     // the background, then the trail colours from faint to strong (MAX_TRAIL_PALETTE + 1)
+uniform int uStopCount;     // how many of uStops are in use, at least 2
 uniform int uPixelated;     // 1 = nearest texel (blocky), 0 = Catmull-Rom bicubic (smooth and crisp)
 uniform float uSteps;       // 0 = smooth blend, n = n distinct shades above the background
 in vec2 vUv;
@@ -233,7 +233,10 @@ void main() {
     float t = clamp(raw, 0.0, 1.0); // Catmull-Rom can overshoot slightly at sharp edges
     // Snap to even steps. Faint trail below the first step stays background, and the min lets a full trail reach the top step
     if (uSteps > 0.0) t = min(floor(t * (uSteps + 1.0)), uSteps) / uSteps;
-    fragColor = vec4(mix(uBackground, uColour, t), 1.0);
+    // Walk the colour stops: t picks a pair of neighbours and blends between them
+    float x = t * float(uStopCount - 1);
+    int i = min(int(x), uStopCount - 2);
+    fragColor = vec4(mix(uStops[i], uStops[i + 1], x - float(i)), 1.0);
 }`;
 
 // 

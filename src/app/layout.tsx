@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import Header from "@/app/components/header";
 import FontToggle from "@/app/components/font-toggle";
 import SlimeCanvas from "@/app/components/slime-canvas";
+import type { RGB } from "@/app/lib/slime/SlimeSettings";
 
 // Pixel font candidates for names, headings and the menu, switched with FontToggle (see globals.css):
 // Workbench, after the Amiga's interface font; IBM VGA 8x16, the DOS PC's own (CC BY-SA 4.0, VileR,
@@ -23,13 +24,19 @@ const slimeSettings = {
   trailResolution: 320,
   numAgents: 10000,
   displayFilter: "pixelated" as const,
-  // Greens, like moss on the pier: a dark moss background (#1f2e16, matching --background
-  // in globals.css), then the trail in even steps up to lichen green (#9cc25a)
-  backgroundColour: [0.12, 0.18, 0.086] as [number, number, number],
+  // Colours sampled from the hero photo, dark to light: bare ground is mud (#7e724c, matching
+  // --background in globals.css), and the trail passes through seaweed (#848947) and water (#adcfe6)
+  // to ripples (#e2f4fa) where it's strongest
+  backgroundColour: [0.494, 0.447, 0.298] as RGB,
+  trailPalette: [
+    [0.518, 0.537, 0.278],
+    [0.678, 0.812, 0.902],
+    [0.886, 0.957, 0.98],
+  ] as RGB[],
   colourSteps: 0,
   agent: {
     moveSpeed: 3.5, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 6, sensorSize: 0,
-    colour: [0.61, 0.76, 0.35] as [number, number, number],
+    colour: [0.886, 0.957, 0.98] as RGB, // only shows when drawing agents as dots
   },
 };
 

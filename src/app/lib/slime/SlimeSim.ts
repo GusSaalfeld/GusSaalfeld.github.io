@@ -6,7 +6,7 @@ import {
   agentsOnlyVert, agentsOnlyFrag,
 } from "./shader";
 import {
-  SlimeSettings, mergeSettings, SPAWN_MODE_INDEX,
+  SlimeSettings, mergeSettings, SPAWN_MODE_INDEX, MAX_TRAIL_PALETTE,
 } from "./SlimeSettings";
 
 // Phones resize the page a little whenever the address bar slides in or out. A change
@@ -82,7 +82,7 @@ export class SlimeSim {
       uDecayRate: { value: 0 }, uTrailCap: { value: 1 },
     });
     this.display = pass(displayFrag, {
-      uTrail: { value: null }, uBackground: { value: [0, 0, 0] }, uColour: { value: [1, 1, 1] },
+      uTrail: { value: null }, uStops: { value: [[0, 0, 0], [1, 1, 1]] }, uStopCount: { value: 2 },
       uPixelated: { value: 0 }, uSteps: { value: 0 },
     });
 
@@ -302,8 +302,10 @@ export class SlimeSim {
     } else {
       const u = this.display.program.uniforms;
       u.uTrail.value = this.trailA.texture;
-      u.uBackground.value = settings.backgroundColour;
-      u.uColour.value = settings.agent.colour;
+      const trail = settings.trailPalette.length ? settings.trailPalette : [settings.agent.colour];
+      const stops = [settings.backgroundColour, ...trail.slice(0, MAX_TRAIL_PALETTE)];
+      u.uStops.value = stops;
+      u.uStopCount.value = stops.length;
       u.uPixelated.value = settings.displayFilter === "pixelated" ? 1 : 0;
       u.uSteps.value = settings.colourSteps;
       this.renderer.render({ scene: this.display });
