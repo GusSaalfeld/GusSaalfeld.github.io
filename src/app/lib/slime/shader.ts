@@ -219,6 +219,10 @@ uniform float uFishSwimming; // 1 while a fish is crossing
 uniform float uFishSize;     // half its length
 uniform vec3 uFishColour;
 uniform vec3 uOutline;
+// The torch (TorchSettings). uLight is in trail texels
+uniform vec2 uLight;
+uniform vec4 uTorch;         // radius, ambient, creature ambient, 1 = on
+uniform vec3 uTorchColour;
 in vec2 vUv;
 out vec4 fragColor;
 
@@ -323,9 +327,11 @@ void main() {
     // Starfish on top. When pixelated, test each texel's centre so they're drawn in whole texels like the slime
     vec2 p = vUv * vec2(textureSize(uTrail, 0));
     if (uPixelated == 1) p = floor(p) + 0.5;
+    bool creature = false; // whether this pixel shows a creature, for the torch
     for (int k = 0; k < ${MAX_CREATURES}; k++) {
         if (float(k) >= uStarfishCount) break;
         float d = starfish(p, uStarfish[k], uStarfishSize);
+        if (d <= 1.0) creature = true;
         if (d <= 0.0) colour = uStarfishColour;
         else if (d <= 1.0) colour = uOutline;
     }
@@ -333,8 +339,17 @@ void main() {
     if (uFishSwimming > 0.5) {
         bool eye;
         float d = fish(p, uFish, uFishSize, eye);
+        if (d <= 1.0) creature = true;
         if (d <= 0.0) colour = eye ? uOutline : uFishColour;
         else if (d <= 1.0) colour = uOutline;
+    }
+
+    // The torch: full brightness in the light, fading over its outer two thirds to the ambient
+    // level, plus a faint warm tint. Creatures fall darker than the slime outside it
+    if (uTorch.w > 0.5) {
+        float lit = 1.0 - smoothstep(uTorch.x * 0.35, uTorch.x, distance(p, uLight));
+        float ambient = creature ? uTorch.z : uTorch.y;
+        colour = colour * mix(ambient, 1.0, lit) + uTorchColour * 0.12 * lit;
     }
     fragColor = vec4(colour, 1.0);
 }`;

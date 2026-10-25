@@ -22,6 +22,10 @@ const MAX_FRAME_SECONDS = 0.05; // after a stall (hidden tab), catch up at most 
 const WARMUP_STEPS_PER_FRAME = 60;
 const WARMUP_FADE_SECONDS = 4; // fade-in once the warmup finishes
 
+// After this long without pointer movement, the torch drifts on its own
+const POINTER_IDLE_MS = 4000;
+const LIGHT_FOLLOW_RATE = 6; // how quickly the light catches up with its target, per second
+
 export class SlimeSim {
   // Edit these at any time. Live settings apply on the next step. For structural ones
   // (agent count, trail resolution, spawn mode) use updateSettings().
@@ -43,6 +47,11 @@ export class SlimeSim {
   private agentsOnly: Mesh;
   private agentGeometry!: Geometry; // one point per agent, shared by deposit and agentsOnly
   private creatures = new Creatures(); // starfish, drawn by the display pass
+  // The torch's light, 0..1 of the canvas with y up. It eases toward the pointer, or drifts when
+  // the pointer hasn't moved for POINTER_IDLE_MS
+  private light = { x: 0.5, y: 0.5 };
+  private pointer: { x: number; y: number; time: number } | null = null;
+  private driftTime = 0;
 
   private cssWidth: number;
   private cssHeight: number;
@@ -95,6 +104,7 @@ export class SlimeSim {
       uStarfish: { value: new Array(MAX_CREATURES * 4).fill(0) }, uStarfishCount: { value: 0 },
       uStarfishSize: { value: 0 }, uStarfishColour: { value: [0, 0, 0] }, uOutline: { value: [0, 0, 0] },
       uFish: { value: [0, 0, 1, 0] }, uFishSwimming: { value: 0 }, uFishSize: { value: 0 }, uFishColour: { value: [0, 0, 0] },
+      uLight: { value: [0, 0] }, uTorch: { value: [0, 1, 1, 0] }, uTorchColour: { value: [0, 0, 0] },
     });
 
     // Deposit and agentsOnly draw one point per agent. The geometry only supplies each point's index.
@@ -251,6 +261,7 @@ export class SlimeSim {
     // Creatures run on real time, not the simulation's timeScale
     this.creatures.sync(this.settings.creatures, this.trailA.width, this.trailA.height);
     this.creatures.update(Math.min(elapsed / 1000, MAX_FRAME_SECONDS), this.settings.creatures, this.trailA.width);
+    this.moveLight(Math.min(elapsed / 1000, MAX_FRAME_SECONDS), now);
 
     const { fixedTimeStep, stepsPerFrame } = this.settings;
     this.owed += Math.min(elapsed / 1000, MAX_FRAME_SECONDS) / Math.max(fixedTimeStep, 1e-4);
@@ -355,10 +366,34 @@ export class SlimeSim {
       u.uFishSwimming.value = fish.swimming ? 1 : 0;
       u.uFishSize.value = creatures.fishSize;
       u.uFishColour.value = creatures.fishColour;
+
+      const { torch } = settings;
+      u.uLight.value = [this.light.x * width, this.light.y * height];
+      u.uTorch.value = [torch.radius, torch.ambient, torch.creatureAmbient, torch.enabled ? 1 : 0];
+      u.uTorchColour.value = torch.colour;
       u.uPixelated.value = settings.displayFilter === "pixelated" ? 1 : 0;
       u.uSteps.value = settings.colourSteps;
       this.renderer.render({ scene: this.display });
     }
+  }
+
+  // Where the pointer is, in CSS pixels from the canvas's top left. The torch follows it.
+  // width and height are the canvas's CSS size
+  setPointer(x: number, y: number, width: number, height: number) {
+    this.pointer = { x: x / width, y: 1 - y / height, time: performance.now() };
+  }
+
+  // Ease the light toward the pointer, or along a slow looping drift when the pointer is idle
+  private moveLight(dt: number, now: number) {
+    this.driftTime += dt;
+    const idle = !this.pointer || now - this.pointer.time > POINTER_IDLE_MS;
+    const t = this.driftTime;
+    const target = idle
+      ? { x: 0.5 + 0.32 * Math.sin(t * 0.21), y: 0.5 + 0.28 * Math.sin(t * 0.13 + 1) }
+      : this.pointer!;
+    const k = 1 - Math.exp(-dt * LIGHT_FOLLOW_RATE);
+    this.light.x += (target.x - this.light.x) * k;
+    this.light.y += (target.y - this.light.y) * k;
   }
 
   // Tell the simulation which parts of the canvas the page hides, as CSS pixel boxes measured from

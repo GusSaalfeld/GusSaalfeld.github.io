@@ -70,6 +70,10 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
     measureCovers();
     const coverTimer = window.setInterval(measureCovers, 500);
 
+    // The torch follows the pointer. The canvas fills the window, so client coordinates are canvas coordinates
+    const onPointerMove = (e: PointerEvent) => sim.setPointer(e.clientX, e.clientY, host.clientWidth, host.clientHeight);
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+
     let raf = 0;
     const loop = (now: number) => {
       sim.frame(now);
@@ -80,6 +84,7 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
     return () => {
       window.clearTimeout(timer);
       window.clearInterval(coverTimer);
+      window.removeEventListener("pointermove", onPointerMove);
       observer.disconnect();
       cancelAnimationFrame(raf);
       sim.dispose();

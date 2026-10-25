@@ -2,39 +2,32 @@
 import type { ReactNode } from "react";
 
 type CardProps = {
-  eyebrow?: string,
   title?: string;
   description?: string | string[], // an array shows each entry as its own paragraph
   children?: ReactNode,
-  // Two panels, like The Bard's Tale's screen: children in the viewport on the left,
-  // title and description in the text window on the right
+  // Two columns: children on the left (an image, usually), title and description on the right
   split?: boolean,
-  // No frame of its own, for panels inside a shared frame
-  bare?: boolean
 };
 
-export default function Card({ eyebrow, title, description, children, split, bare }: CardProps) {
-  // A split card is the page's hero, so its title is the page heading
-  const Heading = split ? "h1" : "h3";
+export default function Card({ title, description, children, split }: CardProps) {
+  // A split card introduces the page, under the hero's h1
+  const Heading = split ? "h2" : "h3";
 
   const text = (
     <>
-      {eyebrow && <p className="text-base text-dust">{eyebrow}</p>}
       {title && (
         <Heading
-          className={`font-pixel text-gold text-balance ${
-            split
-              ? "text-[length:var(--display-l-mobile)] md:text-[length:var(--display-l)] leading-[1.15]"
-              : "text-[length:var(--display-m)] leading-[1.2]"
+          className={`font-display font-semibold text-pool-moonlight text-balance tracking-[-0.01em] ${
+            split ? "text-[2rem] md:text-[2.5rem] leading-[1.1]" : "text-2xl leading-[1.2]"
           }`}
         >
           {title}
         </Heading>
       )}
       {description && (
-        <div className="flex flex-col gap-4 max-w-[60ch]">
+        <div className="flex flex-col gap-4 max-w-[62ch]">
           {[description].flat().map((paragraph) => (
-            <p key={paragraph} className="text-lg leading-[1.6] text-parchment text-pretty">
+            <p key={paragraph} className="text-lg leading-[1.6] text-pool-moonlight text-pretty">
               {paragraph}
             </p>
           ))}
@@ -43,17 +36,15 @@ export default function Card({ eyebrow, title, description, children, split, bar
     </>
   );
 
-  const panels = split ? (
-    <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-2">
-      <div className="panel p-3">{children}</div>
-      <div className="panel flex flex-col justify-center gap-5 p-6 md:p-8">{text}</div>
+  return split ? (
+    <div className="panel grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-10 items-center p-5 md:p-8">
+      <div>{children}</div>
+      <div className="flex flex-col gap-5">{text}</div>
     </div>
   ) : (
-    <div className="panel flex flex-col gap-4 p-6">
+    <div className="panel flex flex-col gap-4 p-6 md:p-8">
       {text}
       {children && <div>{children}</div>}
     </div>
   );
-
-  return bare ? panels : <div className="frame" data-slime-cover="column">{panels}</div>;
 }

@@ -16,20 +16,15 @@ const NavLinks = [
 export default function NavBar({ children}: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // A panel-coloured bar edged like the frame, all in the pixel face.
-  // Like an 80s game, nothing fades: the selection bar jumps
+  // A strip of night water, see-through enough to show the pool moving beneath it
   return (
-    <div data-slime-cover className="sticky top-0 z-50 flex items-center justify-between gap-4 px-6 md:px-8 py-3 bg-slime border-b-4 border-frame shadow-[0_4px_0_0_var(--rpg-frame-edge)] font-pixel text-[length:var(--display-s)] text-parchment">
-      {children && <div className="flex items-baseline gap-4 min-w-0">{children}</div>}
+    <div data-slime-cover className="sticky top-0 z-50 flex items-center justify-between gap-4 px-6 md:px-8 py-4 bg-pool-night/75 backdrop-blur-md border-b border-pool-edge text-pool-moonlight">
+      {children && <div className="min-w-0 truncate">{children}</div>}
 
       {/* Desktop links */}
-      <nav className="hidden md:flex gap-1">
+      <nav className="hidden md:flex gap-6">
         {NavLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="px-3 hover:bg-gold hover:text-slime"
-          >
+          <Link key={link.href} href={link.href} className="hover:text-pool-torch">
             {link.label}
           </Link>
         ))}
@@ -42,13 +37,13 @@ export default function NavBar({ children}: NavBarProps) {
         aria-expanded={menuOpen}
         aria-controls="mobile-menu"
         aria-label={menuOpen ? "Close menu" : "Open menu"}
-        className={`md:hidden shrink-0 p-2 border-4 border-frame ${menuOpen ? "bg-gold text-slime" : "bg-slime text-parchment"}`}
+        className="md:hidden shrink-0 p-2 -m-2 hover:text-pool-torch"
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="square" aria-hidden>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
           {menuOpen ? (
             <path d="M6 6l12 12M18 6L6 18" />
           ) : (
-            <path d="M4 6h16M4 12h16M4 18h16" />
+            <path d="M4 7h16M4 12h16M4 17h16" />
           )}
         </svg>
       </button>
@@ -57,14 +52,14 @@ export default function NavBar({ children}: NavBarProps) {
       {menuOpen && (
         <nav
           id="mobile-menu"
-          className="md:hidden absolute left-0 right-0 top-full mt-1 flex flex-col p-1 bg-slime border-y-4 border-frame"
+          className="md:hidden absolute left-0 right-0 top-full flex flex-col px-3 py-2 bg-pool-night/95 backdrop-blur-md border-b border-pool-edge"
         >
           {NavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="px-5 py-3 hover:bg-gold hover:text-slime"
+              className="px-3 py-3 rounded-lg hover:bg-pool-edge hover:text-pool-torch"
             >
               {link.label}
             </Link>

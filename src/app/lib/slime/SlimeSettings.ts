@@ -26,6 +26,16 @@ export interface CreatureSettings {
   outlineColour: RGB;         // a one-texel edge around each creature, and the fish's eye
 }
 
+// A torch: everything is dimmed except a circle of light that follows the pointer. With no recent
+// pointer movement (before the first move, or on touch screens) the light drifts on its own.
+export interface TorchSettings {
+  enabled: boolean;
+  radius: number;             // trail texels. The light fades out over the outer two thirds
+  ambient: number;            // brightness outside the light, 0..1
+  creatureAmbient: number;    // the same for the creatures. Lower than ambient, so they show mainly in the light
+  colour: RGB;                // a faint warm tint the light adds
+}
+
 // How the agents move and sense, and what colour their trail is.
 export interface AgentSettings {
   // Movement
@@ -72,6 +82,7 @@ export interface SlimeSettings {
                               // avoids the others', as in Lague's multi-species version. Empty = one species
                               // in the agent colour
   creatures: CreatureSettings;
+  torch: TorchSettings;
   agent: AgentSettings;
 }
 
@@ -104,6 +115,7 @@ export const defaultSettings: SlimeSettings = {
     fish: false, fishSize: 7, fishSpeed: 70, fishInterval: 5, fishColour: [0.56, 0.79, 0.94],
     outlineColour: [0.18, 0.12, 0.06],
   },
+  torch: { enabled: false, radius: 70, ambient: 0.35, creatureAmbient: 0.12, colour: [1, 0.78, 0.42] },
   agent: {
     moveSpeed: 7, turnSpeed: 2, sensorAngleSpacing: 30, sensorOffsetDst: 12, sensorSize: 0,
     colour: [0.18, 0.12, 0.06],
@@ -147,6 +159,7 @@ export function mergeSettings(overrides: Partial<SlimeSettings> = {}): SlimeSett
     speciesPalettes: (overrides.speciesPalettes ?? defaultSettings.speciesPalettes)
       .map((palette) => palette.map((c) => [...c] as RGB)),
     creatures: { ...defaultSettings.creatures, ...overrides.creatures },
+    torch: { ...defaultSettings.torch, ...overrides.torch },
     agent: { ...agent, colour: [...agent.colour] as RGB },
   };
 }
