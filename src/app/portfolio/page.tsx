@@ -33,8 +33,9 @@ export default function Portfolio() {
               about 30 to 45 words, at up to 52 characters beside the buttons. A step down the type
               scale on short screens, to 20px */}
           <p className="max-w-[44ch] md:max-w-[52ch] text-2xl short:text-xl leading-[1.4] text-quiet-ink text-pretty">
-            As a programmer turned writer, I explain complex topics clearly. I write documentation that
-            helps people use software, and articles that help your research reach a wider audience.
+            As a programmer turned writer, I can simplify technical topics for any purpose. I write
+            documentation that helps people use software, and articles that help research reach a wider
+            audience.
           </p>
           {/* The files go in public/ */}
           <div className="flex shrink-0 flex-wrap gap-3 md:flex-col">
