@@ -35,7 +35,7 @@ export const ProjectList: Project[] = [
     },
     {
         path: "capstone-project",
-        title: "Capstone project",
+        title: "Designing a customer feedback management (CFM) system for Dietrich College's DEI department",
         hoverDescription: "Using iterative design, user testing, and stakeholder interviews, I designed a feedback collection system still in use by Dietrich's DEI department at CMU.",
         thumbnail: "/placeholders/capstone-project.jpg",
         year: "2022",
