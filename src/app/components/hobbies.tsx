@@ -1,9 +1,7 @@
 import Image from "next/image";
 
-// Your photos are in /hobbies/. Those under /placeholders/ are stock photos from Picsum
-// (picsum.photos, Unsplash licence), standing in until your own are ready: replace each with your
-// photo and describe it in alt. focus places the crop (CSS object-position), for a photo whose
-// subject isn't at its centre
+// Your photos are in /hobbies/: describe each in alt. focus places the crop (CSS object-position),
+// for a photo whose subject isn't at its centre
 const HOBBIES: { name: string; caption: string; photo: string; alt: string; focus?: string }[] = [
   {
     name: "Rock climbing",
@@ -15,14 +13,16 @@ const HOBBIES: { name: string; caption: string; photo: string; alt: string; focu
   {
     name: "Growing mushrooms",
     caption: "Growing oyster mushrooms at home.",
-    photo: "/placeholders/hobby-nature.jpg",
-    alt: "Oyster mushrooms growing",
+    photo: "/hobbies/mushroom-growing.jpg",
+    alt: "Jars of grain with white oyster mushroom mycelium growing through them",
+    focus: "50% 48%", // the jars, lids and all
   },
   {
     name: "Painting miniatures",
     caption: "Painting Warhammer figurines.",
-    photo: "/placeholders/hobby-miniatures.jpg",
-    alt: "Painted Warhammer figurines",
+    photo: "/hobbies/warhammer-miniature.jpg",
+    alt: "A Warhammer figurine, part-painted in dark green, beside a paintbrush",
+    focus: "0% 65%", // the figurine, left of centre
   },
 ];
 
