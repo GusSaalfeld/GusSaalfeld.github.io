@@ -43,7 +43,8 @@ export default function Hobbies() {
       <p className="mt-6 max-w-[62ch] text-lg leading-[1.65] text-quiet-ink text-pretty">
         Here are some things I do in my free time.
       </p>
-      <ul className="mt-12 grid gap-12 sm:grid-cols-3 sm:gap-6">
+      {/* 24px under the sentence that introduces them, so it leads straight into them */}
+      <ul className="mt-6 grid gap-12 sm:grid-cols-3 sm:gap-6">
         {HOBBIES.map((hobby) => (
           <li key={hobby.name} className="flex flex-col">
             {/* Square, and 3:2 on phones so the three stacked take less than a screen. No edge:
