@@ -2,6 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/app/types";
 
+// A description with *asterisks* around words that should be italic, such as a book's title.
+// Splitting on the pattern alternates plain and italic runs: the odd pieces are the italic ones
+function withItalics(text: string) {
+  return text.split(/\*([^*]+)\*/).map((piece, i) => (i % 2 ? <em key={i}>{piece}</em> : piece));
+}
+
 type SelectedWorkProps = {
   title?: string;
   projects: Project[],
@@ -36,7 +42,7 @@ export default function SelectedWork({ title, projects }: SelectedWorkProps) {
                   {project.title}
                 </span>
                 {project.hoverDescription && (
-                  <span className="max-w-[62ch] text-lg leading-[1.55] text-quiet-muted">{project.hoverDescription}</span>
+                  <span className="max-w-[62ch] text-lg leading-[1.55] text-quiet-muted">{withItalics(project.hoverDescription)}</span>
                 )}
               </span>
               {project.thumbnail && (

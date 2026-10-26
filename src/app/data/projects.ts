@@ -6,7 +6,8 @@ import type { Project } from "@/app/types";
 // Each description is one sentence: what it is, who it was for, and what it achieved, in about
 // 15 to 20 words, like the barista manual's. The rest still need rewriting to that pattern.
 // Titles and categories are in sentence case: only the first word and proper nouns capitalised.
-// Lists of three or more take the Oxford comma: "a, b, and c"
+// Lists of three or more take the Oxford comma: "a, b, and c".
+// In a description, *asterisks* set the words between them in italics, for titles of books and the like
 export const ProjectList: Project[] = [
     {
         path: "ux-writing",
@@ -59,7 +60,7 @@ export const ProjectList: Project[] = [
     {
         path: "creative-writing",
         title: "Short stories and a study of computer science in science fiction",
-        hoverDescription: "Short stories with absurd premises, and a study of Italo Calvino's Cosmicomics and how to write fiction that evokes the impact of computer science on our inner lives.",
+        hoverDescription: "Short stories with absurd premises, and a study of Italo Calvino's *Cosmicomics* showing how fiction can evoke computer science's impact on our inner lives.",
         thumbnail: "/placeholders/creative-writing.jpg",
         year: "", // writing from across many years, so no single year
         category: "Creative writing"
