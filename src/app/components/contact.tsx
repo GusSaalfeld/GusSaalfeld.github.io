@@ -52,7 +52,7 @@ export default function Contact() {
         </div>
         {/* A credit for the slime, muted and set like the hobby captions: the last line of every page */}
         <p className="mt-12 text-base leading-[1.55] text-quiet-muted">
-          The animation is a slime mould simulation written in WebGL.
+          The animation is a slime mold simulation written in WebGL.
         </p>
       </Band>
     </section>
