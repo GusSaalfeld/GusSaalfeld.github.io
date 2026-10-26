@@ -7,12 +7,12 @@ export default function About() {
   return (
     <>
       <Band className={`${PAGE_TOP} ${SECTION_GAP}`}>
-        <Card mediaFirst title="About me" description={[
+        <Card mediaFirst pageTitle title="About me" description={[
           "My name is Augustus Saalfeld, and I am a programmer turned technical writer who specializes in technical writing, UX writing, and science communications.",
           "I look forward to working with users on a better user experience, as well as with experts to get their message out there.",
         ]}>
-          {/* Beside the text from md up, so there's a face to the words while you read them.
-              The whole scene, uncropped */}
+          {/* Beside the text from md up, and between the heading and the text below, so there's
+              a face to the words while you read them. The whole scene, uncropped */}
           <div className="photo-grade relative">
             <Image
               src="/hero2.jpg"

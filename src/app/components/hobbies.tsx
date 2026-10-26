@@ -41,13 +41,14 @@ export default function Hobbies() {
         <a href="https://www.inaturalist.org/people/augustus45814" className={LINK}>iNaturalist</a>.
       </p>
       <p className="mt-6 max-w-[62ch] text-lg leading-[1.65] text-quiet-ink text-pretty">
-        Here are some of the things I do in my own time.
+        Here are some things I do in my free time.
       </p>
       <ul className="mt-12 grid gap-12 sm:grid-cols-3 sm:gap-6">
         {HOBBIES.map((hobby) => (
           <li key={hobby.name} className="flex flex-col">
-            {/* Square, with no edge: an edge marks a thumbnail that links somewhere, and these don't */}
-            <div className="photo-grade relative aspect-[4/3] sm:aspect-square overflow-hidden bg-quiet-rule">
+            {/* Square, and 3:2 on phones so the three stacked take less than a screen. No edge:
+                an edge marks a thumbnail that links somewhere, and these don't */}
+            <div className="photo-grade relative aspect-[3/2] sm:aspect-square overflow-hidden bg-quiet-rule">
               <Image
                 src={hobby.photo}
                 alt={hobby.alt}
