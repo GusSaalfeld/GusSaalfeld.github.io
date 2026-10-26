@@ -14,7 +14,6 @@ export const ProjectList: Project[] = [
         title: "Adding a new course export feature to Canvas",
         hoverDescription: "Microcopy, a UX mockup, and a feature announcement meant to simulate adding a course export feature to Canvas.",
         thumbnail: "/placeholders/ux-writing.jpg",
-        year: "2026",
         genre: "UX writing"
     },
     {
@@ -22,7 +21,6 @@ export const ProjectList: Project[] = [
         title: "What happens when you type youtube.com into the web browser?",
         hoverDescription: "A beginner's guide to what goes on behind the scenes whenever you look up a website in your web browser.",
         thumbnail: "/placeholders/scientific-explainer.jpg",
-        year: "2026",
         genre: "Technical writing"
     },
     {
@@ -30,7 +28,6 @@ export const ProjectList: Project[] = [
         title: "Barista training manual",
         hoverDescription: "A training manual that my café used to train new baristas.",
         thumbnail: "/placeholders/barista-training.jpg",
-        year: "2026",
         genre: "Technical writing"
     },
     {
@@ -38,7 +35,6 @@ export const ProjectList: Project[] = [
         title: "Designing a feedback system for Dietrich College's DEI department",
         hoverDescription: "Using iterative design, user testing, and stakeholder interviews, I designed a feedback collection system still in use by the department today.",
         thumbnail: "/placeholders/capstone-project.jpg",
-        year: "2022",
         genre: "User research"
     },
     {
@@ -46,7 +42,6 @@ export const ProjectList: Project[] = [
         title: "Home server",
         hoverDescription: "My home server runs on Proxmox and hosts the open-source tools I use daily, such as a recipe book, media server, and digital tracking protection.",
         thumbnail: "/placeholders/home-server.jpg",
-        year: "2025–present",
         genre: "Self-hosting"
     },
     {
@@ -54,7 +49,6 @@ export const ProjectList: Project[] = [
         title: "How to grow oyster mushrooms at home",
         hoverDescription: "A how-to guide that walks beginners through growing oyster mushrooms at home.",
         thumbnail: "/placeholders/growing-mushrooms.jpg",
-        year: "2026",
         genre: "How-to guide"
     },
     {
@@ -62,7 +56,6 @@ export const ProjectList: Project[] = [
         title: "Short stories and a study on computer science in fiction",
         hoverDescription: "Short stories with absurd premises, and a study of how fiction can demonstrate computer science's impact on our inner lives, through Italo Calvino's *Cosmicomics*.",
         thumbnail: "/placeholders/creative-writing.jpg",
-        year: "", // writing from across many years, so no single year
         genre: "Creative writing"
     },
 ];

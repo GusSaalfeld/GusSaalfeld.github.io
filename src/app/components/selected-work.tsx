@@ -13,10 +13,9 @@ type SelectedWorkProps = {
   projects: Project[],
 };
 
-// The projects as a ledger, like a bibliography: the kind of writing and the year in their own column
-// first, then the title and one sentence on what it is, who it was for and what it achieved, then
-// a small picture at the right edge. On phones the genre and year go side by side above the
-// title. Rules between rows to scan by. On hover or focus, the title turns slime green and
+// The projects as a ledger, like a bibliography: the kind of writing in its own column first, then
+// the title and one sentence on what it is, who it was for and what it achieved, then a small
+// picture at the right edge. On phones the kind of writing goes above the title. Rules between rows to scan by. On hover or focus, the title turns slime green and
 // underlines, and the picture's edge turns green with it
 export default function SelectedWork({ title, projects }: SelectedWorkProps) {
   return (
@@ -31,12 +30,10 @@ export default function SelectedWork({ title, projects }: SelectedWorkProps) {
               href={`/portfolio/${project.path}`}
               className="group grid grid-cols-[minmax(0,1fr)_5rem] items-start gap-x-6 gap-y-1 py-5 md:grid-cols-[9rem_minmax(0,1fr)_6rem]"
             >
-              {/* The kind of writing, in ink, so a reader sees what each piece is first; then the year, muted.
-                  Stacked from md up, side by side on phones. With neither, it still holds the first
-                  column from md up, but takes no line on phones */}
-              <span className={`col-span-2 flex flex-wrap items-baseline gap-x-3 pt-1.5 font-sans text-base md:col-span-1 md:flex-col md:gap-y-0.5 ${project.genre || project.year ? "" : "hidden md:flex"}`}>
-                {project.genre && <span className="font-medium leading-[1.3] text-quiet-ink">{project.genre}</span>}
-                {project.year && <span className="tabular-nums text-quiet-muted">{project.year}</span>}
+              {/* The kind of writing, in ink, so a reader sees what each piece is first. Without one, it
+                  still holds the first column from md up, but takes no line on phones */}
+              <span className={`col-span-2 pt-1.5 font-sans text-base font-medium leading-[1.3] text-quiet-ink md:col-span-1 ${project.genre ? "" : "hidden md:block"}`}>
+                {project.genre}
               </span>
               <span className="flex flex-col gap-1">
                 <span className="font-sans text-2xl font-semibold leading-[1.25] text-quiet-ink group-hover:text-quiet-link group-hover:underline group-focus-visible:text-quiet-link underline-offset-4">
