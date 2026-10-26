@@ -58,7 +58,7 @@ export const ProjectList: Project[] = [
     {
         path: "creative-writing",
         title: "Creative writing",
-        hoverDescription: "",
+        hoverDescription: "Selected short stories, as well as a research project on science fiction based in computer science.",
         thumbnail: "/placeholders/creative-writing.jpg",
         year: "", // writing from across many years, so no single year
         category: "Creative writing"
