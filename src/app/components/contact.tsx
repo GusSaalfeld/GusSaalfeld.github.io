@@ -50,9 +50,17 @@ export default function Contact() {
             {copy === "copied" ? "Copied" : copy === "failed" ? "Select the address to copy it" : "Copy email"}
           </button>
         </div>
-        {/* A credit for the slime, muted and set like the hobby captions: the last line of every page */}
-        <p className="mt-12 text-base leading-[1.55] text-quiet-muted">
-          The animation is a slime mold simulation written in WebGL.
+        {/* A credit for the slime, muted and set like the hobby captions: the last line of every page.
+            Only the video's title is in italics, as titles are everywhere else on the site */}
+        <p className="mt-12 max-w-[62ch] text-base leading-[1.55] text-quiet-muted text-pretty">
+          The animation is a slime mold simulation written in WebGL, inspired by{" "}
+          <a
+            href="https://www.youtube.com/watch?v=X-iSQQgOd1A"
+            className="text-quiet-link underline decoration-1 underline-offset-4 hover:decoration-2"
+          >
+            Sebastian Lague&apos;s <i>Coding Adventure</i>
+          </a>
+          .
         </p>
       </Band>
     </section>
