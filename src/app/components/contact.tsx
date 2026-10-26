@@ -23,9 +23,11 @@ export default function Contact() {
   };
 
   return (
-    // scroll-mt keeps the heading clear of the sticky navbar when the Contact link jumps here
-    <section id="contact" className="scroll-mt-24">
-      <Band className={SECTION_GAP}>
+    // The site's footer, ruled off above edge to edge like the navbar below, so the two frame every
+    // page and the column-wide rules inside stay the page's own. When the Contact link jumps here,
+    // scroll-mt tucks the rule under the sticky navbar and leaves the heading 24px below it
+    <footer id="contact" className="scroll-mt-12 md:scroll-mt-6">
+      <Band className={`border-t border-quiet-rule pt-12 md:pt-18 ${SECTION_GAP}`}>
         <h2 className="mb-6 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">Contact</h2>
         <p className="max-w-[44ch] md:max-w-[52ch] text-2xl short:text-xl leading-[1.4] text-quiet-ink text-pretty">
           I&apos;m looking for technical, science, and content writing roles. Email is the quickest way
@@ -51,6 +53,6 @@ export default function Contact() {
           </button>
         </div>
       </Band>
-    </section>
+    </footer>
   );
 }
