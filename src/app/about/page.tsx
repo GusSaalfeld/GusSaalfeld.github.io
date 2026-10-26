@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Band, { PAGE_TOP, SECTION_GAP } from "@/app/components/band";
 import Card from "@/app/components/card";
+import Hobbies from "@/app/components/hobbies";
 
 export default function About() {
   return (
@@ -23,7 +24,7 @@ export default function About() {
         </Card>
       </Band>
       <Band className={SECTION_GAP}>
-        <Card title="Hobbies" description="1. Rock climbing 2. mushrooms 3. home server"></Card>
+        <Hobbies />
       </Band>
     </>
   );
