@@ -12,7 +12,8 @@ type CardProps = {
 // A section of the page: a heading and paragraphs, with children beside them reaching the
 // column's edge. The layout spaces sections apart, so there are no rules between them
 export default function Card({ title, description, children, mediaFirst }: CardProps) {
-  const columns = mediaFirst ? "md:grid-cols-[22rem_minmax(0,1fr)]" : "md:grid-cols-[minmax(0,1fr)_22rem]";
+  // Text and children share the column equally, so a photo is big enough to hold its own
+  const columns = "md:grid-cols-2";
   return (
     <section className={`grid gap-12 ${children ? columns : ""}`}>
       <div className="flex flex-col gap-6">
