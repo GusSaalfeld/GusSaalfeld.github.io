@@ -12,6 +12,10 @@ import {
 import { Creatures, MAX_CREATURES } from "./Creatures";
 import { MAX_FOOD, foodPosition } from "./Dish";
 
+// How a resize carries the slime over (see resize()). "stretch": stretched to the new size, as the
+// simulation always looked. "crop": kept at its scale on screen, cropped or opening new space
+const RESIZE_MODE: "stretch" | "crop" = "stretch";
+
 // The simulation advances in fixed ticks of settings.fixedTimeStep seconds, however fast the
 // screen refreshes. Without this, a 144 Hz display would run 2.4x faster than a 60 Hz one.
 const MAX_FRAME_SECONDS = 0.05; // after a stall (hidden tab), catch up at most this much
@@ -246,9 +250,9 @@ export class SlimeSim {
     this.structure = this.structureKey();
   }
 
-  // Call when the area the canvas fills changes size, in CSS pixels, then redraw(). The trail and
-  // the agents carry over at the same place and scale on screen. fresh: start with an empty trail
-  // instead (the first sizing, and restart())
+  // Call when the area the canvas fills changes size, in CSS pixels, then redraw(). The trail
+  // carries over (see RESIZE_MODE). fresh: start with an empty trail instead (the first sizing,
+  // and restart())
   resize(width: number, height: number, fresh = false) {
     const oldWidth = this.cssWidth, oldHeight = this.cssHeight;
     this.cssWidth = width;
@@ -277,28 +281,36 @@ export class SlimeSim {
     const nextA = this.makeTarget(w, h, this.gl.HALF_FLOAT, this.gl.RGBA16F, this.gl.LINEAR, wrap);
     const nextB = this.makeTarget(w, h, this.gl.HALF_FLOAT, this.gl.RGBA16F, this.gl.LINEAR, wrap);
 
-    // Carry the slime over at the same place and scale on screen, so a resize neither wipes it nor
-    // stretches it: a shorter screen crops the bottom, a bigger one opens new space to grow into.
-    // A point at newUV sat at newUV * scale + offset in the old trail, measured from the screen's top
+    // Carry the slime over, stretched to the new size, rather than wiping it: the agents keep their
+    // places relative to the edges (they're stored as 0..1), so the copied trail lines up with them.
+    // Each step of a window drag is small, so the pattern deforms smoothly and then settles back.
+    // RESIZE_MODE "crop" instead keeps the slime at its scale on screen, cropping or opening space
     if (old && !fresh) {
-      const oldK = texelsPerPixel(oldWidth, oldHeight);
-      const scale = [(w * oldK) / (k * old.width), (h * oldK) / (k * old.height)];
-      const offset = [0, ((oldHeight - height) * oldK) / old.height];
       const c = this.copyTrail.program.uniforms;
       c.uSource.value = old.texture;
-      c.uScale.value = scale;
-      c.uOffset.value = offset;
-      this.renderer.render({ scene: this.copyTrail, target: nextA });
-      const r = this.remapAgents.program.uniforms;
-      r.uAgents.value = this.agentsA.texture;
-      r.uScale.value = scale;
-      r.uOffset.value = offset;
-      // The share of the new trail the old one didn't cover: the old trail reaches 1 / scale of
-      // the way across each axis
-      const covered = Math.min(1, 1 / scale[0]) * Math.min(1, 1 / scale[1]);
-      r.uRespawn.value = 1 - covered;
-      this.renderer.render({ scene: this.remapAgents, target: this.agentsB });
-      [this.agentsA, this.agentsB] = [this.agentsB, this.agentsA];
+      if (RESIZE_MODE === "stretch") {
+        c.uScale.value = [1, 1];
+        c.uOffset.value = [0, 0];
+        this.renderer.render({ scene: this.copyTrail, target: nextA });
+      } else {
+        // A point at newUV sat at newUV * scale + offset in the old trail, measured from the top
+        const oldK = texelsPerPixel(oldWidth, oldHeight);
+        const scale = [(w * oldK) / (k * old.width), (h * oldK) / (k * old.height)];
+        const offset = [0, ((oldHeight - height) * oldK) / old.height];
+        c.uScale.value = scale;
+        c.uOffset.value = offset;
+        this.renderer.render({ scene: this.copyTrail, target: nextA });
+        const r = this.remapAgents.program.uniforms;
+        r.uAgents.value = this.agentsA.texture;
+        r.uScale.value = scale;
+        r.uOffset.value = offset;
+        // The share of the new trail the old one didn't cover: the old trail reaches 1 / scale of
+        // the way across each axis
+        const covered = Math.min(1, 1 / scale[0]) * Math.min(1, 1 / scale[1]);
+        r.uRespawn.value = 1 - covered;
+        this.renderer.render({ scene: this.remapAgents, target: this.agentsB });
+        [this.agentsA, this.agentsB] = [this.agentsB, this.agentsA];
+      }
     }
 
     // OGL has no dispose for render targets, so free the old trail by hand.
