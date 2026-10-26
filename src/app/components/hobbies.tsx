@@ -46,8 +46,8 @@ export default function Hobbies() {
       <ul className="mt-12 grid gap-12 sm:grid-cols-3 sm:gap-6">
         {HOBBIES.map((hobby) => (
           <li key={hobby.name} className="flex flex-col">
-            {/* Square, with the same thin edge as the project thumbnails */}
-            <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden border border-quiet-rule bg-quiet-rule">
+            {/* Square, with no edge: an edge marks a thumbnail that links somewhere, and these don't */}
+            <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden bg-quiet-rule">
               <Image
                 src={hobby.photo}
                 alt={hobby.alt}
