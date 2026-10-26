@@ -47,7 +47,7 @@ export default function Hobbies() {
         {HOBBIES.map((hobby) => (
           <li key={hobby.name} className="flex flex-col">
             {/* Square, with no edge: an edge marks a thumbnail that links somewhere, and these don't */}
-            <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden bg-quiet-rule">
+            <div className="photo-grade relative aspect-[4/3] sm:aspect-square overflow-hidden bg-quiet-rule">
               <Image
                 src={hobby.photo}
                 alt={hobby.alt}

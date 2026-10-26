@@ -84,3 +84,19 @@ body {
   outline-offset: 3px;
   border-radius: 2px;
 }
+
+/* One grade for every photo, so pictures from different phones and light read as one set and sit
+   on the green-grey paper: a little less saturated, and a faint wash of the sage that tints the
+   slime. Goes on the photo's positioned wrapper */
+.photo-grade img {
+  filter: saturate(0.85);
+}
+.photo-grade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--quiet-sage);
+  mix-blend-mode: soft-light;
+  opacity: 0.3;
+  pointer-events: none;
+}
