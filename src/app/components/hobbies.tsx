@@ -16,10 +16,10 @@ const HOBBIES = [
     alt: "Oyster mushrooms growing",
   },
   {
-    name: "My cat",
-    caption: "Keeping my lap warm while I write.",
-    photo: "/placeholders/hobby-cat.jpg",
-    alt: "A black cat asleep on a blanket",
+    name: "Painting miniatures",
+    caption: "Painting Warhammer figurines.",
+    photo: "/placeholders/hobby-miniatures.jpg",
+    alt: "Painted Warhammer figurines",
   },
 ];
 
