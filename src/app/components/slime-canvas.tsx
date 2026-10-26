@@ -41,16 +41,14 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
     }
     simRef.current = sim;
 
-    // Follow the container's size. Wait until resizing pauses, because each resize
-    // allocates new textures and a window drag fires many events.
-    let timer = 0;
+    // Follow the container's size straight away, carrying the slime over, and redraw before the
+    // browser paints. Waiting for a resize to settle would leave the old picture stretched meanwhile.
+    // The observer fires at most once a frame, so a window drag costs a texture copy per frame
     const observer = new ResizeObserver(() => {
-      window.clearTimeout(timer);
-      timer = window.setTimeout(() => {
-        if (host.clientWidth > 0 && host.clientHeight > 0) {
-          sim.resize(host.clientWidth, host.clientHeight);
-        }
-      }, 150);
+      if (host.clientWidth > 0 && host.clientHeight > 0) {
+        sim.resize(host.clientWidth, host.clientHeight);
+        sim.redraw();
+      }
     });
     observer.observe(host);
 
@@ -94,7 +92,6 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
     loop(performance.now());
 
     return () => {
-      window.clearTimeout(timer);
       window.clearInterval(coverTimer);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener(FOCUS_EVENT, onFocus);
@@ -114,5 +111,7 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
   // The host shows the slime's background colour, so anything designed to show the slime still
   // has a colour behind it when the simulation can't run (reduced motion, or no WebGL2)
   const [r, g, b] = (settings?.backgroundColour ?? defaultSettings.backgroundColour).map((c) => Math.round(c * 255));
-  return <div ref={hostRef} aria-hidden className="fixed inset-0 -z-10" style={{ background: `rgb(${r} ${g} ${b})` }} />;
+  // As tall as the screen gets (lvh): on phones the browser's address bar slides in and out as the
+  // page scrolls, and sizing to the largest height means that never counts as a resize
+  return <div ref={hostRef} aria-hidden className="fixed inset-x-0 top-0 h-lvh -z-10" style={{ background: `rgb(${r} ${g} ${b})` }} />;
 }

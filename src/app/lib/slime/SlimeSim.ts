@@ -4,16 +4,13 @@ import type { OGLRenderingContext } from "ogl";
 import {
   fullscreenVert, updateAgentFrag, depositVert, depositFrag, diffuseFrag, displayFrag,
   agentsOnlyVert, agentsOnlyFrag, splashVert, splashFrag, foodVert, foodFrag,
+  copyTrailFrag, remapAgentsFrag,
 } from "./shader";
 import {
   SlimeSettings, mergeSettings, SPAWN_MODE_INDEX, MAX_SPECIES, MAX_TRAIL_PALETTE,
 } from "./SlimeSettings";
 import { Creatures, MAX_CREATURES } from "./Creatures";
 import { MAX_FOOD, foodPosition } from "./Dish";
-
-// Phones resize the page a little whenever the address bar slides in or out. A change
-// this small is not worth wiping the trail for: CSS just stretches the canvas slightly.
-const RESIZE_TOLERANCE = 0.15;
 
 // The simulation advances in fixed ticks of settings.fixedTimeStep seconds, however fast the
 // screen refreshes. Without this, a 144 Hz display would run 2.4x faster than a 60 Hz one.
@@ -52,6 +49,8 @@ export class SlimeSim {
   private diffuse: Mesh;
   private display: Mesh;
   private agentsOnly: Mesh;
+  private copyTrail: Mesh;          // carries the trail over to a resized trail texture
+  private remapAgents: Mesh;        // and moves the agents to match
   private splashMesh: Mesh;         // the plankton wake
   private foodMesh: Mesh;           // the petri dish's oats, giving off trail
   // The petri dish, 0..1 of the canvas with y up (radius as a fraction of the width), from setDish().
@@ -127,6 +126,10 @@ export class SlimeSim {
       uFood: { value: new Array(MAX_FOOD * 2).fill(0) }, uFoodCount: { value: 0 }, uFoodSize: { value: 0 },
       uOat: { value: [0, 0, 0] }, uFocus: { value: -1 }, uFocusColour: { value: [0, 0, 0] },
     });
+    this.copyTrail = pass(copyTrailFrag, { uSource: { value: null }, uScale: { value: [1, 1] }, uOffset: { value: [0, 0] } });
+    this.remapAgents = pass(remapAgentsFrag, {
+      uAgents: { value: null }, uScale: { value: [1, 1] }, uOffset: { value: [0, 0] }, uRespawn: { value: 0 },
+    });
 
     // Deposit and agentsOnly draw one point per agent. The geometry only supplies each point's index.
     const depositProgram = new Program(gl, {
@@ -178,7 +181,7 @@ export class SlimeSim {
     });
 
     this.buildAgents();
-    this.resize(width, height, true); // sizes the canvas and creates the trail targets
+    this.resize(width, height, true); // sizes the canvas and creates the trail targets, empty
     this.startWarmup();
   }
 
@@ -187,8 +190,8 @@ export class SlimeSim {
     const merged = mergeSettings({ ...this.settings, ...changes });
     Object.assign(this.settings, merged);
     if (this.structureKey() !== this.structure) this.restart();
-    // The trail's wrap mode is part of the texture, so a change rebuilds the trail. Agents stay.
-    else if (this.settings.wrapEdges !== this.builtWrap) this.resize(this.cssWidth, this.cssHeight, true);
+    // The trail's wrap mode is part of the texture, so a change rebuilds the trail, carrying it over
+    else if (this.settings.wrapEdges !== this.builtWrap) this.resize(this.cssWidth, this.cssHeight);
   }
 
   // Respawn every agent and clear the trail, using the current settings.
@@ -243,38 +246,75 @@ export class SlimeSim {
     this.structure = this.structureKey();
   }
 
-  // Call when the area the canvas fills changes size. Agents keep their positions
-  // (they are stored as 0..1), but the trail restarts empty at the new size.
-  // Changes under RESIZE_TOLERANCE are ignored. They are measured against the size
-  // actually in use, so many small changes in a row still add up to a resize.
-  resize(width: number, height: number, force = false) {
+  // Call when the area the canvas fills changes size, in CSS pixels, then redraw(). The trail and
+  // the agents carry over at the same place and scale on screen. fresh: start with an empty trail
+  // instead (the first sizing, and restart())
+  resize(width: number, height: number, fresh = false) {
+    const oldWidth = this.cssWidth, oldHeight = this.cssHeight;
     this.cssWidth = width;
     this.cssHeight = height;
-    const k = Math.max(8, this.settings.trailResolution) / Math.max(width, height, 1);
+    // Trail texels per CSS pixel, the same along both axes
+    const texelsPerPixel = (w: number, h: number) => Math.max(8, this.settings.trailResolution) / Math.max(w, h, 1);
+    const k = texelsPerPixel(width, height);
     const w = Math.max(2, Math.round(width * k));
     const h = Math.max(2, Math.round(height * k));
-    if (this.trailA && !force) {
-      const close = (next: number, current: number) => Math.abs(next - current) <= RESIZE_TOLERANCE * current;
-      if (close(w, this.trailA.width) && close(h, this.trailA.height)) return;
-    }
 
     // The canvas is one pixel per CSS pixel (the renderer's dpr is 1), and the display pass
     // upscales the trail into it. Matching high-DPI screens' real pixels cost too much.
+    // Setting the size clears the canvas, so the caller redraws (redraw())
     this.renderer.setSize(width, height);
     this.gl.canvas.style.width = "100%"; // setSize pins pixel sizes, so undo that
     this.gl.canvas.style.height = "100%";
 
-    // OGL has no dispose for render targets, so free the old trail by hand.
-    if (this.trailA) {
-      this.freeTarget(this.trailA);
-      this.freeTarget(this.trailB);
-    }
+    // Same trail size and wrap mode: the canvas changed by less than a texel, so the trail stands
+    const old = this.trailA;
+    if (old && !fresh && w === old.width && h === old.height && this.builtWrap === this.settings.wrapEdges) return;
+
     // Trail: half float, which supports blending and filtering without extra extensions.
     // Its wrap mode is what makes the blur wrap around the edges (see diffuseFrag).
     const wrap = this.settings.wrapEdges ? this.gl.REPEAT : this.gl.CLAMP_TO_EDGE;
     this.builtWrap = this.settings.wrapEdges;
-    this.trailA = this.makeTarget(w, h, this.gl.HALF_FLOAT, this.gl.RGBA16F, this.gl.LINEAR, wrap);
-    this.trailB = this.makeTarget(w, h, this.gl.HALF_FLOAT, this.gl.RGBA16F, this.gl.LINEAR, wrap);
+    const nextA = this.makeTarget(w, h, this.gl.HALF_FLOAT, this.gl.RGBA16F, this.gl.LINEAR, wrap);
+    const nextB = this.makeTarget(w, h, this.gl.HALF_FLOAT, this.gl.RGBA16F, this.gl.LINEAR, wrap);
+
+    // Carry the slime over at the same place and scale on screen, so a resize neither wipes it nor
+    // stretches it: a shorter screen crops the bottom, a bigger one opens new space to grow into.
+    // A point at newUV sat at newUV * scale + offset in the old trail, measured from the screen's top
+    if (old && !fresh) {
+      const oldK = texelsPerPixel(oldWidth, oldHeight);
+      const scale = [(w * oldK) / (k * old.width), (h * oldK) / (k * old.height)];
+      const offset = [0, ((oldHeight - height) * oldK) / old.height];
+      const c = this.copyTrail.program.uniforms;
+      c.uSource.value = old.texture;
+      c.uScale.value = scale;
+      c.uOffset.value = offset;
+      this.renderer.render({ scene: this.copyTrail, target: nextA });
+      const r = this.remapAgents.program.uniforms;
+      r.uAgents.value = this.agentsA.texture;
+      r.uScale.value = scale;
+      r.uOffset.value = offset;
+      // The share of the new trail the old one didn't cover: the old trail reaches 1 / scale of
+      // the way across each axis
+      const covered = Math.min(1, 1 / scale[0]) * Math.min(1, 1 / scale[1]);
+      r.uRespawn.value = 1 - covered;
+      this.renderer.render({ scene: this.remapAgents, target: this.agentsB });
+      [this.agentsA, this.agentsB] = [this.agentsB, this.agentsA];
+    }
+
+    // OGL has no dispose for render targets, so free the old trail by hand.
+    if (old) {
+      this.freeTarget(old);
+      this.freeTarget(this.trailB);
+    }
+    this.trailA = nextA;
+    this.trailB = nextB;
+  }
+
+  // Draw the current state straight away, without simulating: after a resize, which clears the
+  // canvas, so the screen never shows a blank or stretched frame. Not before the first frame or
+  // during the warmup, while the canvas is hidden
+  redraw() {
+    if (this.lastTime && this.warmupLeft === 0) this.draw();
   }
 
   private makeTarget(width: number, height: number, type: number, internalFormat: number, filter: number,

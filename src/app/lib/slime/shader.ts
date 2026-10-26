@@ -571,6 +571,48 @@ void main() {
     fragColor = vec4(0.0, 0.0, vAmount, 0.0);
 }`;
 
+// Resizing keeps the slime where it is on screen, at the same scale: these two passes carry the
+// trail and the agents over from the old trail texture to the new one. A point at newUV in the new
+// trail sat at newUV * uScale + uOffset in the old one (SlimeSim.resize works these out)
+
+// Copies the old trail into the new one. Space the old trail didn't cover starts empty
+export const copyTrailFrag = /* glsl */ `#version 300 es
+precision highp float;
+precision highp sampler2D;
+uniform sampler2D uSource;
+uniform vec2 uScale;
+uniform vec2 uOffset;
+in vec2 vUv;
+out vec4 fragColor;
+
+void main() {
+    vec2 uv = vUv * uScale + uOffset;
+    bool outside = any(lessThan(uv, vec2(0.0))) || any(greaterThan(uv, vec2(1.0)));
+    fragColor = outside ? vec4(0.0) : texture(uSource, uv);
+}`;
+
+// Moves each agent to the same place on screen in the new trail's 0..1 coordinates. Agents that
+// end up off the new trail are unplaced (alpha 0), so the next update spawns them afresh. When the
+// trail grows, uRespawn of the agents (the share of the new trail the old one didn't cover) are
+// unplaced too, so the new space starts growing slime straight away instead of waiting to be found
+export const remapAgentsFrag = /* glsl */ `#version 300 es
+precision highp float;
+precision highp sampler2D;
+uniform sampler2D uAgents;
+uniform vec2 uScale;
+uniform vec2 uOffset;
+uniform float uRespawn;
+out vec4 fragColor;
+
+void main() {
+    vec4 agent = texelFetch(uAgents, ivec2(gl_FragCoord.xy), 0);
+    if (agent.a == 0.0) { fragColor = agent; return; }
+    vec2 pos = (agent.xy - uOffset) / uScale;
+    bool outside = any(lessThan(pos, vec2(0.0))) || any(greaterThanEqual(pos, vec2(1.0)));
+    bool respawn = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453) < uRespawn;
+    fragColor = outside || respawn ? vec4(0.0) : vec4(pos, agent.zw);
+}`;
+
 // The oats give off trail every step, so the slime is drawn to them. One point per oat, a few
 // texels across, added to the first species' channel
 export const foodVert = /* glsl */ `#version 300 es
