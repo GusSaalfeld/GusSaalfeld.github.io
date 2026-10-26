@@ -51,16 +51,15 @@ export default function Contact() {
           </button>
         </div>
         {/* A credit for the slime, muted and set like the hobby captions: the last line of every page.
-            Only the video's title is in italics, as titles are everywhere else on the site */}
+            The video is an episode of his series, so its title takes quotation marks, not italics */}
         <p className="mt-12 max-w-[62ch] text-base leading-[1.55] text-quiet-muted text-pretty">
           The animation is a slime mold simulation written in WebGL, inspired by{" "}
           <a
             href="https://www.youtube.com/watch?v=X-iSQQgOd1A"
             className="text-quiet-link underline decoration-1 underline-offset-4 hover:decoration-2"
           >
-            Sebastian Lague&apos;s <i>Coding Adventure</i>
+            Sebastian Lague&apos;s &ldquo;Ant and Slime Simulations.&rdquo;
           </a>
-          .
         </p>
       </Band>
     </section>
