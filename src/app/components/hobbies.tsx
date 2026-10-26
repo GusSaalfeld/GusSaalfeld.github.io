@@ -35,13 +35,13 @@ export default function Hobbies() {
         Interests and hobbies
       </h2>
       <p className="mt-6 max-w-[62ch] text-lg leading-[1.65] text-quiet-ink text-pretty">
-        Here are some of the things I do in my own time.
-      </p>
-      <p className="mt-6 max-w-[62ch] text-lg leading-[1.65] text-quiet-ink text-pretty">
         Want to know what I&apos;m watching, reading, or identifying? Find me on{" "}
         <a href="https://letterboxd.com/GusReviewsMovie/" className={LINK}>Letterboxd</a>,{" "}
         <a href="https://www.goodreads.com/gusreviewsbook" className={LINK}>Goodreads</a>, and{" "}
         <a href="https://www.inaturalist.org/people/augustus45814" className={LINK}>iNaturalist</a>.
+      </p>
+      <p className="mt-6 max-w-[62ch] text-lg leading-[1.65] text-quiet-ink text-pretty">
+        Here are some of the things I do in my own time.
       </p>
       <ul className="mt-12 grid gap-12 sm:grid-cols-3 sm:gap-6">
         {HOBBIES.map((hobby) => (
