@@ -45,7 +45,7 @@ export default function Contact() {
             type="button"
             onClick={copyEmail}
             aria-live="polite"
-            className="inline-flex min-h-12 items-center border border-quiet-link px-5 font-sans text-base font-semibold whitespace-nowrap text-quiet-link hover:bg-quiet-link hover:text-quiet-paper"
+            className="inline-flex min-h-12 items-center border border-quiet-link px-5 font-sans text-base font-semibold whitespace-nowrap text-quiet-link hover:border-quiet-ink hover:text-quiet-ink"
           >
             {copy === "copied" ? "Copied" : copy === "failed" ? "Select the address to copy it" : "Copy email"}
           </button>

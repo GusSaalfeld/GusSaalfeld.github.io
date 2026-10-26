@@ -9,9 +9,11 @@ type DownloadLinkProps = {
 // A link that downloads a file, styled as a button: at least 48px tall for touch, with a
 // download arrow so it's clear it saves a file rather than opening a page
 export default function DownloadLink({ href, children, primary }: DownloadLinkProps) {
+  // One rule for every button on hover: the green turns to ink. Outlined ones stay outlined, so
+  // they never look like the filled one
   const look = primary
     ? "bg-quiet-link text-quiet-paper hover:bg-quiet-ink"
-    : "border border-quiet-link text-quiet-link hover:bg-quiet-link hover:text-quiet-paper";
+    : "border border-quiet-link text-quiet-link hover:border-quiet-ink hover:text-quiet-ink";
   return (
     <a
       href={href}
