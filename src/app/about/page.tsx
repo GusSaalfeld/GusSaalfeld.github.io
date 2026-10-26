@@ -1,7 +1,10 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Band, { PAGE_TOP, SECTION_GAP } from "@/app/components/band";
 import Card from "@/app/components/card";
 import Hobbies from "@/app/components/hobbies";
+
+export const metadata: Metadata = { title: "About me" };
 
 export default function About() {
   return (

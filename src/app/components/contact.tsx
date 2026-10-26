@@ -28,7 +28,7 @@ export default function Contact() {
       <Band className={SECTION_GAP}>
         <h2 className="mb-6 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">Contact</h2>
         <p className="max-w-[44ch] md:max-w-[52ch] text-2xl short:text-xl leading-[1.4] text-quiet-ink text-pretty">
-          I&apos;m looking for technical, science, and content writing roles. Email is the quickest way
+          I&apos;m looking for technical and science writing roles. Email is the quickest way
           to reach me.
         </p>
         {/* The address on a line of its own, set like the project titles, with the button to copy it
@@ -50,6 +50,10 @@ export default function Contact() {
             {copy === "copied" ? "Copied" : copy === "failed" ? "Select the address to copy it" : "Copy email"}
           </button>
         </div>
+        {/* A credit for the slime, muted and set like the hobby captions: the last line of every page */}
+        <p className="mt-12 text-base leading-[1.55] text-quiet-muted">
+          The animation is a slime mould simulation written in WebGL.
+        </p>
       </Band>
     </section>
   );

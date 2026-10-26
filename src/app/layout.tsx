@@ -4,6 +4,7 @@ import Header from "@/app/components/header";
 import Contact from "@/app/components/contact";
 import SlimeBanner from "@/app/components/slime-banner";
 import SlimeCanvas from "@/app/components/slime-canvas";
+import type { Metadata } from "next";
 import type { RGB } from "@/app/lib/slime/SlimeSettings";
 
 // Archivo, heavy and wide, for the name and headings; Source Serif 4, a reading face, for everything else
@@ -22,6 +23,14 @@ const slimeSettings = {
   backgroundColour: [0.863, 0.894, 0.855] as RGB, // pale sage (#dce4da)
   // #c3d0bf to #a3b89d to #7f9a78: darkest where the veins are thickest, but never far from the paper
   speciesPalettes: [[[0.765, 0.816, 0.749], [0.639, 0.722, 0.616], [0.498, 0.604, 0.471]]] as RGB[][],
+};
+
+// The browser tab's title. A page sets its own with metadata.title, and the template adds the name
+export const metadata: Metadata = {
+  title: {
+    default: "Augustus Saalfeld, technical and science writer",
+    template: "%s · Augustus Saalfeld",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
