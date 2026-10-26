@@ -59,7 +59,7 @@ export const ProjectList: Project[] = [
     },
     {
         path: "creative-writing",
-        title: "Short stories and a study of how to improve writing about computer science in science fiction",
+        title: "Short stories and a study on computer science in fiction",
         hoverDescription: "Short stories with absurd premises, and a study of Italo Calvino's *Cosmicomics* showing how fiction can evoke computer science's impact on our inner lives.",
         thumbnail: "/placeholders/creative-writing.jpg",
         year: "", // writing from across many years, so no single year
