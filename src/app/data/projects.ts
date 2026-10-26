@@ -5,7 +5,7 @@ import type { Project } from "@/app/types";
 // standing in until pictures of the real work are ready. Replace each with the work itself.
 // Each description is one sentence: what it is, who it was for, and what it achieved, in about
 // 15 to 20 words, like the barista manual's. The rest still need rewriting to that pattern.
-// Titles and categories are in sentence case: only the first word and proper nouns capitalised.
+// Titles and artefacts are in sentence case: only the first word and proper nouns capitalised.
 // Lists of three or more take the Oxford comma: "a, b, and c".
 // In a description, *asterisks* set the words between them in italics, for titles of books and the like
 export const ProjectList: Project[] = [
@@ -15,7 +15,7 @@ export const ProjectList: Project[] = [
         hoverDescription: "Microcopy, a UX mockup, and a feature announcement meant to simulate adding a course export feature to Canvas.",
         thumbnail: "/placeholders/ux-writing.jpg",
         year: "2026",
-        category: "UX writing"
+        artefact: "Microcopy and announcement"
     },
     {
         path: "scientific-explainer",
@@ -23,7 +23,7 @@ export const ProjectList: Project[] = [
         hoverDescription: "A beginner's guide to what goes on behind the scenes whenever you look up a website in your web browser.",
         thumbnail: "/placeholders/scientific-explainer.jpg",
         year: "2026",
-        category: "Technical writing"
+        artefact: "Explainer"
     },
     {
         path: "barista-training",
@@ -31,7 +31,7 @@ export const ProjectList: Project[] = [
         hoverDescription: "A training manual that my café used to train new baristas.",
         thumbnail: "/placeholders/barista-training.jpg",
         year: "2026",
-        category: "Technical writing"
+        artefact: "Training manual"
     },
     {
         path: "capstone-project",
@@ -39,7 +39,7 @@ export const ProjectList: Project[] = [
         hoverDescription: "Using iterative design, user testing, and stakeholder interviews, I designed a feedback collection system still in use by the department today.",
         thumbnail: "/placeholders/capstone-project.jpg",
         year: "2022",
-        category: "User research"
+        artefact: "Feedback form"
     },
     {
         path: "home-server",
@@ -47,7 +47,7 @@ export const ProjectList: Project[] = [
         hoverDescription: "My home server runs on Proxmox and hosts the open-source tools I use daily, such as a recipe book, media server, and digital tracking protection.",
         thumbnail: "/placeholders/home-server.jpg",
         year: "2025–present",
-        category: "Self-hosting"
+        artefact: "Home server"
     },
     {
         path: "growing-mushrooms",
@@ -55,7 +55,7 @@ export const ProjectList: Project[] = [
         hoverDescription: "A how-to guide that walks beginners through growing oyster mushrooms at home.",
         thumbnail: "/placeholders/growing-mushrooms.jpg",
         year: "2026",
-        category: "How-to guide"
+        artefact: "How-to guide"
     },
     {
         path: "creative-writing",
@@ -63,6 +63,6 @@ export const ProjectList: Project[] = [
         hoverDescription: "Short stories with absurd premises, and a study of Italo Calvino's *Cosmicomics* that shows how fiction can evoke computer science's impact on our inner lives.",
         thumbnail: "/placeholders/creative-writing.jpg",
         year: "", // writing from across many years, so no single year
-        category: "Creative writing"
+        artefact: "Short stories and essay"
     },
 ];
