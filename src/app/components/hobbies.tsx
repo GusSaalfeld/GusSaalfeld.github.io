@@ -10,10 +10,10 @@ const HOBBIES = [
     alt: "Rock climbing",
   },
   {
-    name: "Naturalism",
-    caption: "Logging the mushrooms, plants, and animals I find on iNaturalist.",
+    name: "Growing mushrooms",
+    caption: "Growing oyster mushrooms at home.",
     photo: "/placeholders/hobby-nature.jpg",
-    alt: "A mushroom on the forest floor",
+    alt: "Oyster mushrooms growing",
   },
   {
     name: "My cat",
@@ -22,6 +22,8 @@ const HOBBIES = [
     alt: "A black cat asleep on a blanket",
   },
 ];
+
+const LINK = "text-quiet-link underline decoration-1 underline-offset-4 hover:decoration-2";
 
 // A heading, one sentence, then three photos in a row, each with its name and a sentence under
 // it, set like the projects in Selected work. One column on phones
@@ -52,6 +54,13 @@ export default function Hobbies() {
           </li>
         ))}
       </ul>
+      {/* An addendum to the photos, in the same voice as the sentence above them */}
+      <p className="mt-12 max-w-[62ch] text-lg leading-[1.65] text-quiet-ink text-pretty">
+        Wanna know what I&apos;m watching, reading, or identifying? Find me on{" "}
+        <a href="https://letterboxd.com/GusReviewsMovie/" className={LINK}>Letterboxd</a>,{" "}
+        <a href="https://www.goodreads.com/gusreviewsbook" className={LINK}>Goodreads</a>, and{" "}
+        <a href="https://www.inaturalist.org/people/augustus45814" className={LINK}>iNaturalist</a>.
+      </p>
     </section>
   );
 }
