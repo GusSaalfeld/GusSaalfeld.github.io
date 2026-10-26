@@ -44,7 +44,7 @@ export const ProjectList: Project[] = [
     {
         path: "home-server",
         title: "Home server",
-        hoverDescription: "A home server running on Proxmox, hosting the open-source tools I use daily, such as a recipe planner, media server, and digital privacy tools.",
+        hoverDescription: "My home server hosts the open-source tools I use daily, such as a recipe book, media server, and digital tracking protection.",
         thumbnail: "/placeholders/home-server.jpg",
         year: "2025–present",
         category: "Self-hosting"
