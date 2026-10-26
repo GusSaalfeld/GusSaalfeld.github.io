@@ -5,12 +5,13 @@ import type { Project } from "@/app/types";
 // standing in until pictures of the real work are ready. Replace each with the work itself.
 // Each description is one sentence: what it is, who it was for, and what it achieved, in about
 // 15 to 20 words, like the barista manual's. The rest still need rewriting to that pattern.
-// Titles and categories are in sentence case: only the first word and proper nouns capitalised
+// Titles and categories are in sentence case: only the first word and proper nouns capitalised.
+// Lists of three or more take the Oxford comma: "a, b, and c"
 export const ProjectList: Project[] = [
     {
         path: "ux-writing",
         title: "Adding a new course export feature to Canvas",
-        hoverDescription: "User interviews, a UX mockup, microcopy and a feature announcement to simulate adding the course export feature to Canvas.",
+        hoverDescription: "User interviews, a UX mockup, microcopy, and a feature announcement to simulate adding the course export feature to Canvas.",
         thumbnail: "/placeholders/ux-writing.jpg",
         year: "2026",
         category: "UX writing"
