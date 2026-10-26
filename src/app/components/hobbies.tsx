@@ -1,13 +1,16 @@
 import Image from "next/image";
 
-// Photos under /placeholders/ are stock photos from Picsum (picsum.photos, Unsplash licence),
-// standing in until your own are ready. Replace each with your photo and describe it in alt
-const HOBBIES = [
+// Your photos are in /hobbies/. Those under /placeholders/ are stock photos from Picsum
+// (picsum.photos, Unsplash licence), standing in until your own are ready: replace each with your
+// photo and describe it in alt. focus places the crop (CSS object-position), for a photo whose
+// subject isn't at its centre
+const HOBBIES: { name: string; caption: string; photo: string; alt: string; focus?: string }[] = [
   {
     name: "Rock climbing",
     caption: "Climbing outdoors whenever the weather allows.",
-    photo: "/placeholders/hobby-rock-climbing.jpg",
-    alt: "Rock climbing",
+    photo: "/hobbies/rock-climbing.jpg",
+    alt: "Climbing a tall sandstone cliff on a rope, under a blue sky",
+    focus: "50% 58%", // the climber, a little below the middle of the tall photo
   },
   {
     name: "Growing mushrooms",
@@ -56,6 +59,7 @@ export default function Hobbies() {
                 fill
                 sizes="(min-width: 640px) 300px, 100vw"
                 className="object-cover"
+                style={hobby.focus ? { objectPosition: hobby.focus } : undefined}
               />
             </div>
             <h3 className="mt-4 font-sans text-lg font-semibold leading-[1.3] text-quiet-ink">{hobby.name}</h3>
