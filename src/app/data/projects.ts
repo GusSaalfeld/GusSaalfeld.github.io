@@ -7,6 +7,7 @@ import type { Project } from "@/app/types";
 // 15 to 20 words, like the barista manual's. The rest still need rewriting to that pattern.
 // Titles and genres are in sentence case: only the first word and proper nouns capitalised.
 // Lists of three or more take the Oxford comma: "a, b, and c".
+// Apostrophes are curly (’), not straight ('), as everywhere on the site.
 // In a description, *asterisks* set the words between them in italics, for titles of books and the like
 export const ProjectList: Project[] = [
     {
@@ -19,7 +20,7 @@ export const ProjectList: Project[] = [
     {
         path: "scientific-explainer",
         title: "What happens when you type youtube.com into the web browser?",
-        hoverDescription: "A beginner's guide to what goes on behind the scenes whenever you look up a website in your web browser.",
+        hoverDescription: "A beginner’s guide to what goes on behind the scenes whenever you look up a website in your web browser.",
         thumbnail: "/placeholders/scientific-explainer.jpg",
         genre: "Technical writing"
     },
@@ -32,7 +33,7 @@ export const ProjectList: Project[] = [
     },
     {
         path: "capstone-project",
-        title: "Designing a feedback system for Dietrich College's DEI department",
+        title: "Designing a feedback system for Dietrich College’s DEI department",
         hoverDescription: "Using iterative design, user testing, and stakeholder interviews, I designed a feedback collection system still in use by the department today.",
         thumbnail: "/placeholders/capstone-project.jpg",
         genre: "User research"
@@ -54,7 +55,7 @@ export const ProjectList: Project[] = [
     {
         path: "creative-writing",
         title: "Short stories and a study on computer science in fiction",
-        hoverDescription: "Short stories with absurd premises, and a study of how fiction can demonstrate computer science's impact on our inner lives, through Italo Calvino's *Cosmicomics*.",
+        hoverDescription: "Short stories with absurd premises, and a study of how fiction can demonstrate computer science’s impact on our inner lives, through Italo Calvino’s *Cosmicomics*.",
         thumbnail: "/placeholders/creative-writing.jpg",
         genre: "Creative writing"
     },

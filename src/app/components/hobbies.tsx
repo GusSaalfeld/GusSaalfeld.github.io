@@ -38,7 +38,7 @@ export default function Hobbies() {
         Interests and hobbies
       </h2>
       <p className="mt-6 max-w-[62ch] text-lg leading-[1.65] text-quiet-ink text-pretty">
-        Want to know what I&apos;m watching, reading, or identifying? Find me on{" "}
+        Want to know what I&rsquo;m watching, reading, or identifying? Find me on{" "}
         <a href="https://letterboxd.com/GusReviewsMovie/" className={LINK}>Letterboxd</a>,{" "}
         <a href="https://www.goodreads.com/gusreviewsbook" className={LINK}>Goodreads</a>, and{" "}
         <a href="https://www.inaturalist.org/people/augustus45814" className={LINK}>iNaturalist</a>.
