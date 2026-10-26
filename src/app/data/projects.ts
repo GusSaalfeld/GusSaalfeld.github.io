@@ -36,7 +36,7 @@ export const ProjectList: Project[] = [
     {
         path: "capstone-project",
         title: "Capstone project",
-        hoverDescription: "Through rigorous testing, I developed a feedback form for my university's DEI department.",
+        hoverDescription: "Using iterative design, user testing, and stakeholder interviews, I designed a feedback collection system still in use by Dietrich's DEI department at CMU.",
         thumbnail: "/placeholders/capstone-project.jpg",
         year: "2022",
         category: "User research"
