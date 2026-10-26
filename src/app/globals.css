@@ -35,6 +35,13 @@ body {
   font-family: var(--font-source-serif), Georgia, serif;
 }
 
+/* In-page links (the navbar's Contact) glide to their target, unless motion is turned down */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* Screens too short to fit the hero and the start of the work at full spacing, such as 1280x720
    and 1366x768 laptops. Spacing tightens a step on them */
 @custom-variant short (@media (max-height: 800px));

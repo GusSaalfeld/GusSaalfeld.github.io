@@ -11,6 +11,7 @@ const NavLinks = [
   { href: "/portfolio", label: "Portfolio" },
   { href: "/work-experience", label: "Work experience" },
   { href: "/about", label: "About me" },
+  { href: "#contact", label: "Contact" }, // the sign-off at the bottom of every page
 ];
 
 export default function NavBar({ children}: NavBarProps) {

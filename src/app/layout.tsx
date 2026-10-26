@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Archivo, Source_Serif_4 } from "next/font/google";
 import Header from "@/app/components/header";
+import Contact from "@/app/components/contact";
 import SlimeBanner from "@/app/components/slime-banner";
 import SlimeCanvas from "@/app/components/slime-canvas";
 import type { RGB } from "@/app/lib/slime/SlimeSettings";
@@ -36,6 +37,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex flex-col">
           {children}   {/* the current page renders here */}
         </main>
+        {/* Every page signs off with the email address, then the closing slime */}
+        <Contact />
         <SlimeBanner last />
       </body>
     </html>
