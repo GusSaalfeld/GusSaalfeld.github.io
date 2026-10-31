@@ -12,7 +12,7 @@ export default function About() {
       <Band className={`${PAGE_TOP} ${SECTION_GAP}`}>
         <Card mediaFirst pageTitle title="About me" description={[
           "I’m a technical and science writer based in Pittsburgh. I’ve written documentation, interface copy, technical explainers, and short stories.",
-          "I started out as a programmer, and found a way to work writing into nearly every job I’ve held. At the Software Engineering Institute, I rewrote the onboarding for engineers, which the team still uses. At Ichigoichie Games, I documented what it took to bring the game Hexagroove to the Xbox and Steam stores.",
+          "I started out as a programmer and found a way to work writing into nearly every job I’ve held. At the Software Engineering Institute, I rewrote the onboarding for engineers, which the team still uses. At Ichigoichie Games, I documented what it took to bring the game Hexagroove to the Xbox and Steam stores.",
           "I moved every few years growing up, but Pittsburgh has been home for eight years now. My favorite part? Frick Park is five minutes from my front door.",
           // "get in touch" goes to the Contact section, where the address and the copy button are
           <>
