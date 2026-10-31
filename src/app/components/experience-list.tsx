@@ -15,28 +15,30 @@ const LINK = "text-quiet-link underline decoration-1 underline-offset-4 hover:de
 export default function ExperienceList({ title, roles }: ExperienceListProps) {
   return (
     <section>
-      <h2 className="mb-4 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">
+      <h2 className="mb-6 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">
         {title}
       </h2>
-      <ul className="flex flex-col gap-7">
+      <ul className="flex flex-col gap-6">
         {roles.map((role) => {
           const points = role.points ?? [];
           const full = points.length > 0;
           return (
             <li key={role.title + role.organization} className="grid gap-x-6 gap-y-1 md:grid-cols-[9rem_minmax(0,1fr)]">
-              {/* The years, in ink, lined up with the first line of the role beside them */}
-              <span className={`pt-1 font-sans text-base font-medium leading-[1.3] text-quiet-ink ${full ? "md:pt-1.5" : ""}`}>
+              {/* The years, in ink but regular weight, so they read as labels beside the bolder titles,
+                  lined up with the first line of the role beside them */}
+              <span className={`pt-1 font-sans text-base font-normal leading-[1.3] text-quiet-ink ${full ? "md:pt-1.5" : ""}`}>
                 {role.dates}
               </span>
               <div>
-                {/* The role, then where, on one line: the role bold, where in the same ink, regular */}
+                {/* The role, then where, on one line: the role bold in ink, where regular and muted, so the
+                    titles are what a skimming reader picks up */}
                 <h3
                   className={`font-sans text-quiet-ink ${
                     full ? "text-2xl font-semibold leading-[1.25]" : "text-lg font-semibold leading-[1.3]"
                   }`}
                 >
                   {role.title}
-                  {role.organization && <span className="font-normal">, {role.organization}</span>}
+                  {role.organization && <span className="font-normal text-quiet-muted">, {role.organization}</span>}
                 </h3>
                 {/* One point reads as a sentence; more than one, as a list */}
                 {points.length === 1 && (
