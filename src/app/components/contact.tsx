@@ -29,12 +29,12 @@ export default function Contact() {
     // scroll-mt keeps the heading clear of the sticky navbar when the Contact link jumps here, even
     // when the navbar takes two rows on the narrowest phones
     <section id="contact" className="scroll-mt-32">
-      {/* A sign-off, not a section: about half the height it was. The heading a step smaller than
-          the pages' own, the sentence at body size, and the address and its button beside it from md
-          up, lined up with its last line. 24px to the closing slime below */}
+      {/* A sign-off, not a section: the heading a step smaller than the pages' own, the sentence at
+          body size, then the address and its button directly beneath it, so the address reads as the
+          answer to "Email is the quickest way to reach me". 24px to the closing slime below */}
       <Band className="pb-6">
         <h2 className="mb-3 font-sans text-2xl font-bold leading-[1.25] text-quiet-ink">Contact</h2>
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-8">
+        <div className="flex flex-col gap-4">
           <p className="max-w-[52ch] text-lg leading-[1.55] text-quiet-ink text-pretty">
             I&rsquo;m looking for technical and science writing roles. I&rsquo;m based in Pittsburgh and open to
             relocating. Email is the quickest way to reach me.
