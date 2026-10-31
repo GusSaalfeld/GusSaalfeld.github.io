@@ -44,21 +44,15 @@ const HOBBIES: Hobby[] = [
 
 const LINK = "text-quiet-link underline decoration-1 underline-offset-4 hover:decoration-2";
 
-// A heading, a few sentences linking to where I log what I watch, read, and find, then three
-// photos in a row, each with its name and a sentence under it, set like the projects in Selected
-// work. One column on phones
+// A heading and a sentence, then three photos in a row, each with its name and a sentence under it,
+// set like the projects in Selected work (one column on phones), then links to where I log what I
+// watch, read, and find
 export default function Hobbies() {
   return (
     <section>
       <h2 className="font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">
         Interests and hobbies
       </h2>
-      <p className="mt-6 max-w-[62ch] text-lg leading-[1.55] text-quiet-ink text-pretty">
-        Want to know what I&rsquo;m watching, reading, or identifying? Find me on{" "}
-        <a href="https://letterboxd.com/GusReviewsMovie/" className={LINK}>Letterboxd</a>,{" "}
-        <a href="https://www.goodreads.com/gusreviewsbook" className={LINK}>Goodreads</a>, and{" "}
-        <a href="https://www.inaturalist.org/people/augustus45814" className={LINK}>iNaturalist</a>.
-      </p>
       <p className="mt-6 max-w-[62ch] text-lg leading-[1.55] text-quiet-ink text-pretty">
         Here are some things I do in my free time.
       </p>
@@ -93,6 +87,14 @@ export default function Hobbies() {
           </li>
         ))}
       </ul>
+      {/* A way to find more, after the hobbies themselves: the photos come first, as what's most
+          worth seeing, and the links, which leave the site, last */}
+      <p className="mt-12 max-w-[62ch] text-lg leading-[1.55] text-quiet-ink text-pretty">
+        Want to know what I&rsquo;m watching, reading, or identifying? Find me on{" "}
+        <a href="https://letterboxd.com/GusReviewsMovie/" className={LINK}>Letterboxd</a>,{" "}
+        <a href="https://www.goodreads.com/gusreviewsbook" className={LINK}>Goodreads</a>, and{" "}
+        <a href="https://www.inaturalist.org/people/augustus45814" className={LINK}>iNaturalist</a>.
+      </p>
     </section>
   );
 }
