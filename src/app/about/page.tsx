@@ -22,18 +22,19 @@ export default function About() {
           </>,
         ]}>
           {/* Beside the text from md up, and between the heading and the text below, so there's
-              a face to the words while you read them. The whole scene from md up; on phones a
-              shorter landscape crop around the two of us, so the opening line shows on the first screen */}
+              a face to the words while you read them. From md up a portrait crop, taller than the
+              square original so it holds its own beside the text, centred on me; on phones a
+              shorter landscape crop, so the opening line shows on the first screen */}
           {/* From md up it stays in view while the text beside it scrolls, below the navbar, so a
               longer text doesn't leave the photo stranded above a gap */}
-          <div className="photo-grade relative aspect-[3/2] overflow-hidden md:sticky md:top-24 md:aspect-[1113/1107]">
+          <div className="photo-grade relative aspect-[3/2] overflow-hidden md:sticky md:top-24 md:aspect-[4/5]">
             <Image
               src="/hero2.jpg"
               alt="Clam digging on a tidal flat beneath a wooden pier"
               fill
-              sizes="(min-width: 1024px) 352px, (min-width: 768px) 40vw, 100vw"
+              sizes="(min-width: 1024px) 400px, (min-width: 768px) 45vw, 100vw"
               priority
-              className="object-cover object-[50%_45%]"
+              className="object-cover object-[50%_45%] md:object-[25%_50%]"
             />
           </div>
         </Card>
