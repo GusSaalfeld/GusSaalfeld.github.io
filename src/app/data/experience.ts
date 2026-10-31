@@ -19,6 +19,16 @@ export const ToolGroups: { name: string, tools: string }[] = [
 // Roles with writing or engineering, newest first. Recruiters scan job titles first, so these lead
 export const WritingWork: Role[] = [
     {
+        // Not a job: the writing done since the last one, so the page shows what's recent
+        title: "Independent writing projects",
+        organization: "",
+        dates: "2026",
+        points: [
+            "Wrote a beginner’s explainer on what happens when you load a website, a how-to guide to growing oyster mushrooms at home, and UX writing for a course export feature in Canvas.",
+        ],
+        link: { label: "See the portfolio", href: "/portfolio" },
+    },
+    {
         title: "Assistant software engineer",
         organization: "Software Engineering Institute",
         dates: "2023",
@@ -43,7 +53,7 @@ export const WritingWork: Role[] = [
         dates: "2022",
         points: [
             "Conducted 30+ stakeholder interviews and user tests, and wrote handover documentation and a product ownership manual.",
-            "Built a dashboard for DEI events that streamlines data collection, standardizes data, and uses graphs to inform decision-making.",
+            "Built a dashboard for DEI events that streamlines data collection, standardizes data, and uses graphs to inform decision-making. The department still uses it today.",
         ],
         link: { label: "See the project", href: "/portfolio/capstone-project" },
     },
@@ -52,10 +62,10 @@ export const WritingWork: Role[] = [
         organization: "Ichigoichie Games",
         dates: "2020",
         points: [
-            "Wrote summaries of platforms for the wiki and presented findings to the team.",
+            "Researched what Xbox and Steam each require of a game, summarized it in the team wiki, and presented it to the team.",
             "Led the project to pass QA certification for the Xbox, Steam, and Nintendo stores: wrote a QA checklist, fixed bugs, and set up an automated test server with Jenkins. We passed every certification on the first try, ahead of schedule.",
             "Logged bugs as GitHub issues and assigned them to the team.",
-            "Added multi-platform support to the game Hexagroove by extending its original C# code, working with the studio in Stockholm.",
+            "Ported the Nintendo game Hexagroove to Xbox and Steam, refactoring its single-platform C# systems so they work on every platform, with the studio in Stockholm.",
         ],
     },
 ];

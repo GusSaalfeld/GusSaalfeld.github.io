@@ -7,7 +7,7 @@ import { EducationList, OtherWork, ToolGroups, WritingWork } from "@/app/data/ex
 export const metadata: Metadata = { title: "Experience" };
 
 // Built from the portfolio page: a title and a lede with the resume beside it, then the history on
-// one timeline: the roles with writing or engineering, other work, education, then the tools. The title is set like the About page's, in ink: only the name on the
+// one timeline: the roles with writing or engineering, education, other work, then the tools. The title is set like the About page's, in ink: only the name on the
 // portfolio page shows the slime
 export default function Experience() {
   return (
@@ -30,11 +30,12 @@ export default function Experience() {
       <Band className={SECTION_GAP}>
         <ExperienceList title="Writing and engineering" roles={WritingWork} />
       </Band>
-      <Band className={SECTION_GAP}>
-        <ExperienceList title="Other work" roles={OtherWork} />
-      </Band>
+      {/* Education next: the 2026 graduate course shows the move into writing is current */}
       <Band className={SECTION_GAP}>
         <ExperienceList title="Education" roles={EducationList} />
+      </Band>
+      <Band className={SECTION_GAP}>
+        <ExperienceList title="Other work" roles={OtherWork} />
       </Band>
       <Band className={SECTION_GAP}>
         <section>

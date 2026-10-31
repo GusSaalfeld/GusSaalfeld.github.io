@@ -15,8 +15,9 @@ type SelectedWorkProps = {
 
 // The projects as a ledger, like a bibliography: the kind of writing in its own column first, then
 // the title and one sentence on what it is, who it was for and what it achieved, then a small
-// picture at the right edge. On phones the kind of writing goes above the title. Rules between rows to scan by. On hover or focus, the title turns slime green and
-// underlines, and the picture's edge turns green with it
+// picture at the right edge. On phones the kind of writing goes above the title. Rules between rows
+// to scan by. A project whose page is ready is a link: on hover or focus, the title turns slime green
+// and underlines, and the picture's edge turns green with it. Until then the row is plain text
 export default function SelectedWork({ title, projects }: SelectedWorkProps) {
   return (
     <section>
@@ -24,12 +25,10 @@ export default function SelectedWork({ title, projects }: SelectedWorkProps) {
         {title ?? "Selected work"}
       </h2>
       <ul className="flex flex-col divide-y divide-quiet-rule border-y border-quiet-rule">
-        {projects.map((project) => (
-          <li key={project.path}>
-            <Link
-              href={`/portfolio/${project.path}`}
-              className="group grid grid-cols-[minmax(0,1fr)_5rem] items-start gap-x-6 gap-y-1 py-5 md:grid-cols-[9rem_minmax(0,1fr)_6rem]"
-            >
+        {projects.map((project) => {
+          const row = "group grid grid-cols-[minmax(0,1fr)_5rem] items-start gap-x-6 gap-y-1 py-5 md:grid-cols-[9rem_minmax(0,1fr)_6rem]";
+          const content = (
+            <>
               {/* The kind of writing, in ink, so a reader sees what each piece is first. Without one, it
                   still holds the first column from md up, but takes no line on phones */}
               <span className={`col-span-2 pt-1.5 font-sans text-base font-medium leading-[1.3] text-quiet-ink md:col-span-1 ${project.genre ? "" : "hidden md:block"}`}>
@@ -50,9 +49,19 @@ export default function SelectedWork({ title, projects }: SelectedWorkProps) {
                   <Image src={project.thumbnail} alt="" fill sizes="96px" className="object-cover" />
                 </div>
               )}
-            </Link>
-          </li>
-        ))}
+            </>
+          );
+          return (
+            <li key={project.path}>
+              {project.ready ? (
+                <Link href={`/portfolio/${project.path}`} className={row}>{content}</Link>
+              ) : (
+                // Not a link yet, so no group: the hover colors don't apply
+                <div className={row.replace("group ", "")}>{content}</div>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </section>
   );

@@ -60,3 +60,10 @@ export const ProjectList: Project[] = [
         genre: "Creative writing"
     },
 ];
+
+// Whether a link goes somewhere: any link outside the project pages does; a project page only once
+// its project is marked ready. A link that leads to "page not found" is worse than no link at all
+export function isLive(href: string): boolean {
+    const path = href.match(/^\/portfolio\/(.+)$/)?.[1];
+    return !path || ProjectList.some((project) => project.path === path && project.ready);
+}

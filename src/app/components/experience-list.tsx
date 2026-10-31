@@ -1,3 +1,4 @@
+import { isLive } from "@/app/data/projects";
 import type { Role } from "@/app/types";
 
 type ExperienceListProps = {
@@ -48,7 +49,7 @@ export default function ExperienceList({ title, roles }: ExperienceListProps) {
                     ))}
                   </ul>
                 )}
-                {role.link && (
+                {role.link && isLive(role.link.href) && (
                   <p className={full ? "mt-2 text-lg leading-[1.55]" : "text-base leading-[1.55]"}>
                     <a href={role.link.href} className={LINK}>{role.link.label}</a>
                   </p>
