@@ -16,17 +16,17 @@ export default function ExperienceList({ title, roles }: ExperienceListProps) {
       </h2>
       <ul className="flex flex-col divide-y divide-quiet-rule border-y border-quiet-rule">
         {roles.map((role) => (
-          <li key={role.title + role.dates} className="grid gap-x-6 gap-y-1 py-5 md:grid-cols-[9rem_minmax(0,1fr)]">
+          <li key={role.title + role.organization} className="grid gap-x-6 gap-y-1 py-5 md:grid-cols-[9rem_minmax(0,1fr)]">
             {/* When, in ink, then where, muted. Stacked from md up, side by side on phones */}
             <span className="flex flex-wrap items-baseline gap-x-3 pt-1.5 font-sans text-base md:flex-col md:gap-y-0.5">
-              <span className="font-medium leading-[1.3] text-quiet-ink">{role.dates}</span>
-              <span className="text-quiet-muted">{role.place}</span>
+              {role.dates && <span className="font-medium leading-[1.3] text-quiet-ink">{role.dates}</span>}
+              {role.place && <span className="text-quiet-muted">{role.place}</span>}
             </span>
             <div className="flex flex-col gap-1">
               <h3 className="font-sans text-2xl font-semibold leading-[1.25] text-quiet-ink">{role.title}</h3>
-              <p className="text-lg leading-[1.55] text-quiet-ink">{role.organization}</p>
+              {role.organization && <p className="text-lg leading-[1.55] text-quiet-ink">{role.organization}</p>}
               {/* One point reads as a sentence; more than one, as a list */}
-              {role.points.length === 1 ? (
+              {!role.points?.length ? null : role.points.length === 1 ? (
                 <p className="mt-2 max-w-[62ch] text-lg leading-[1.55] text-quiet-muted text-pretty">{role.points[0]}</p>
               ) : (
                 <ul className="mt-2 flex max-w-[62ch] list-disc flex-col gap-2 pl-5 text-lg leading-[1.55] text-quiet-muted marker:text-quiet-rule">
