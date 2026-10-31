@@ -1,0 +1,13 @@
+Selected work descriptions, before the one-voice rewrite (replaced on 2026-10-31).
+
+Designing a feedback system for Dietrich College’s DEI department
+  Before: Using iterative design, user testing, and stakeholder interviews, I designed a feedback system still in use by the department today.
+  After:  A feedback system for Dietrich College’s DEI department, designed through iterative user testing and stakeholder interviews, still in use today.
+
+Barista training manual
+  Before: A training manual that my café used to train new baristas.
+  After:  A training manual my café uses to train new baristas.
+
+Adding a new course export feature to Canvas
+  Before: Microcopy, a UX mockup, and a feature announcement meant to simulate adding a course export feature to Canvas.
+  After:  Microcopy, a UX mockup, and a launch announcement for a course export feature in Canvas, written as if it were shipping.

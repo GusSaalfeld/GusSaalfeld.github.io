@@ -16,8 +16,7 @@ export const ProjectList: Project[] = [
         path: "capstone-project",
         ready: true,
         title: "Designing a feedback system for Dietrich College’s DEI department",
-        hoverDescription: "Using iterative design, user testing, and stakeholder interviews, I designed a feedback system still in use by the department today.",
-        draftDescription: "A feedback system for Dietrich College’s DEI department, designed through iterative user testing and stakeholder interviews, still in use today.",
+        hoverDescription: "A feedback system for Dietrich College’s DEI department, designed through iterative user testing and stakeholder interviews, still in use today.",
         thumbnail: "", // none until there’s a real picture of the work
         genre: "UX research and writing",
         // DRAFT: from the resume. Check each line. Put each document's file in public/samples/ and add its
@@ -58,8 +57,7 @@ export const ProjectList: Project[] = [
         path: "barista-training",
         ready: true,
         title: "Barista training manual",
-        hoverDescription: "A training manual that my café used to train new baristas.",
-        draftDescription: "A training manual my café uses to train new baristas.",
+        hoverDescription: "A training manual my café uses to train new baristas.",
         thumbnail: "/samples/previews/barista-training-manual-1.png", // the top of its first page
         genre: "Training documentation",
         // DRAFT: from the manual itself. Check each line, and replace the placeholder picture
@@ -135,8 +133,7 @@ export const ProjectList: Project[] = [
         path: "ux-writing",
         ready: true,
         title: "Adding a new course export feature to Canvas",
-        hoverDescription: "Microcopy, a UX mockup, and a feature announcement meant to simulate adding a course export feature to Canvas.",
-        draftDescription: "Microcopy, a UX mockup, and a launch announcement for a course export feature in Canvas, written as if it were shipping.",
+        hoverDescription: "Microcopy, a UX mockup, and a launch announcement for a course export feature in Canvas, written as if it were shipping.",
         thumbnail: "", // none until there’s a real picture of the work
         genre: "UX writing",
         // DRAFT: from the description. Check each line; the challenges are guesses at what was hard.

@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { hasLivePage } from "@/app/data/projects";
@@ -19,9 +16,6 @@ type SelectedWorkProps = {
 // only read, like Experience's, are separated by space alone). A project whose page is ready is a link: on hover or focus, the title turns slime green
 // and underlines, and the picture's edge turns green with it. Until then the row is plain text
 export default function SelectedWork({ title, projects }: SelectedWorkProps) {
-  // TRIAL: the descriptions as they are, or rewritten in one voice. Once one is chosen, keep it in
-  // the data and remove this, draftDescription, and the button
-  const [draft, setDraft] = useState(false);
   return (
     <section>
       <h2 className="mb-6 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">
@@ -41,8 +35,8 @@ export default function SelectedWork({ title, projects }: SelectedWorkProps) {
                 <span className="font-sans text-2xl font-semibold leading-[1.25] text-quiet-ink group-hover:text-quiet-link group-hover:underline group-focus-visible:text-quiet-link underline-offset-4">
                   {project.title}
                 </span>
-                {(draft && project.draftDescription ? project.draftDescription : project.hoverDescription) && (
-                  <span className="max-w-[62ch] text-lg leading-[1.55] text-quiet-muted">{withItalics(draft && project.draftDescription ? project.draftDescription : project.hoverDescription)}</span>
+                {project.hoverDescription && (
+                  <span className="max-w-[62ch] text-lg leading-[1.55] text-quiet-muted">{withItalics(project.hoverDescription)}</span>
                 )}
               </span>
               {project.thumbnail && (
@@ -67,15 +61,6 @@ export default function SelectedWork({ title, projects }: SelectedWorkProps) {
         })}
       </ul>
 
-      {/* The switch, pinned to the screen's corner while the trial lasts */}
-      <button
-        type="button"
-        onClick={() => setDraft(!draft)}
-        className="fixed bottom-6 right-6 z-50 flex min-h-12 items-center gap-3 whitespace-nowrap border border-quiet-ink bg-quiet-paper px-5 font-sans text-base font-semibold text-quiet-ink shadow-sm hover:bg-quiet-ink hover:text-quiet-paper"
-      >
-        <span>{draft ? "After: one voice" : "Before: as written"}</span>
-        <span className="text-quiet-link">Show {draft ? "before" : "after"}</span>
-      </button>
     </section>
   );
 }
