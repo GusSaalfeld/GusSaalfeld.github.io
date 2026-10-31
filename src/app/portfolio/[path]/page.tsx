@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Band, { PAGE_TOP, SECTION_GAP } from "@/app/components/band";
 import DownloadLink from "@/app/components/download-link";
+import ResultsAndChallenges from "@/app/components/results-and-challenges";
 import { VisibleProjects } from "@/app/data/projects";
 import { plain, withItalics } from "@/app/lib/italics";
 import type { Project } from "@/app/types";
@@ -162,31 +163,33 @@ export default async function ProjectPage({ params }: Props) {
         </Band>
       )}
 
-      <Band className={SECTION_GAP}>
-        <section>
-          <h2 className={`mb-6 ${HEADING}`}>Outcomes</h2>
-          <ul className="flex max-w-[62ch] list-disc flex-col gap-2 pl-5 text-lg leading-[1.55] text-quiet-ink marker:text-quiet-muted">
-            {page.outcomes.map((outcome) => (
-              <li key={outcome} className="text-pretty">{withItalics(outcome)}</li>
-            ))}
-          </ul>
-        </section>
-      </Band>
-
-      {/* Each problem in bold, with what I did about it beneath: the decisions behind the piece */}
-      <Band className={SECTION_GAP}>
-        <section>
-          <h2 className={`mb-6 ${HEADING}`}>Challenges</h2>
-          <ul className="flex max-w-[62ch] flex-col gap-6">
-            {page.challenges.map(({ problem, solution }) => (
-              <li key={problem}>
-                <p className="font-sans text-lg font-semibold leading-[1.35] text-quiet-ink text-pretty">{withItalics(problem)}</p>
-                <p className="mt-1 text-lg leading-[1.55] text-quiet-ink text-pretty">{withItalics(solution)}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </Band>
+      {/* TRIAL: the two sections one after the other, or side by side (see ResultsAndChallenges) */}
+      <ResultsAndChallenges
+        outcomes={
+          <section>
+            <h2 className={`mb-6 ${HEADING}`}>Outcomes</h2>
+            <ul className="flex max-w-[62ch] list-disc flex-col gap-2 pl-5 text-lg leading-[1.55] text-quiet-ink marker:text-quiet-muted">
+              {page.outcomes.map((outcome) => (
+                <li key={outcome} className="text-pretty">{withItalics(outcome)}</li>
+              ))}
+            </ul>
+          </section>
+        }
+        challenges={
+          // Each problem in bold, with what I did about it beneath: the decisions behind the piece
+          <section>
+            <h2 className={`mb-6 ${HEADING}`}>Challenges</h2>
+            <ul className="flex max-w-[62ch] flex-col gap-6">
+              {page.challenges.map(({ problem, solution }) => (
+                <li key={problem}>
+                  <p className="font-sans text-lg font-semibold leading-[1.35] text-quiet-ink text-pretty">{withItalics(problem)}</p>
+                  <p className="mt-1 text-lg leading-[1.55] text-quiet-ink text-pretty">{withItalics(solution)}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        }
+      />
 
       {/* The neighbours, with their titles to give a reason to go on. Ruled, as rows you can click */}
       {(previous || next) && (
