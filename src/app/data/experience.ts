@@ -14,10 +14,12 @@ export const ToolGroups: { name: string, tools: string }[] = [
 // dash). Kept close to the resume's wording, in the site's style: sentence case, the Oxford comma,
 // and curly apostrophes (’). A role with points gets a full entry; one without is a single compact
 // line. A link goes after the points, or at the end of a compact line: to a portfolio piece, say.
-// Within a role, the writing comes first: these pages are read for writing jobs
+// Within a role, the writing comes first: these pages are read for writing jobs. At most three points
+// a role, so the page stays short enough to skim
 
-// Roles with writing or engineering, newest first. Recruiters scan job titles first, so these lead
-export const WritingWork: Role[] = [
+// All the work on one timeline, newest first, so the years read as continuous. The roles with writing
+// or engineering are full entries and stand out by size; the others are compact lines
+export const WorkList: Role[] = [
     {
         // Not a job: the writing done since the last one, so the page shows what's recent
         title: "Independent writing projects",
@@ -29,12 +31,27 @@ export const WritingWork: Role[] = [
         link: { label: "See the portfolio", href: "/portfolio" },
     },
     {
+        title: "Barista",
+        organization: "La Prima Espresso Company",
+        dates: "2025–2026",
+        link: { label: "See the training manual I wrote", href: "/portfolio/barista-training" },
+    },
+    {
+        title: "Assistant store manager",
+        organization: "Gaby et Jules",
+        dates: "2024",
+    },
+    {
+        title: "Voter registration",
+        organization: "", // left out on purpose: the organization can read as partisan
+        dates: "2024",
+    },
+    {
         title: "Assistant software engineer",
         organization: "Software Engineering Institute",
         dates: "2023",
         points: [
-            "Rewrote the team’s onboarding process for new members in its Confluence wiki, which the team still uses today.",
-            "Rewrote the rest of the wiki to be clear, concise, and more detailed, and gave writing support to team members.",
+            "Rewrote the team’s Confluence wiki, including its onboarding process for new members, which the team still uses today, and gave writing support to team members.",
             "Turned each goal I was given, such as migrating a server, into a timeline of Jira tickets with step-by-step instructions and a definition of done.",
             "Upgraded a Python application the US government uses to report cyberattacks: added new features, tested its security, deployed it, then coordinated the cut-over with our government client.",
         ],
@@ -64,30 +81,9 @@ export const WritingWork: Role[] = [
         dates: "2020",
         points: [
             "Researched what Xbox and Steam each require of a game, summarized it in the team wiki, and presented it to the team.",
-            "Led the project to pass QA certification for the Xbox, Steam, and Nintendo stores: wrote a QA checklist, fixed bugs, and set up an automated test server with Jenkins. We passed every certification on the first try, ahead of schedule.",
-            "Logged bugs as GitHub issues and assigned them to the team.",
+            "Led the project to pass QA certification for the Xbox, Steam, and Nintendo stores: wrote a QA checklist, logged bugs as GitHub issues for the team, and set up an automated test server with Jenkins. We passed every certification on the first try, ahead of schedule.",
             "Ported the Nintendo game Hexagroove to Xbox and Steam, refactoring its single-platform C# systems so they work on every platform, with the studio in Stockholm.",
         ],
-    },
-];
-
-// Other jobs, newest first, as compact lines
-export const OtherWork: Role[] = [
-    {
-        title: "Barista",
-        organization: "La Prima Espresso Company",
-        dates: "2025–2026",
-        link: { label: "See the training manual I wrote", href: "/portfolio/barista-training" },
-    },
-    {
-        title: "Assistant store manager",
-        organization: "Gaby et Jules",
-        dates: "2024",
-    },
-    {
-        title: "Voter registration",
-        organization: "", // left out on purpose: the organization can read as partisan
-        dates: "2024",
     },
 ];
 

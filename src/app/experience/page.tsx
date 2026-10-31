@@ -2,17 +2,21 @@ import type { Metadata } from "next";
 import Band, { PAGE_TOP, SECTION_GAP } from "@/app/components/band";
 import DownloadLink from "@/app/components/download-link";
 import ExperienceList from "@/app/components/experience-list";
-import { EducationList, OtherWork, ToolGroups, WritingWork } from "@/app/data/experience";
+import { EducationList, ToolGroups, WorkList } from "@/app/data/experience";
 
 export const metadata: Metadata = { title: "Experience" };
 
+// Tighter than the site's SECTION_GAP between this page's own sections (48px, 64px from md up), so
+// the history skims in fewer screens. The last section keeps SECTION_GAP before the contact sign-off
+const GAP = "pb-12 md:pb-16 short:pb-12 md:short:pb-12";
+
 // Built from the portfolio page: a title and a lede with the resume beside it, then the history on
-// one timeline: the roles with writing or engineering, education, other work, then the tools. The title is set like the About page's, in ink: only the name on the
+// one timeline: all the work, education, then the tools. The title is set like the About page's, in ink: only the name on the
 // portfolio page shows the slime
 export default function Experience() {
   return (
     <>
-      <Band className={`${PAGE_TOP} ${SECTION_GAP}`}>
+      <Band className={`${PAGE_TOP} ${GAP}`}>
         <h1 className="font-sans text-[2.625rem] font-bold leading-[1.15] tracking-[-0.02em] text-quiet-ink">
           Experience
         </h1>
@@ -26,16 +30,12 @@ export default function Experience() {
           </div>
         </div>
       </Band>
-      {/* The roles with writing or engineering first: recruiters scan job titles first */}
-      <Band className={SECTION_GAP}>
-        <ExperienceList title="Writing and engineering" roles={WritingWork} />
+      <Band className={GAP}>
+        <ExperienceList title="Work" roles={WorkList} />
       </Band>
       {/* Education next: the 2026 graduate course shows the move into writing is current */}
-      <Band className={SECTION_GAP}>
+      <Band className={GAP}>
         <ExperienceList title="Education" roles={EducationList} />
-      </Band>
-      <Band className={SECTION_GAP}>
-        <ExperienceList title="Other work" roles={OtherWork} />
       </Band>
       <Band className={SECTION_GAP}>
         <section>

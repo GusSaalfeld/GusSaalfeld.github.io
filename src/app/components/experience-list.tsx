@@ -15,10 +15,10 @@ const LINK = "text-quiet-link underline decoration-1 underline-offset-4 hover:de
 export default function ExperienceList({ title, roles }: ExperienceListProps) {
   return (
     <section>
-      <h2 className="mb-6 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">
+      <h2 className="mb-4 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">
         {title}
       </h2>
-      <ul className="flex flex-col gap-10">
+      <ul className="flex flex-col gap-7">
         {roles.map((role) => {
           const points = role.points ?? [];
           const full = points.length > 0;
