@@ -12,9 +12,11 @@ import {
 import { Creatures, MAX_CREATURES } from "./Creatures";
 import { MAX_FOOD, foodPosition } from "./Dish";
 
-// How a resize carries the slime over (see resize()). "stretch": stretched to the new size, as the
-// simulation always looked. "crop": kept at its scale on screen, cropped or opening new space
-const RESIZE_MODE: "stretch" | "crop" = "stretch";
+// How a resize carries the slime over (see resize()). "cover": scaled evenly to cover the new
+// shape, centred, with the overflow cut off, so its cells keep their shape when the window's
+// proportions change. "stretch": stretched to the new size, squashing the cells until they settle
+// back. "crop": kept at its scale on screen, cropped or opening new space
+const RESIZE_MODE: "cover" | "stretch" | "crop" = "cover";
 
 // The simulation advances in fixed ticks of settings.fixedTimeStep seconds, however fast the
 // screen refreshes. Without this, a 144 Hz display would run 2.4x faster than a 60 Hz one.
@@ -281,10 +283,8 @@ export class SlimeSim {
     const nextA = this.makeTarget(w, h, this.gl.HALF_FLOAT, this.gl.RGBA16F, this.gl.LINEAR, wrap);
     const nextB = this.makeTarget(w, h, this.gl.HALF_FLOAT, this.gl.RGBA16F, this.gl.LINEAR, wrap);
 
-    // Carry the slime over, stretched to the new size, rather than wiping it: the agents keep their
-    // places relative to the edges (they're stored as 0..1), so the copied trail lines up with them.
-    // Each step of a window drag is small, so the pattern deforms smoothly and then settles back.
-    // RESIZE_MODE "crop" instead keeps the slime at its scale on screen, cropping or opening space
+    // Carry the slime over to the new size rather than wiping it (see RESIZE_MODE). The agents are
+    // stored as 0..1 across the trail, so they're moved by the same mapping as the trail to stay on it
     if (old && !fresh) {
       const c = this.copyTrail.program.uniforms;
       c.uSource.value = old.texture;
@@ -292,6 +292,24 @@ export class SlimeSim {
         c.uScale.value = [1, 1];
         c.uOffset.value = [0, 0];
         this.renderer.render({ scene: this.copyTrail, target: nextA });
+      } else if (RESIZE_MODE === "cover") {
+        // The new view takes the largest part of the old trail with the new proportions, from its
+        // middle: all of one axis, and as much of the other as fits. Both axes scale alike, so
+        // nothing is stretched, and the new view is always fully covered, so nothing is empty
+        const oldAspect = old.width / old.height, newAspect = w / h;
+        const scale = newAspect < oldAspect ? [newAspect / oldAspect, 1] : [1, oldAspect / newAspect];
+        const offset = [(1 - scale[0]) / 2, (1 - scale[1]) / 2];
+        c.uScale.value = scale;
+        c.uOffset.value = offset;
+        this.renderer.render({ scene: this.copyTrail, target: nextA });
+        // The agents move with it; those in the part cut off are placed afresh by the next update
+        const r = this.remapAgents.program.uniforms;
+        r.uAgents.value = this.agentsA.texture;
+        r.uScale.value = scale;
+        r.uOffset.value = offset;
+        r.uRespawn.value = 0;
+        this.renderer.render({ scene: this.remapAgents, target: this.agentsB });
+        [this.agentsA, this.agentsB] = [this.agentsB, this.agentsA];
       } else {
         // A point at newUV sat at newUV * scale + offset in the old trail, measured from the top
         const oldK = texelsPerPixel(oldWidth, oldHeight);

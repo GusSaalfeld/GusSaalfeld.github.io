@@ -3,6 +3,7 @@ import { Archivo, Source_Serif_4 } from "next/font/google";
 import Header from "@/app/components/header";
 import Contact from "@/app/components/contact";
 import SlimeBanner from "@/app/components/slime-banner";
+import ScrollToTop from "@/app/components/scroll-to-top";
 import SlimeCanvas from "@/app/components/slime-canvas";
 import type { Metadata } from "next";
 import type { RGB } from "@/app/lib/slime/SlimeSettings";
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${archivo.variable} ${sourceSerif.variable}`}>
       {/* At least a screen tall, so a page's last element can grow to the bottom of the screen */}
       <body className="flex min-h-svh flex-col">
+        <ScrollToTop />
         <SlimeCanvas settings={slimeSettings} />
         {/* For keyboard users: the first stop on every page, hidden until it has focus, so a Tab
             then Enter skips the navigation: the page scrolls to sit just under the navbar, and the
