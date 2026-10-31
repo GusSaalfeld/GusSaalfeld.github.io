@@ -16,14 +16,53 @@ export const ProjectList: Project[] = [
         title: "Designing a feedback system for Dietrich College’s DEI department",
         hoverDescription: "Using iterative design, user testing, and stakeholder interviews, I designed a feedback collection system still in use by the department today.",
         thumbnail: "/placeholders/capstone-project.jpg",
-        genre: "User research"
+        genre: "User research",
+        // DRAFT: from the resume. Check each line, and replace the placeholder picture
+        page: {
+            kind: "other",
+            date: "Spring 2022",
+            summary: "A dashboard that collects and reports feedback on DEI events, which Dietrich College’s Office of Diversity, Equity, and Inclusion still uses today.",
+            image: { src: "/placeholders/capstone-project.jpg", alt: "Placeholder picture" },
+            outcomes: [
+                "The department still uses the dashboard to collect feedback on its events.",
+                "Feedback from every event now arrives in one standard format, with graphs to inform decisions.",
+                "Handover documentation and a product ownership manual let the department run it without me.",
+            ],
+            star: {
+                situation: "The Office of Diversity, Equity, and Inclusion collected feedback on its events, but in no consistent format, so it was hard to compare events or act on what people said.",
+                task: "As the office’s technical consultant, design a system to collect feedback and report it in a form the staff could use to make decisions.",
+                action: "Conducted 30+ stakeholder interviews and user tests, designed the dashboard iteratively from what they showed, then wrote handover documentation and a product ownership manual.",
+                result: "A dashboard that streamlines and standardizes data collection, and that the department still uses today.",
+            },
+        },
     },
     {
         path: "barista-training",
         title: "Barista training manual",
         hoverDescription: "A training manual that my café used to train new baristas.",
         thumbnail: "/placeholders/barista-training.jpg",
-        genre: "Technical writing"
+        genre: "Technical writing",
+        // DRAFT: from the manual itself. Check each line, and replace the placeholder picture
+        page: {
+            kind: "writing",
+            date: "2026",
+            purpose: "Teach a new barista to make a latte, and with it how to use the espresso machine.",
+            audience: "New baristas at La Prima’s Gates and Wean cafés on Carnegie Mellon’s campus.",
+            summary: "A step-by-step guide that teaches new baristas at La Prima’s CMU cafés to make a latte, and with it how to use the espresso machine.",
+            image: { src: "/placeholders/barista-training.jpg", alt: "Placeholder picture" },
+            outcomes: [
+                "The café uses the manual to train new baristas.",
+                "New baristas can follow one drink from cup code to counter in four steps, without a supervisor beside them.",
+                "Tables show what good and bad results look like, for tamping espresso and steaming milk, so baristas can check their own work.",
+            ],
+            star: {
+                situation: "New baristas at La Prima’s Gates and Wean cafés learn the espresso machine during busy shifts, where mistakes like serving caffeine to a decaf order matter.",
+                task: "Write a guide a new barista could follow on their own, true to La Prima’s traditional Italian coffee-making.",
+                action: "Broke making a 16 oz double latte into four steps, from reading the cup code to serving the drink, and added comparison tables and safety notes on decaf and milk allergies.",
+                result: "A manual the café uses to train new baristas.",
+            },
+            sample: { label: "Download the manual (PDF)", href: "/samples/barista-training-manual.pdf" },
+        },
     },
     {
         path: "scientific-explainer",
