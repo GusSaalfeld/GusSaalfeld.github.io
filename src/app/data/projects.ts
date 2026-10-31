@@ -18,14 +18,18 @@ export const ProjectList: Project[] = [
         hoverDescription: "Using iterative design, user testing, and stakeholder interviews, I designed a feedback collection system still in use by the department today.",
         thumbnail: "/placeholders/capstone-project.jpg",
         genre: "User research",
-        // DRAFT: from the resume. Check each line. The writing is the handover documentation and the
-        // product ownership manual: a PDF of either (in public/samples/) would give it previews and a download
+        // DRAFT: from the resume. Check each line. Put each document's file in public/samples/ and add its
+        // href below, and its link appears; screenshots of the form and the visualizations go in previews
         page: {
-            kind: "writing",
+            kind: "other",
             date: "Spring 2022",
-            purpose: "Collect feedback on DEI events in one consistent format, and hand the system over so the department could run it without me.",
-            audience: "Staff at Dietrich College’s Office of Diversity, Equity, and Inclusion, who run and evaluate its events.",
-            format: "Dashboard, handover documentation, and a product ownership manual",
+            documents: [
+                { name: "Project report", description: "What the office needed, what I built, and why." },
+                { name: "Final feedback form", description: "A screenshot of the form attendees fill in after an event." },
+                { name: "Data visualizations", description: "The graphs staff use to compare events and decide what to change." },
+                { name: "Handover documentation", description: "How to run and maintain the system, so the department could without me." },
+                { name: "Postmortem", description: "What went well, what didn’t, and what I’d do differently." },
+            ],
             summary: "A dashboard that collects and reports feedback on DEI events, which Dietrich College’s Office of Diversity, Equity, and Inclusion still uses today.",
             outcomes: [
                 "The department still uses the dashboard to collect feedback on its events.",

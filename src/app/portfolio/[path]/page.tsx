@@ -124,6 +124,25 @@ export default async function ProjectPage({ params }: Props) {
         )}
       </Band>
 
+      {/* What the project produced: each document named, with what it is; a link once its file is added */}
+      {page.documents && page.documents.length > 0 && (
+        <Band className={SECTION_GAP}>
+          <section>
+            <h2 className={`mb-6 ${HEADING}`}>What I delivered</h2>
+            <ul className="grid max-w-[62rem] gap-x-8 gap-y-6 md:grid-cols-2">
+              {page.documents.map((doc) => (
+                <li key={doc.name}>
+                  <p className="font-sans text-lg font-semibold leading-[1.35] text-quiet-ink">
+                    {doc.href ? <a href={doc.href} className={LINK}>{doc.name}</a> : doc.name}
+                  </p>
+                  <p className="mt-1 text-base leading-[1.55] text-quiet-muted text-pretty">{doc.description}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </Band>
+      )}
+
       <Band className={SECTION_GAP}>
         <section>
           <h2 className={`mb-6 ${HEADING}`}>Outcomes</h2>
