@@ -25,7 +25,7 @@ const HOBBIES: Hobby[] = [
   },
   {
     name: "Growing mushrooms",
-    caption: "Blue oysters, pink oysters, and lion’s mane, which tastes like crab.",
+    caption: "Blue oysters, pink oysters (which taste like bacon), and lion’s mane (which has the texture of crab).",
     photo: "/hobbies/mushroom-growing.jpg",
     alt: "Jars of grain with white oyster mushroom mycelium growing through them",
     focus: "62% 58%", // the sharpest jar, on the right, with the most growth
