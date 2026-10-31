@@ -44,7 +44,7 @@ export default function SelectedWork({ title, projects }: SelectedWorkProps) {
                   {live ? (
                     <Link
                       href={`/portfolio/${project.path}`}
-                      className="after:absolute after:inset-0 group-hover:text-quiet-link group-hover:underline underline-offset-4 focus-visible:outline-none"
+                      className="stretched-link after:absolute after:inset-0 after:z-10 group-hover:text-quiet-link group-hover:underline underline-offset-4"
                     >
                       {project.title}
                     </Link>
