@@ -191,8 +191,9 @@ export const ProjectList: Project[] = [
                 { name: "AdGuard Home", role: "ad blocking" },
                 { name: "Vaultwarden", role: "passwords" },
                 { name: "OpenMediaVault", role: "network storage" },
+                { name: "OpenWrt", role: "router" },
+                { name: "WireGuard", role: "VPN, through OpenWrt" },
                 { name: "Tailscale", role: "remote access" },
-                { name: "OpenWrt", role: "router and VPN" },
             ],
             outcomes: [
                 "Hosts the services I use every day, from media and passwords to network storage and remote access.",
