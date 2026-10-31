@@ -16,7 +16,7 @@ export const WorkList: Role[] = [
     {
         title: "Assistant store manager",
         organization: "Gaby et Jules",
-        dates: "", // TODO: the years
+        dates: "2024",
     },
     {
         title: "Voter registration",
