@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import Band, { PAGE_TOP, SECTION_GAP } from "@/app/components/band";
 import DownloadLink from "@/app/components/download-link";
 import { ProjectList } from "@/app/data/projects";
+import { plain, withItalics } from "@/app/lib/italics";
 import type { Project } from "@/app/types";
 
 // A project's own page, one for each project with a page in the data. Writing samples and other
@@ -26,7 +27,7 @@ type Props = { params: Promise<{ path: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { path } = await params;
   const project = WITH_PAGES.find((p) => p.path === path);
-  return project ? { title: project.title, description: project.page?.summary } : {};
+  return project ? { title: project.title, description: project.page && plain(project.page.summary) } : {};
 }
 
 const HEADING = "font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink";
@@ -51,6 +52,7 @@ export default async function ProjectPage({ params }: Props) {
     ["Audience", page.audience],
     ["Format", page.format],
     ["Built with", page.builtWith],
+    ["Services", page.services],
   ].filter((fact): fact is [string, string] => Boolean(fact[1]));
 
   return (
@@ -80,7 +82,7 @@ export default async function ProjectPage({ params }: Props) {
         {/* What it is, with the whole piece beside it from md up, as on the other pages */}
         <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-12">
           <p className="max-w-[44ch] md:max-w-[52ch] text-xl md:text-2xl md:short:text-xl leading-[1.4] text-quiet-ink text-pretty">
-            {page.summary}
+            {withItalics(page.summary)}
           </p>
           {page.sample && (
             <div className="flex shrink-0">
@@ -94,7 +96,7 @@ export default async function ProjectPage({ params }: Props) {
             {facts.map(([name, text]) => (
               <div key={name}>
                 <dt className="font-sans text-base font-semibold leading-[1.3] text-quiet-ink">{name}</dt>
-                <dd className="mt-1 text-base leading-[1.55] text-quiet-ink text-pretty">{text}</dd>
+                <dd className="mt-1 text-base leading-[1.55] text-quiet-ink text-pretty">{withItalics(text)}</dd>
               </div>
             ))}
           </dl>
@@ -134,9 +136,9 @@ export default async function ProjectPage({ params }: Props) {
               {page.documents.map((doc) => (
                 <li key={doc.name}>
                   <p className="font-sans text-lg font-semibold leading-[1.35] text-quiet-ink">
-                    {doc.href ? <a href={doc.href} className={LINK}>{doc.name}</a> : doc.name}
+                    {doc.href ? <a href={doc.href} className={LINK}>{withItalics(doc.name)}</a> : withItalics(doc.name)}
                   </p>
-                  <p className="mt-1 text-base leading-[1.55] text-quiet-muted text-pretty">{doc.description}</p>
+                  <p className="mt-1 text-base leading-[1.55] text-quiet-muted text-pretty">{withItalics(doc.description)}</p>
                 </li>
               ))}
             </ul>
@@ -149,7 +151,7 @@ export default async function ProjectPage({ params }: Props) {
           <h2 className={`mb-6 ${HEADING}`}>Outcomes</h2>
           <ul className="flex max-w-[62ch] list-disc flex-col gap-2 pl-5 text-lg leading-[1.55] text-quiet-ink marker:text-quiet-muted">
             {page.outcomes.map((outcome) => (
-              <li key={outcome} className="text-pretty">{outcome}</li>
+              <li key={outcome} className="text-pretty">{withItalics(outcome)}</li>
             ))}
           </ul>
         </section>
@@ -162,8 +164,8 @@ export default async function ProjectPage({ params }: Props) {
           <ul className="flex max-w-[62ch] flex-col gap-6">
             {page.challenges.map(({ problem, solution }) => (
               <li key={problem}>
-                <p className="font-sans text-lg font-semibold leading-[1.35] text-quiet-ink text-pretty">{problem}</p>
-                <p className="mt-1 text-lg leading-[1.55] text-quiet-ink text-pretty">{solution}</p>
+                <p className="font-sans text-lg font-semibold leading-[1.35] text-quiet-ink text-pretty">{withItalics(problem)}</p>
+                <p className="mt-1 text-lg leading-[1.55] text-quiet-ink text-pretty">{withItalics(solution)}</p>
               </li>
             ))}
           </ul>

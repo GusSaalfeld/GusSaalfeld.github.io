@@ -1,13 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { hasLivePage } from "@/app/data/projects";
+import { withItalics } from "@/app/lib/italics";
 import type { Project } from "@/app/types";
-
-// A description with *asterisks* around words that should be italic, such as a book's title.
-// Splitting on the pattern alternates plain and italic runs: the odd pieces are the italic ones
-function withItalics(text: string) {
-  return text.split(/\*([^*]+)\*/).map((piece, i) => (i % 2 ? <em key={i}>{piece}</em> : piece));
-}
 
 type SelectedWorkProps = {
   title?: string;

@@ -134,7 +134,42 @@ export const ProjectList: Project[] = [
         title: "Adding a new course export feature to Canvas",
         hoverDescription: "Microcopy, a UX mockup, and a feature announcement meant to simulate adding a course export feature to Canvas.",
         thumbnail: "/placeholders/ux-writing.jpg",
-        genre: "UX writing"
+        genre: "UX writing",
+        // DRAFT: from the description. Check each line; the challenges are guesses at what was hard.
+        // Put each piece's file in public/samples/ and add its href below, and its link appears;
+        // screenshots of the mockup would make good previews
+        page: {
+            kind: "writing",
+            date: "2026",
+            summary: "Microcopy, a UX mockup, and a launch announcement for a course export feature in Canvas, written as if it were shipping.",
+            purpose: "Show how I’d write for a new feature end to end: in the interface itself, and in telling users it exists.",
+            audience: "Teachers who use Canvas, the learning platform, and want to take their courses with them.",
+            format: "Microcopy, a mockup, and an announcement",
+            documents: [
+                { name: "Microcopy", description: "The buttons, labels, messages, and errors a teacher meets while exporting a course." },
+                { name: "UX mockup", description: "The export flow, screen by screen, with the microcopy in place." },
+                { name: "Feature announcement", description: "The launch post that tells teachers what the feature does and how to find it." },
+            ],
+            outcomes: [
+                "Covers a feature from first click to finished export, including what happens when it fails.",
+                "Keeps one vocabulary throughout, so the button, the messages, and the announcement name things the same way.",
+                "Shows interface writing and announcement writing for the same feature, side by side.",
+            ],
+            challenges: [
+                {
+                    problem: "An export can take a while, and a teacher can’t tell whether it’s working.",
+                    solution: "Wrote progress and completion messages that say what’s happening and what to do next.",
+                },
+                {
+                    problem: "Export errors usually blame the user or say nothing useful.",
+                    solution: "Wrote each error to say what went wrong and how to fix it, in plain words.",
+                },
+                {
+                    problem: "Teachers ignore announcements that read like marketing.",
+                    solution: "Led the announcement with the problem it solves, then the three steps to use it.",
+                },
+            ],
+        },
     },
     {
         path: "home-server",
@@ -150,6 +185,8 @@ export const ProjectList: Project[] = [
             date: "2025–present",
             summary: "A home server running on Proxmox that hosts the open-source tools I use every day, in place of commercial services.",
             builtWith: "Proxmox, Docker, Portainer, OpenWrt",
+            // DRAFT: name the apps themselves, as in "Mealie (recipe book)"
+            services: "A recipe book, a media server, and tracking protection for the whole network",
             outcomes: [
                 "Hosts a recipe book, a media server, and tracking protection for every device on my network.",
                 "Replaces commercial services with open-source tools I control.",
@@ -215,7 +252,41 @@ export const ProjectList: Project[] = [
         title: "Short stories and a study on computer science in fiction",
         hoverDescription: "Short stories with absurd premises, and a study of how fiction can demonstrate computer science’s impact on our inner lives, through Italo Calvino’s *Cosmicomics*.",
         thumbnail: "/placeholders/creative-writing.jpg",
-        genre: "Creative writing"
+        genre: "Creative writing",
+        // DRAFT: from the description and the SURF fellowship. Check each line, the date especially, and
+        // add the stories and the study: their files in public/samples/, with an href below each
+        page: {
+            kind: "writing",
+            date: "2022",
+            summary: "Short stories with absurd premises, and a study of how Italo Calvino’s *Cosmicomics* uses fiction to show computer science’s effect on our inner lives.",
+            purpose: "Explore how fiction can make an abstract computer science idea felt, not just understood.",
+            audience: "Readers of literary fiction, with or without a background in computer science.",
+            format: "Short stories and a research study",
+            documents: [
+                { name: "Short stories", description: "Stories with absurd premises, including one that dramatizes abstraction." },
+                { name: "Study of *Cosmicomics*", description: "How Calvino turns scientific ideas into stories about how it feels to live with them." },
+                { name: "Research summary", description: "A video summary of the research, from Carnegie Mellon’s Meeting of the Minds.", href: "https://www.youtube.com/watch?v=hb2u9kJPV4E" },
+            ],
+            outcomes: [
+                "Won a SURF Creative Writing Fellowship from Carnegie Mellon to write it.",
+                "Presented the research at Carnegie Mellon’s Meeting of the Minds.",
+                "A story that makes abstraction, a core idea in computer science, something a reader feels.",
+            ],
+            challenges: [
+                {
+                    problem: "There’s very little fiction about computer science to learn from.",
+                    solution: "Studied how Calvino’s *Cosmicomics* turns physics and cosmology into stories, and applied it to computing.",
+                },
+                {
+                    problem: "Explaining an idea like abstraction kills a story.",
+                    solution: "Built each premise around the idea, so readers live through it instead of being told about it.",
+                },
+                {
+                    problem: "The stories had to work for readers who don’t know computer science.",
+                    solution: "Kept the technical idea under the surface: the story has to stand on its own.",
+                },
+            ],
+        },
     },
 ];
 

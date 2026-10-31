@@ -19,6 +19,7 @@ export type ProjectPage = {
   audience?: string,          // who it's written for, one short sentence
   format?: string,            // its form and length: "7 pages, PDF"
   builtWith?: string,         // other work: the tools it's made with, "Proxmox, Docker"
+  services?: string,          // other work that runs things: what it runs, "Jellyfin (media server)"
   previews?: { src: string, alt: string }[], // pictures of the piece itself: pages, screens. Up to 3
   documents?: { name: string, description: string, href?: string }[], // what the project produced, each
                                             // with a line on what it is. One with an href links to its file
