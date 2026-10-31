@@ -1,8 +1,21 @@
 import Image from "next/image";
+import { isLive } from "@/app/data/projects";
 
 // Your photos are in /hobbies/: describe each in alt. focus places the crop (CSS object-position),
-// for a photo whose subject isn't at its centre
-const HOBBIES: { name: string; caption: string; photo: string; alt: string; focus?: string }[] = [
+// for a photo whose subject isn't at its centre; zoom crops the square in further, around the focus,
+// for one whose subject is small in the frame. Each caption adds a detail the name doesn't. A link points to
+// the writing a hobby led to, and shows once that page is ready
+type Hobby = {
+  name: string;
+  caption: string;
+  photo: string;
+  alt: string;
+  focus?: string;
+  zoom?: number;
+  link?: { label: string; href: string };
+};
+
+const HOBBIES: Hobby[] = [
   {
     name: "Rock climbing",
     caption: "Climbing outdoors whenever the weather allows.",
@@ -12,17 +25,20 @@ const HOBBIES: { name: string; caption: string; photo: string; alt: string; focu
   },
   {
     name: "Growing mushrooms",
-    caption: "Growing oyster mushrooms at home.",
+    caption: "Blue oysters, pink oysters, and lion’s mane, which tastes like crab.",
     photo: "/hobbies/mushroom-growing.jpg",
     alt: "Jars of grain with white oyster mushroom mycelium growing through them",
-    focus: "50% 48%", // the jars, lids and all
+    focus: "62% 58%", // the sharpest jar, on the right, with the most growth
+    zoom: 1.3,
+    link: { label: "Read my guide to growing them", href: "/portfolio/growing-mushrooms" },
   },
   {
     name: "Painting miniatures",
     caption: "Painting Warhammer figurines.",
     photo: "/hobbies/warhammer-miniature.jpg",
     alt: "A Warhammer figurine, part-painted in dark green, beside a paintbrush",
-    focus: "0% 65%", // the figurine, left of centre
+    focus: "30% 62%", // the figurine, left of centre
+    zoom: 1.45,
   },
 ];
 
@@ -58,12 +74,22 @@ export default function Hobbies() {
                 alt={hobby.alt}
                 fill
                 sizes="(min-width: 640px) 300px, 100vw"
-                className="object-cover"
-                style={hobby.focus ? { objectPosition: hobby.focus } : undefined}
+                // The zoom applies to the squares only: the wider phone crop already frames the subject
+                className="object-cover sm:[scale:var(--zoom)]"
+                style={{
+                  objectPosition: hobby.focus,
+                  transformOrigin: hobby.focus,
+                  ["--zoom" as string]: hobby.zoom ?? 1,
+                }}
               />
             </div>
             <h3 className="mt-4 font-sans text-lg font-semibold leading-[1.3] text-quiet-ink">{hobby.name}</h3>
             <p className="mt-1 text-base leading-[1.55] text-quiet-muted text-pretty">{hobby.caption}</p>
+            {hobby.link && isLive(hobby.link.href) && (
+              <p className="mt-1 text-base leading-[1.55]">
+                <a href={hobby.link.href} className={LINK}>{hobby.link.label}</a>
+              </p>
+            )}
           </li>
         ))}
       </ul>
