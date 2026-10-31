@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { hasLivePage } from "@/app/data/projects";
 import type { Project } from "@/app/types";
 
 // A description with *asterisks* around words that should be italic, such as a book's title.
@@ -54,7 +55,7 @@ export default function SelectedWork({ title, projects }: SelectedWorkProps) {
           );
           return (
             <li key={project.path}>
-              {project.ready ? (
+              {hasLivePage(project) ? (
                 <Link href={`/portfolio/${project.path}`} className={row}>{content}</Link>
               ) : (
                 // Not a link yet, so no group: the hover colors don't apply

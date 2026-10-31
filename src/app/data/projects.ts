@@ -13,6 +13,7 @@ import type { Project } from "@/app/types";
 export const ProjectList: Project[] = [
     {
         path: "capstone-project",
+        ready: true,
         title: "Designing a feedback system for Dietrich College’s DEI department",
         hoverDescription: "Using iterative design, user testing, and stakeholder interviews, I designed a feedback collection system still in use by the department today.",
         thumbnail: "/placeholders/capstone-project.jpg",
@@ -38,6 +39,7 @@ export const ProjectList: Project[] = [
     },
     {
         path: "barista-training",
+        ready: true,
         title: "Barista training manual",
         hoverDescription: "A training manual that my café used to train new baristas.",
         thumbnail: "/placeholders/barista-training.jpg",
@@ -66,6 +68,7 @@ export const ProjectList: Project[] = [
     },
     {
         path: "scientific-explainer",
+        ready: true,
         title: "What happens when you type youtube.com into the web browser?",
         hoverDescription: "A beginner’s guide to what goes on behind the scenes whenever you look up a website in your web browser.",
         thumbnail: "/placeholders/scientific-explainer.jpg",
@@ -73,6 +76,7 @@ export const ProjectList: Project[] = [
     },
     {
         path: "ux-writing",
+        ready: true,
         title: "Adding a new course export feature to Canvas",
         hoverDescription: "Microcopy, a UX mockup, and a feature announcement meant to simulate adding a course export feature to Canvas.",
         thumbnail: "/placeholders/ux-writing.jpg",
@@ -80,6 +84,7 @@ export const ProjectList: Project[] = [
     },
     {
         path: "home-server",
+        ready: true,
         title: "Home server",
         hoverDescription: "My home server runs on Proxmox and hosts the open-source tools I use daily, such as a recipe book, media server, and digital tracking protection.",
         thumbnail: "/placeholders/home-server.jpg",
@@ -87,6 +92,7 @@ export const ProjectList: Project[] = [
     },
     {
         path: "growing-mushrooms",
+        ready: true,
         title: "How to grow oyster mushrooms at home",
         hoverDescription: "A how-to guide that walks beginners through growing oyster mushrooms at home.",
         thumbnail: "/placeholders/growing-mushrooms.jpg",
@@ -94,6 +100,7 @@ export const ProjectList: Project[] = [
     },
     {
         path: "creative-writing",
+        ready: true,
         title: "Short stories and a study on computer science in fiction",
         hoverDescription: "Short stories with absurd premises, and a study of how fiction can demonstrate computer science’s impact on our inner lives, through Italo Calvino’s *Cosmicomics*.",
         thumbnail: "/placeholders/creative-writing.jpg",
@@ -101,9 +108,15 @@ export const ProjectList: Project[] = [
     },
 ];
 
+// Whether a project's page can be linked to: it's marked ready and it has a page. A link that leads
+// to "page not found" is worse than no link at all
+export function hasLivePage(project: Project): boolean {
+    return Boolean(project.ready && project.page);
+}
+
 // Whether a link goes somewhere: any link outside the project pages does; a project page only once
-// its project is marked ready. A link that leads to "page not found" is worse than no link at all
+// it can be linked to
 export function isLive(href: string): boolean {
     const path = href.match(/^\/portfolio\/(.+)$/)?.[1];
-    return !path || ProjectList.some((project) => project.path === path && project.ready);
+    return !path || ProjectList.some((project) => project.path === path && hasLivePage(project));
 }
