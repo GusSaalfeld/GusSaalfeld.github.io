@@ -5,6 +5,8 @@ export type Project = {
   thumbnail: string, // a picture of the work, shown 4:3 beside it in the list. "" for none
   genre: string,     // the kind of writing, in sentence case: "Technical writing". Leads the left column
   ready?: boolean,   // true to link to its page at /portfolio/<path>. Links appear once it has a page too
+  hidden?: boolean,  // true to take it off the site entirely: out of Selected work, no page, no links to
+                     // it, and out of the portfolio PDF. For work in progress, or to tailor the site to a job
   page?: ProjectPage, // the project's own page. Without one, there's no page at all
 };
 

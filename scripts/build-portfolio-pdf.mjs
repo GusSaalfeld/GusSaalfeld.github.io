@@ -1,18 +1,19 @@
 // Builds public/Augustus-Saalfeld-portfolio.pdf, the "Download portfolio (PDF)" file, from the
 // writing samples in public/samples/, so each sample is kept in one place. Runs before every build
 // (npm run build): a contents page, then each ready project's sample, in Selected work's order.
+// A hidden project is left out.
 // To change a piece, replace its file in public/samples/; to add one, give its project a page with
 // a sample. Run it by hand with: npm run portfolio-pdf
 import fs from "node:fs";
 import path from "node:path";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 // The project list itself, so the order and titles can't drift from the site (Node strips the types)
-import { ProjectList } from "../src/app/data/projects.ts";
+import { VisibleProjects } from "../src/app/data/projects.ts";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT = path.join(ROOT, "public", "Augustus-Saalfeld-portfolio.pdf");
 
-const samples = ProjectList.filter((p) => p.ready && p.page?.sample?.href.endsWith(".pdf")).map((p) => ({
+const samples = VisibleProjects.filter((p) => p.ready && p.page?.sample?.href.endsWith(".pdf")).map((p) => ({
   title: p.title,
   file: path.join(ROOT, "public", p.page.sample.href),
 }));

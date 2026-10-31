@@ -1,6 +1,7 @@
 import type { Project } from "@/app/types";
 
-// The projects, in the order the portfolio lists them: work with real readers first, since hiring
+// The projects, in the order the portfolio lists them. To take one off the site, add hidden: true.
+// The order: work with real readers first, since hiring
 // managers weigh real use above practice pieces, and the first rows get the most attention.
 // Thumbnails under /placeholders/ are stock photos from Picsum (picsum.photos, Unsplash licence),
 // standing in until pictures of the real work are ready. Replace each with the work itself.
@@ -298,15 +299,19 @@ export const ProjectList: Project[] = [
     },
 ];
 
-// Whether a project's page can be linked to: it's marked ready and it has a page. A link that leads
+// The projects on the site: every one not marked hidden. Everything that lists or links to projects
+// starts from this, so hiding one takes it off the site in one step
+export const VisibleProjects: Project[] = ProjectList.filter((project) => !project.hidden);
+
+// Whether a project's page can be linked to: it's on the site, marked ready, and has a page. A link that leads
 // to "page not found" is worse than no link at all
 export function hasLivePage(project: Project): boolean {
-    return Boolean(project.ready && project.page);
+    return Boolean(!project.hidden && project.ready && project.page);
 }
 
 // Whether a link goes somewhere: any link outside the project pages does; a project page only once
 // it can be linked to
 export function isLive(href: string): boolean {
     const path = href.match(/^\/portfolio\/(.+)$/)?.[1];
-    return !path || ProjectList.some((project) => project.path === path && hasLivePage(project));
+    return !path || VisibleProjects.some((project) => project.path === path && hasLivePage(project));
 }

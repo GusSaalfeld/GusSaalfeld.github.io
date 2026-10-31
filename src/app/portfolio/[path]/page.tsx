@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Band, { PAGE_TOP, SECTION_GAP } from "@/app/components/band";
 import DownloadLink from "@/app/components/download-link";
-import { ProjectList } from "@/app/data/projects";
+import { VisibleProjects } from "@/app/data/projects";
 import { plain, withItalics } from "@/app/lib/italics";
 import type { Project } from "@/app/types";
 
@@ -14,7 +14,7 @@ import type { Project } from "@/app/types";
 // Previous and Next, small at the top for skimmers and titled at the end for readers who finish,
 // step through every project page in Selected work's order, wrapping round at either end
 
-const WITH_PAGES = ProjectList.filter((project) => project.page);
+const WITH_PAGES = VisibleProjects.filter((project) => project.page);
 
 // Built ahead of time, as the site is exported as static files: only these paths exist
 export const dynamicParams = false;

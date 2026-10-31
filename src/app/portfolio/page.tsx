@@ -1,7 +1,7 @@
 import Band, { PAGE_TOP, SECTION_GAP } from "@/app/components/band";
 import DownloadLink from "@/app/components/download-link";
 import SelectedWork from "@/app/components/selected-work";
-import { ProjectList } from "@/app/data/projects";
+import { VisibleProjects } from "@/app/data/projects";
 
 // The name's layout and type, shared by the heading and the tint laid over it so their letters
 // line up exactly. The top of a 1.333 type scale: 18 body, 24 lede and project titles, 32 headings, 42, 57, 76.
@@ -45,7 +45,7 @@ export default function Portfolio() {
         </div>
       </Band>
       <Band className={SECTION_GAP}>
-        <SelectedWork projects={ProjectList} />
+        <SelectedWork projects={VisibleProjects} />
       </Band>
     </>
   );
