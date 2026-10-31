@@ -20,7 +20,7 @@ export default function Experience() {
         {/* The lede, with the resume beside it from md up, lined up with its last line, and under it below */}
         <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-12">
           <p className="max-w-[44ch] md:max-w-[52ch] text-2xl short:text-xl leading-[1.4] text-quiet-ink text-pretty">
-            I&rsquo;ve written documentation in every role I&rsquo;ve had, from software teams to a caf&eacute; counter.
+            I&rsquo;ve written documentation in almost every role I&rsquo;ve had, from software teams to the coffee shop.
           </p>
           <div className="flex shrink-0">
             <DownloadLink primary href="/Augustus-Saalfeld-resume.pdf">Download resume (PDF)</DownloadLink>
