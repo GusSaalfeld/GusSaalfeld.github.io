@@ -11,10 +11,10 @@ export default function About() {
     <>
       <Band className={`${PAGE_TOP} ${SECTION_GAP}`}>
         <Card mediaFirst pageTitle title="About me" description={[
-          "My name is Augustus Saalfeld, and I am a programmer turned technical writer who specializes in technical writing, UX writing, and science communications. I love reading and writing about technology, culture, and the natural world.",
-          "I have always looked to resolve problems through writing. I have written documentation to onboard new engineers and bring a video-game to the Xbox and Steam store. At my current coffee shop, I wrote a step-by-step guide to make the perfect latte. In addition, I have done UX writing, how-to articles, and short stories.",
-          "While I moved every few years growing up, I’ve called Pittsburgh home for the last eight. My favorite part about living in Pittsburgh? Five minutes out my front door and I’m in Frick Park.",
-          "I believe that everyone is an expert in something. If you are reaching out, feel free to share an interesting fact you learned recently. I’m always looking to learn something new!",
+          "I’m a technical and science writer based in Pittsburgh. I’ve written documentation, UX writing, technical explainers, and short stories.",
+          "I started out as a programmer, but found a way to work writing into nearly every job I’ve held: I rewrote the onboarding for engineers at the Software Engineering Institute, which the team still uses, and documented what it took to bring the game Hexagroove to the Xbox and Steam stores for Ichigoichie Games.",
+          "I moved every few years growing up, but Pittsburgh has been home for eight years now. My favorite part? Frick Park is five minutes from my front door.",
+          "I believe everyone is an expert in something. If you get in touch, tell me something interesting you learned recently. I’m always looking to learn.",
         ]}>
           {/* Beside the text from md up, and between the heading and the text below, so there's
               a face to the words while you read them. The whole scene, uncropped */}
