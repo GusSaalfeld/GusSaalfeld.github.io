@@ -5,9 +5,8 @@ type ExperienceListProps = {
   roles: Role[],
 };
 
-// Roles as a ledger, ruled like Selected work so the two pages read as one site: when and where in
-// their own column first, then the role, where, and what came of it. On phones the dates and place
-// go above the role. Nothing here links to a page of its own, so there's no hover and no picture
+// Roles as a ledger, ruled like Selected work so the two pages read as one site: when in its own
+// column first, then the role, where, and what came of it. On phones the dates go above the role. Nothing here links to a page of its own, so there's no hover and no picture
 export default function ExperienceList({ title, roles }: ExperienceListProps) {
   return (
     <section>
@@ -17,10 +16,10 @@ export default function ExperienceList({ title, roles }: ExperienceListProps) {
       <ul className="flex flex-col divide-y divide-quiet-rule border-y border-quiet-rule">
         {roles.map((role) => (
           <li key={role.title + role.organization} className="grid gap-x-6 gap-y-1 py-5 md:grid-cols-[9rem_minmax(0,1fr)]">
-            {/* When, in ink, then where, muted. Stacked from md up, side by side on phones */}
-            <span className="flex flex-wrap items-baseline gap-x-3 pt-1.5 font-sans text-base md:flex-col md:gap-y-0.5">
-              {role.dates && <span className="font-medium leading-[1.3] text-quiet-ink">{role.dates}</span>}
-              {role.place && <span className="text-quiet-muted">{role.place}</span>}
+            {/* When, in ink. Without dates, it still holds the first column from md up, but takes no
+                line on phones */}
+            <span className={`pt-1.5 font-sans text-base font-medium leading-[1.3] text-quiet-ink ${role.dates ? "" : "hidden md:block"}`}>
+              {role.dates}
             </span>
             <div className="flex flex-col gap-1">
               <h3 className="font-sans text-2xl font-semibold leading-[1.25] text-quiet-ink">{role.title}</h3>
