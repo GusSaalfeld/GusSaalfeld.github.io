@@ -58,7 +58,7 @@ export const ProjectList: Project[] = [
         ready: true,
         title: "Barista training manual",
         hoverDescription: "A training manual my café uses to train new baristas.",
-        thumbnail: "/samples/previews/barista-training-manual-1.png", // the top of its first page
+        thumbnail: "/samples/previews/barista-training-manual-thumb.png", // the top of its first page
         genre: "Training documentation",
         // DRAFT: from the manual itself. Check each line, and replace the placeholder picture
         page: {
@@ -96,7 +96,7 @@ export const ProjectList: Project[] = [
         ready: true,
         title: "What happens when you type youtube.com into the web browser?",
         hoverDescription: "A beginner’s guide to what goes on behind the scenes whenever you look up a website in your web browser.",
-        thumbnail: "/samples/previews/what-happens-when-you-type-youtube-com-1.png", // the top of its first page
+        thumbnail: "/samples/previews/what-happens-when-you-type-youtube-com-thumb.png", // the top of its first page
         genre: "Science and tech explainer",
         // DRAFT: from the piece itself. Check each line, and replace the placeholder picture
         page: {
@@ -221,7 +221,7 @@ export const ProjectList: Project[] = [
         ready: true,
         title: "How to grow oyster mushrooms at home",
         hoverDescription: "A how-to guide that walks beginners through growing oyster mushrooms at home.",
-        thumbnail: "/samples/previews/growing-oyster-mushrooms-at-home-1.png", // the top of its first page
+        thumbnail: "/samples/previews/growing-oyster-mushrooms-at-home-thumb.png", // the top of its first page
         genre: "How-to guide",
         // DRAFT: from the guide itself. Check each line, and replace the placeholder picture
         page: {

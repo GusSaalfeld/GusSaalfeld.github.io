@@ -252,6 +252,11 @@ export class SlimeSim {
     this.structure = this.structureKey();
   }
 
+  // Whether the warmup is done and the slime is on screen (frame times before then don't count)
+  isVisible() {
+    return this.warmupLeft === 0;
+  }
+
   // Call when the area the canvas fills changes size, in CSS pixels, then redraw(). The trail
   // carries over (see RESIZE_MODE). fresh: start with an empty trail instead (the first sizing,
   // and restart())

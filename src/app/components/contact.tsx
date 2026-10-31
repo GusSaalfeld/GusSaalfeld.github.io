@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Band from "@/app/components/band";
 
 const EMAIL = "gus.saalfeld@gmail.com";
@@ -11,6 +11,7 @@ const EMAIL = "gus.saalfeld@gmail.com";
 // link jumps here
 export default function Contact() {
   const [copy, setCopy] = useState<"idle" | "copied" | "failed">("idle");
+  const resetTimer = useRef<number | undefined>(undefined);
 
   const copyEmail = async () => {
     try {
@@ -19,7 +20,9 @@ export default function Contact() {
     } catch {
       setCopy("failed"); // no clipboard access: the address is on screen to select
     }
-    window.setTimeout(() => setCopy("idle"), 2500);
+    // A new copy restarts the countdown, so a second click isn't cut short by the first one's timer
+    window.clearTimeout(resetTimer.current);
+    resetTimer.current = window.setTimeout(() => setCopy("idle"), 2500);
   };
 
   return (

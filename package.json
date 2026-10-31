@@ -7,6 +7,7 @@
     "portfolio-pdf": "node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning scripts/build-portfolio-pdf.mjs",
     "prebuild": "npm run portfolio-pdf",
     "build": "next build",
+    "postbuild": "node scripts/flatten-segments.mjs",
     "start": "next start",
     "lint": "eslint"
   },

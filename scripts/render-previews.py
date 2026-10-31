@@ -22,4 +22,10 @@ for pdf in sorted(SAMPLES.glob("*.pdf")):
         clip = fitz.Rect(r.width * LEFT, r.height * TOP, r.width * RIGHT, r.height * BOTTOM)
         zoom = WIDTH / clip.width
         page.get_pixmap(matrix=fitz.Matrix(zoom, zoom), clip=clip).save(OUT / f"{pdf.stem}-{n + 1}.png")
+        # The first page again, small, for the thumbnail in Selected work (shown 96px wide): the top of
+        # the page at 4:3, about twice that size, so the list doesn't load full-size previews
+        if n == 0:
+            thumb = fitz.Rect(clip.x0, clip.y0, clip.x1, clip.y0 + clip.width * 3 / 4)
+            tz = 200 / thumb.width
+            page.get_pixmap(matrix=fitz.Matrix(tz, tz), clip=thumb).save(OUT / f"{pdf.stem}-thumb.png")
     print(pdf.name, min(PAGES, doc.page_count), "pages")

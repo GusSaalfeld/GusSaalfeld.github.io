@@ -84,10 +84,27 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
     const onFocus = (e: Event) => sim.setFocus((e as CustomEvent<FocusDetail>).detail.index);
     window.addEventListener(FOCUS_EVENT, onFocus);
 
+    // A device that can't keep up gets a still picture instead of a frozen page. Frames are timed
+    // for the first few seconds after the slime appears: a typical frame slower than 15 a second
+    // stops the simulation where it is, and so does any single frame over half a second, warmup
+    // included. The last picture stays, so the banners and the name still show the slime
     let raf = 0;
+    let stopped = false;
+    const times: number[] = [];
+    let last = 0;
+    let judgeUntil = 0;
     const loop = (now: number) => {
+      const t0 = performance.now();
       sim.frame(now);
-      raf = requestAnimationFrame(loop);
+      const spent = performance.now() - t0;
+      if (!judgeUntil && sim.isVisible()) judgeUntil = now + 4000; // start judging once it shows
+      if (spent > 500) stopped = true; // at any point, warmup included: the page has frozen
+      if (judgeUntil && now < judgeUntil) {
+        if (last) times.push(Math.max(now - last, spent));
+        if (times.length >= 20 && median(times) > 1000 / 15) stopped = true;
+      }
+      last = now;
+      if (!stopped) raf = requestAnimationFrame(loop);
     };
     loop(performance.now());
 
@@ -114,4 +131,9 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
   // As tall as the screen gets (lvh): on phones the browser's address bar slides in and out as the
   // page scrolls, and sizing to the largest height means that never counts as a resize
   return <div ref={hostRef} aria-hidden className="fixed inset-x-0 top-0 h-lvh -z-10" style={{ background: `rgb(${r} ${g} ${b})` }} />;
+}
+
+function median(values: number[]) {
+  const sorted = [...values].sort((a, b) => a - b);
+  return sorted[Math.floor(sorted.length / 2)];
 }
