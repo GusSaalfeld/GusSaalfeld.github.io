@@ -85,24 +85,28 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
     const onFocus = (e: Event) => sim.setFocus((e as CustomEvent<FocusDetail>).detail.index);
     window.addEventListener(FOCUS_EVENT, onFocus);
 
-    // A device that can't keep up gets a still picture instead of a frozen page. Frames are timed
-    // for the first few seconds after the slime appears: a typical frame slower than 15 a second
-    // stops the simulation where it is, and so does any single frame over half a second, warmup
-    // included. The last picture stays, so the banners and the name still show the slime
+    // A device that can't keep up gets a still picture instead of a sluggish page. Frames are timed
+    // for four seconds, starting a second after the page has finished loading, so the page's own
+    // loading work isn't held against the slime (the warmup counts: it's the same work, hidden).
+    // A typical frame slower than 12 a second stops the simulation where it is, and so does any
+    // single frame over half a second at any time. The last picture stays, so the banners and the
+    // name still show the slime
     let raf = 0;
     let stopped = false;
     const times: number[] = [];
     let last = 0;
-    let judgeUntil = 0;
+    let judgeFrom = Infinity;
+    const startJudging = () => { judgeFrom = performance.now() + 1000; };
+    if (document.readyState === "complete") startJudging();
+    else window.addEventListener("load", startJudging, { once: true });
     const loop = (now: number) => {
       const t0 = performance.now();
       sim.frame(now);
       const spent = performance.now() - t0;
-      if (!judgeUntil && sim.isVisible()) judgeUntil = now + 4000; // start judging once it shows
-      if (spent > 500) stopped = true; // at any point, warmup included: the page has frozen
-      if (judgeUntil && now < judgeUntil) {
+      if (spent > 500) stopped = true; // the page froze
+      if (now >= judgeFrom && now < judgeFrom + 4000) {
         if (last) times.push(Math.max(now - last, spent));
-        if (times.length >= 20 && median(times) > 1000 / 15) stopped = true;
+        if (times.length >= 24 && median(times) > 1000 / 12) stopped = true;
       }
       last = now;
       if (!stopped) raf = requestAnimationFrame(loop);
@@ -111,6 +115,7 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
     loop(performance.now());
 
     return () => {
+      window.removeEventListener("load", startJudging);
       window.clearInterval(coverTimer);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener(FOCUS_EVENT, onFocus);
