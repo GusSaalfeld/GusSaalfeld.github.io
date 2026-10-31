@@ -176,7 +176,7 @@ export const ProjectList: Project[] = [
         path: "home-server",
         ready: true,
         title: "Home server",
-        hoverDescription: "My home server runs on Proxmox and hosts the open-source tools I use daily, such as a recipe book, media server, and digital tracking protection.",
+        hoverDescription: "My home server runs on Proxmox and hosts the open-source tools I use daily, such as a media server, password manager, and network-wide ad blocking.",
         thumbnail: "/placeholders/home-server.jpg",
         genre: "Self-hosting",
         // DRAFT: from the description and the tools you listed. The challenges in particular are
@@ -187,17 +187,15 @@ export const ProjectList: Project[] = [
             summary: "A home server running on Proxmox that hosts the open-source tools I use every day, in place of commercial services.",
             builtWith: "Proxmox, Docker, Portainer",
             services: [
-                { name: "Mealie", role: "recipes" },
                 { name: "Jellyfin", role: "media" },
                 { name: "AdGuard Home", role: "ad blocking" },
-                { name: "Calibre", role: "ebooks" },
                 { name: "Vaultwarden", role: "passwords" },
                 { name: "OpenMediaVault", role: "network storage" },
                 { name: "Tailscale", role: "remote access" },
                 { name: "OpenWrt", role: "router and VPN" },
             ],
             outcomes: [
-                "Hosts eight services I use daily, from recipes and media to passwords and network storage.",
+                "Hosts the services I use every day, from media and passwords to network storage and remote access.",
                 "Replaces commercial services with open-source tools I control.",
                 "Gives me a place to learn infrastructure hands-on: virtualization, containers, and networking.",
             ],
