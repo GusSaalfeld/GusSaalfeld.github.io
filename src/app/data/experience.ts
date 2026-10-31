@@ -3,7 +3,7 @@ import type { Role } from "@/app/types";
 // The tools, grouped so a recruiter can scan for them. Only what you'd use in an interview task
 export const ToolGroups: { name: string, tools: string }[] = [
     { name: "Writing and publishing", tools: "Oxygen XML, Confluence, Markdown, Git and GitHub" },
-    { name: "Programming", tools: "Python, TypeScript and React, C#" },
+    { name: "Programming", tools: "Python, JavaScript and React, C#" },
     { name: "Build and project tracking", tools: "Docker, Jenkins, GitHub Actions, Jira, GitHub Issues" },
     { name: "AI", tools: "Claude and Claude Code" },
 ];
