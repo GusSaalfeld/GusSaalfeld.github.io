@@ -72,7 +72,28 @@ export const ProjectList: Project[] = [
         title: "What happens when you type youtube.com into the web browser?",
         hoverDescription: "A beginner’s guide to what goes on behind the scenes whenever you look up a website in your web browser.",
         thumbnail: "/placeholders/scientific-explainer.jpg",
-        genre: "Technical writing"
+        genre: "Technical writing",
+        // DRAFT: from the piece itself. Check each line, and replace the placeholder picture
+        page: {
+            kind: "writing",
+            date: "2026",
+            purpose: "Explain what a browser does to load a website, without the jargon that makes most explanations impenetrable.",
+            audience: "Curious readers with no technical background who use the internet every day.",
+            summary: "A beginner’s guide to what happens between typing a web address and seeing the page, in four steps.",
+            image: { src: "/placeholders/scientific-explainer.jpg", alt: "Placeholder picture" },
+            outcomes: [
+                "Covers DNS, TCP, HTTP, and how a page is drawn, without assuming any technical knowledge.",
+                "Gives each idea an everyday comparison: a phone book, the post, a house’s blueprint and wiring.",
+                "Recaps the whole process in a single sentence a reader can carry away.",
+            ],
+            star: {
+                situation: "Explanations of how the web works are written for engineers, so most people who use it every day can’t follow them.",
+                task: "Write an explanation that a reader with no technical background could follow from start to finish.",
+                action: "Broke loading a website into four steps, introduced each technical term only when it was needed, and paired every idea with an everyday comparison.",
+                result: "A self-contained guide that takes a beginner from a typed address to a page on screen.",
+            },
+            sample: { label: "Download the explainer (PDF)", href: "/samples/what-happens-when-you-type-youtube-com.pdf" },
+        },
     },
     {
         path: "ux-writing",
@@ -96,7 +117,28 @@ export const ProjectList: Project[] = [
         title: "How to grow oyster mushrooms at home",
         hoverDescription: "A how-to guide that walks beginners through growing oyster mushrooms at home.",
         thumbnail: "/placeholders/growing-mushrooms.jpg",
-        genre: "How-to guide"
+        genre: "How-to guide",
+        // DRAFT: from the guide itself. Check each line, and replace the placeholder picture
+        page: {
+            kind: "writing",
+            date: "2026",
+            purpose: "Show beginners that growing gourmet mushrooms at home is cheap and manageable, then walk them through it.",
+            audience: "Beginners with no gardening or lab experience who want a cheap, low-effort project at home.",
+            summary: "A how-to guide that takes a beginner from a syringe of spores to a harvest of blue oyster mushrooms in about six weeks.",
+            image: { src: "/placeholders/growing-mushrooms.jpg", alt: "Placeholder picture" },
+            outcomes: [
+                "Breaks growing into three stages, each with what to do, what to watch for, and how long it takes.",
+                "Lists every piece of equipment, and where to buy it, before the first step.",
+                "Ends with what to learn next, from a second harvest to making your own supplies.",
+            ],
+            star: {
+                situation: "Growing mushrooms at home is cheap and takes only a few hours of work, but guides for it are written for hobbyists who already know the jargon.",
+                task: "Write a guide a beginner could follow on their own, starting with the easiest mushroom to grow.",
+                action: "Opened with why it’s worth doing, chose blue oysters for how forgiving they are, then explained each grower’s term as it came up and gave timelines for every stage.",
+                result: "A complete guide from first purchase to harvest, drawn from my own grows.",
+            },
+            sample: { label: "Download the guide (PDF)", href: "/samples/growing-oyster-mushrooms-at-home.pdf" },
+        },
     },
     {
         path: "creative-writing",
