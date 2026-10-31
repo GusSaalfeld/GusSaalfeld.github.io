@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import type { Role } from "@/app/types";
 
 type EducationProps = {
@@ -11,13 +8,7 @@ type EducationProps = {
 // The degree and the courses since, on the work list's date column, so education reads as the same
 // timeline, but with no rules: space alone separates the entries. The degree is larger and bold;
 // the courses are smaller
-// TRIAL: the coursework line, short or in full, with a button to switch. Once one is chosen, keep it
-// in the data and remove this, the state, and the button
-const SHORT_COURSEWORK = "Including Technical Writing and Software Documentation.";
-
 export default function Education({ degree, courses }: EducationProps) {
-  const [short, setShort] = useState(true);
-  const coursework = short ? [SHORT_COURSEWORK] : degree.points ?? [];
   const row = "grid gap-x-6 gap-y-1 md:grid-cols-[9rem_minmax(0,1fr)]";
   const year = "pt-1 font-sans text-base font-medium leading-[1.3] text-quiet-ink";
   return (
@@ -29,7 +20,7 @@ export default function Education({ degree, courses }: EducationProps) {
           <div>
             <p className="max-w-[26ch] font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink text-balance">{degree.title}</p>
             <p className="mt-2 text-lg leading-[1.55] text-quiet-ink">{degree.organization}</p>
-            {coursework.map((point) => (
+            {degree.points?.map((point) => (
               <p key={point} className="mt-3 max-w-[62ch] text-lg leading-[1.55] text-quiet-muted text-pretty">{point}</p>
             ))}
           </div>
@@ -44,16 +35,6 @@ export default function Education({ degree, courses }: EducationProps) {
           </div>
         ))}
       </div>
-
-      {/* The switch, pinned to the screen's corner while the trial lasts */}
-      <button
-        type="button"
-        onClick={() => setShort(!short)}
-        className="fixed bottom-6 right-6 z-50 flex min-h-12 items-center gap-3 whitespace-nowrap border border-quiet-ink bg-quiet-paper px-5 font-sans text-base font-semibold text-quiet-ink shadow-sm hover:bg-quiet-ink hover:text-quiet-paper"
-      >
-        <span>Coursework: {short ? "two courses" : "full list"}</span>
-        <span className="text-quiet-link">Show {short ? "full list" : "two courses"}</span>
-      </button>
     </section>
   );
 }

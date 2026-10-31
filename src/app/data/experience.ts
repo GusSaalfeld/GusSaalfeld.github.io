@@ -70,7 +70,7 @@ export const Degree: Role = {
     organization: "Carnegie Mellon University",
     dates: "2022",
     points: [
-        "Coursework included Technical Writing, Software Documentation, Introduction to Computer Systems, Application Design and Development, Website Design and Development, and Principles of Software Construction.",
+        "Including Technical Writing and Software Documentation.",
     ],
 };
 
