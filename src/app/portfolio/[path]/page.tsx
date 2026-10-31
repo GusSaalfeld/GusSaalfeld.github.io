@@ -10,8 +10,8 @@ import type { Project } from "@/app/types";
 // A project's own page, one for each project with a page in the data. Writing samples and other
 // work share the layout; a writing sample adds its purpose and audience. The writing itself comes
 // before anything said about it: previews of its first pages, and the whole piece to download.
-// Previous and Next, at the end where a reader decides what's next, step through the pages of the
-// same kind in Selected work's order, wrapping round at either end
+// Previous and Next, small at the top for skimmers and titled at the end for readers who finish,
+// step through the pages of the same kind in Selected work's order, wrapping round at either end
 
 const WITH_PAGES = ProjectList.filter((project) => project.page);
 
@@ -56,10 +56,17 @@ export default async function ProjectPage({ params }: Props) {
   return (
     <>
       <Band className={`${PAGE_TOP} ${SECTION_GAP}`}>
-        {/* In ink and underlined, so it reads as a link at a glance */}
-        <Link href="/portfolio" className={`font-sans text-base text-quiet-ink ${LINK}`}>
-          Back to portfolio
-        </Link>
+        {/* In ink and underlined, so they read as links at a glance: back to the list, and a quick
+            way on for someone skimming samples. The titled links at the end are for readers who finish */}
+        <nav aria-label="Project navigation" className="flex flex-wrap justify-between gap-x-6 gap-y-2 font-sans text-base text-quiet-ink">
+          <Link href="/portfolio" className={LINK}>Back to portfolio</Link>
+          {(previous || next) && (
+            <span className="flex gap-6">
+              {previous && <Link href={`/portfolio/${previous.path}`} className={LINK}>Previous {noun}</Link>}
+              {next && <Link href={`/portfolio/${next.path}`} className={LINK}>Next {noun}</Link>}
+            </span>
+          )}
+        </nav>
 
         <h1 className="mt-6 max-w-[30ch] font-sans text-[2.625rem] font-bold leading-[1.15] tracking-[-0.02em] text-quiet-ink text-balance">
           {project.title}
