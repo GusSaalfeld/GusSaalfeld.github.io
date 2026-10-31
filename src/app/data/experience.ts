@@ -33,7 +33,8 @@ export const WritingWork: Role[] = [
         organization: "Software Engineering Institute",
         dates: "2023",
         points: [
-            "Rewrote the team’s wiki to be clear, concise, and more detailed, and gave writing support to team members.",
+            "Rewrote the team’s onboarding process for new members in its wiki, which the team still uses today.",
+            "Rewrote the rest of the wiki to be clear, concise, and more detailed, and gave writing support to team members.",
             "Turned each goal I was given, such as migrating a server, into a timeline of Jira tickets with step-by-step instructions and a definition of done.",
             "Upgraded a Python application the US government uses to report cyberattacks: added new features, tested its security, deployed it, then coordinated the cut-over with our government client.",
         ],
