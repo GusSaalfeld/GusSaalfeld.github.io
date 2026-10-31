@@ -149,7 +149,7 @@ export const ProjectList: Project[] = [
             kind: "other",
             date: "2025–present",
             summary: "A home server running on Proxmox that hosts the open-source tools I use every day, in place of commercial services.",
-            format: "Proxmox, Docker, Portainer, OpenWrt",
+            builtWith: "Proxmox, Docker, Portainer, OpenWrt",
             outcomes: [
                 "Hosts a recipe book, a media server, and tracking protection for every device on my network.",
                 "Replaces commercial services with open-source tools I control.",

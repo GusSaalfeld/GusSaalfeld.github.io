@@ -45,11 +45,12 @@ export default async function ProjectPage({ params }: Props) {
   const next = count > 1 ? WITH_PAGES[(at + 1) % count] : undefined;
   const noun = "project";
 
-  // What it's for, who for, and its form, in one row: short facts to scan before reading
+  // What it's for, who for, its form, and what it's made with, in one row: short facts to scan
   const facts = [
     ["Purpose", page.purpose],
     ["Audience", page.audience],
     ["Format", page.format],
+    ["Built with", page.builtWith],
   ].filter((fact): fact is [string, string] => Boolean(fact[1]));
 
   return (

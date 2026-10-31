@@ -18,6 +18,7 @@ export type ProjectPage = {
   purpose?: string,           // what the piece is for, one short sentence
   audience?: string,          // who it's written for, one short sentence
   format?: string,            // its form and length: "7 pages, PDF"
+  builtWith?: string,         // other work: the tools it's made with, "Proxmox, Docker"
   previews?: { src: string, alt: string }[], // pictures of the piece itself: pages, screens. Up to 3
   documents?: { name: string, description: string, href?: string }[], // what the project produced, each
                                             // with a line on what it is. One with an href links to its file
