@@ -105,7 +105,7 @@ export const EducationList: Role[] = [
         organization: "Carnegie Mellon University",
         dates: "2022",
         points: [
-            "Including Technical Writing and Software Documentation.",
+            "Including courses in Technical Writing and Software Documentation.",
         ],
     },
 ];

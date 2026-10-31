@@ -39,11 +39,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       {/* At least a screen tall, so a page's last element can grow to the bottom of the screen */}
       <body className="flex min-h-svh flex-col">
         <SlimeCanvas settings={slimeSettings} />
+        {/* For keyboard users: the first stop on every page, hidden until it has focus, so a Tab
+            then Enter skips the navigation and goes straight to the page */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-quiet-paper focus:px-4 focus:py-3 focus:font-sans focus:font-semibold focus:text-quiet-ink focus:border focus:border-quiet-ink"
+        >
+          Skip to content
+        </a>
         <Header />
         {/* Every page sits between two slime banners, built from paper bands (Band), which space
             themselves. main has no background, so the name's letters can reach the slime */}
         <SlimeBanner masthead />
-        <main className="flex flex-col">
+        <main id="main" tabIndex={-1} className="flex flex-col scroll-mt-32 outline-none">
           {children}   {/* the current page renders here */}
         </main>
         {/* Every page signs off with the email address, then the closing slime */}

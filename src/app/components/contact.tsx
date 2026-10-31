@@ -23,8 +23,9 @@ export default function Contact() {
   };
 
   return (
-    // scroll-mt keeps the heading clear of the sticky navbar when the Contact link jumps here
-    <section id="contact" className="scroll-mt-24">
+    // scroll-mt keeps the heading clear of the sticky navbar when the Contact link jumps here, even
+    // when the navbar takes two rows on the narrowest phones
+    <section id="contact" className="scroll-mt-32">
       <Band className={SECTION_GAP}>
         <h2 className="mb-6 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">Contact</h2>
         <p className="max-w-[44ch] md:max-w-[52ch] text-xl md:text-2xl md:short:text-xl leading-[1.4] text-quiet-ink text-pretty">
