@@ -57,10 +57,11 @@ export default function Contact() {
             </button>
           </div>
         </div>
-        {/* A credit for the slime, muted and set like the hobby captions: the last line of every page.
+        {/* A credit for the slime, muted and set like the hobby captions: the last line of every page,
+            48px below the address so it reads as its own footnote, not part of the contact details.
             The video is an episode of his series, so its title takes quotation marks, not italics. Only
             the title is the link, so the green underline stays short */}
-        <p className="mt-6 max-w-[62ch] text-base leading-[1.55] text-quiet-muted text-pretty">
+        <p className="mt-12 max-w-[62ch] text-base leading-[1.55] text-quiet-muted text-pretty">
           This background animation is a slime mold simulation built with WebGL, inspired by Sebastian Lague&rsquo;s
           &ldquo;
           <a
