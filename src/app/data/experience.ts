@@ -29,6 +29,7 @@ export const WorkList: Role[] = [
         points: [
             "Upgraded a Python application the US government uses to report cyberattacks: added new features, tested its security, deployed it, then coordinated the cut-over with our government client.",
             "Rewrote the team’s wiki to be clear, concise, and more detailed, and gave writing support to team members.",
+            "Broke each task down into Jira tickets on a timeline, each with its dependencies, the steps to complete it, and a definition of done.",
         ],
     },
     {
@@ -57,6 +58,7 @@ export const WorkList: Role[] = [
         points: [
             "Led the project to pass QA certification for the Xbox, Steam, and Nintendo stores: wrote a QA checklist, fixed bugs, and set up an automated test server with Jenkins. We passed every certification on the first try, ahead of schedule.",
             "Added multi-platform support to the game Hexagroove by extending its original C# code, working with the studio in Stockholm.",
+            "Logged bugs as GitHub issues and assigned them to the team.",
             "Wrote summaries of platforms for the wiki and presented findings to the team.",
         ],
     },
