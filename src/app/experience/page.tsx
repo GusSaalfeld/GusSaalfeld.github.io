@@ -3,7 +3,7 @@ import Band, { PAGE_TOP, SECTION_GAP } from "@/app/components/band";
 import DownloadLink from "@/app/components/download-link";
 import ExperienceList from "@/app/components/experience-list";
 import Education from "@/app/components/education";
-import { CourseList, Degree, WorkList } from "@/app/data/experience";
+import { CourseList, Degree, ToolGroups, WorkList } from "@/app/data/experience";
 
 export const metadata: Metadata = { title: "Experience" };
 
@@ -26,10 +26,16 @@ export default function Experience() {
             <DownloadLink primary href="/Augustus-Saalfeld-resume.pdf">Download resume (PDF)</DownloadLink>
           </div>
         </div>
-        {/* The tools, from the resume: the words a recruiter scans for, in one quiet line */}
-        <p className="mt-6 max-w-[62ch] text-base leading-[1.55] text-quiet-muted text-pretty">
-          Tools I work with: Confluence, XML, Python, C#, and Jenkins.
-        </p>
+        {/* The tools, grouped: the words a recruiter scans for. Quiet, like the hobby captions:
+            the group in the sans, the tools muted. Four across on wide screens, two, then one */}
+        <dl className="mt-12 grid gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-4">
+          {ToolGroups.map((group) => (
+            <div key={group.name}>
+              <dt className="font-sans text-base font-semibold leading-[1.3] text-quiet-ink">{group.name}</dt>
+              <dd className="mt-1 text-base leading-[1.55] text-quiet-muted text-pretty">{group.tools}</dd>
+            </div>
+          ))}
+        </dl>
       </Band>
       <Band className={SECTION_GAP}>
         <ExperienceList title="Work" roles={WorkList} />

@@ -1,5 +1,13 @@
 import type { Role } from "@/app/types";
 
+// The tools, grouped so a recruiter can scan for them. Only what you'd use in an interview task
+export const ToolGroups: { name: string, tools: string }[] = [
+    { name: "Writing and publishing", tools: "Oxygen XML, Confluence, Markdown, Git and GitHub" },
+    { name: "Programming", tools: "Python, TypeScript and React, C#" },
+    { name: "Build and project tracking", tools: "Docker, Jenkins, GitHub Actions, Jira, GitHub Issues" },
+    { name: "AI", tools: "Claude and Claude Code" },
+];
+
 // The work history and education, newest first. Dates are years: "2023", or "2025–2026" for a span
 // (an en dash). Kept close to the resume's wording, in the site's style: sentence case, the Oxford
 // comma, and curly apostrophes (’). A role with points gets a full entry; one without is a single
@@ -29,7 +37,7 @@ export const WorkList: Role[] = [
         points: [
             "Upgraded a Python application the US government uses to report cyberattacks: added new features, tested its security, deployed it, then coordinated the cut-over with our government client.",
             "Rewrote the team’s wiki to be clear, concise, and more detailed, and gave writing support to team members.",
-            "Planned my own work in Jira: turned each goal I was given, such as migrating a server, into a timeline of tickets, each with its dependencies, step-by-step instructions, and a definition of done.",
+            "Turned each goal I was given, such as migrating a server, into a timeline of Jira tickets with step-by-step instructions and a definition of done.",
         ],
     },
     {
