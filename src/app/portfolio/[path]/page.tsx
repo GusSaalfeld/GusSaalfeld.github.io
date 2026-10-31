@@ -163,7 +163,7 @@ export default async function ProjectPage({ params }: Props) {
         </Band>
       )}
 
-      {/* TRIAL: the two sections one after the other, or side by side (see ResultsAndChallenges) */}
+      {/* The results, then the decisions behind them, side by side on wide screens */}
       <ResultsAndChallenges
         outcomes={
           <section>
