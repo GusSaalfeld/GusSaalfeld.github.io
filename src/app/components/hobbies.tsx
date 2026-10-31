@@ -12,7 +12,9 @@ type Hobby = {
   alt: string;
   focus?: string;
   zoom?: number;
+  fit?: "contain";  // show the whole picture on white, for a drawing or animation, rather than crop it
   link?: { label: string; href: string };
+  credit?: { text: string; href: string }; // for a picture that isn't mine: who made it, and its licence
 };
 
 const HOBBIES: Hobby[] = [
@@ -33,12 +35,13 @@ const HOBBIES: Hobby[] = [
     link: { label: "Read my guide to growing them", href: "/portfolio/growing-mushrooms" },
   },
   {
-    name: "Painting miniatures",
-    caption: "Painting Warhammer figurines.",
-    photo: "/hobbies/warhammer-miniature.jpg",
-    alt: "A Warhammer figurine, part-painted in dark green, beside a paintbrush",
-    focus: "30% 62%", // the figurine, left of centre
-    zoom: 1.45,
+    name: "Juggling",
+    caption: "Recently, I learned to juggle three balls for about eight seconds. Now I’m working on juggling while reciting riddles, as a party trick.",
+    // PLACEHOLDER: an animation of the three-ball cascade, until there's a photo or clip of me
+    photo: "/placeholders/hobby-juggling.gif",
+    alt: "An animated figure juggling three balls in a cascade",
+    fit: "contain",
+    credit: { text: "Animation: Koxinga, CC BY-SA 3.0", href: "https://commons.wikimedia.org/wiki/File:3-ball_cascade_movie.gif" },
   },
 ];
 
@@ -62,14 +65,14 @@ export default function Hobbies() {
           <li key={hobby.name} className="flex flex-col">
             {/* Square, and 3:2 on phones so the three stacked take less than a screen. No edge:
                 an edge marks a thumbnail that links somewhere, and these don't */}
-            <div className="photo-grade relative aspect-[3/2] sm:aspect-square overflow-hidden bg-quiet-rule">
+            <div className={`${hobby.fit ? "bg-white" : "photo-grade bg-quiet-rule"} relative aspect-[3/2] sm:aspect-square overflow-hidden`}>
               <Image
                 src={hobby.photo}
                 alt={hobby.alt}
                 fill
                 sizes="(min-width: 640px) 300px, 100vw"
                 // The zoom applies to the squares only: the wider phone crop already frames the subject
-                className="object-cover sm:[scale:var(--zoom)]"
+                className={hobby.fit ? "object-contain" : "object-cover sm:[scale:var(--zoom)]"}
                 style={{
                   objectPosition: hobby.focus,
                   transformOrigin: hobby.focus,
@@ -79,6 +82,11 @@ export default function Hobbies() {
             </div>
             <h3 className="mt-4 font-sans text-lg font-semibold leading-[1.3] text-quiet-ink">{hobby.name}</h3>
             <p className="mt-1 text-base leading-[1.55] text-quiet-muted text-pretty">{hobby.caption}</p>
+            {hobby.credit && (
+              <p className="mt-1 text-sm leading-[1.5] text-quiet-muted">
+                <a href={hobby.credit.href} className="underline decoration-1 underline-offset-2 hover:text-quiet-link">{hobby.credit.text}</a>
+              </p>
+            )}
             {hobby.link && isLive(hobby.link.href) && (
               <p className="mt-1 text-base leading-[1.55]">
                 <a href={hobby.link.href} className={LINK}>{hobby.link.label}</a>
