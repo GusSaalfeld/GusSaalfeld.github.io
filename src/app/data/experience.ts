@@ -2,15 +2,15 @@ import type { Role } from "@/app/types";
 
 // The work history and education, newest first. Dates are years: "2023", or "2025–2026" for a span
 // (an en dash). Kept close to the resume's wording, in the site's style: sentence case, the Oxford
-// comma, and curly apostrophes (’). A role without points shows just its title and where
+// comma, and curly apostrophes (’). A role with points gets a full entry; one without is a single
+// compact line, so the roles with writing or engineering stand out while the order stays by date.
+// A link goes after the points, or at the end of a compact line: to a portfolio piece, say
 export const WorkList: Role[] = [
     {
         title: "Barista",
         organization: "La Prima Espresso Company",
         dates: "2025–2026",
-        points: [
-            "Wrote a training manual on how to serve drinks and use the espresso machine.",
-        ],
+        link: { label: "See the training manual I wrote", href: "/portfolio/barista-training" },
     },
     {
         title: "Assistant store manager",
@@ -48,6 +48,7 @@ export const WorkList: Role[] = [
             "Built a dashboard for DEI events that streamlines data collection, standardizes data, and uses graphs to inform decision-making.",
             "Conducted 30+ stakeholder interviews and user tests, and wrote handover documentation and a product ownership manual.",
         ],
+        link: { label: "See the project", href: "/portfolio/capstone-project" },
     },
     {
         title: "Video game software engineer",

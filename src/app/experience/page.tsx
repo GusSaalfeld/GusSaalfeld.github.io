@@ -26,6 +26,10 @@ export default function Experience() {
             <DownloadLink primary href="/Augustus-Saalfeld-resume.pdf">Download resume (PDF)</DownloadLink>
           </div>
         </div>
+        {/* The tools, from the resume: the words a recruiter scans for, in one quiet line */}
+        <p className="mt-6 max-w-[62ch] text-base leading-[1.55] text-quiet-muted text-pretty">
+          Tools I work with: Confluence, XML, Python, C#, and Jenkins.
+        </p>
       </Band>
       <Band className={SECTION_GAP}>
         <ExperienceList title="Work" roles={WorkList} />

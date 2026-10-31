@@ -11,6 +11,6 @@ export type Role = {
   title: string,        // the role, or the degree or award, in sentence case: "Assistant software engineer"
   organization: string, // where
   dates: string,        // years, as shown: "2023", or "2025–2026" for a span (an en dash). "" for none yet
-  points?: string[],    // what you did and what came of it, one sentence or two each
-  link?: { label: string, href: string }, // somewhere to see more, shown after the points
+  points?: string[],    // what you did and what came of it, one sentence or two each. None makes a compact line
+  link?: { label: string, href: string }, // somewhere to see more: a portfolio piece, a video
 };
