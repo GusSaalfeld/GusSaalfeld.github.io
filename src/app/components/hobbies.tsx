@@ -54,7 +54,7 @@ export default function Hobbies() {
         Interests and hobbies
       </h2>
       <p className="mt-6 max-w-[62ch] text-lg leading-[1.55] text-quiet-ink text-pretty">
-        Here are some things I do in my free time.
+        When I&rsquo;m not writing, you can usually find me doing one of these.
       </p>
       {/* 24px under the sentence that introduces them, so it leads straight into them */}
       <ul className="mt-6 grid gap-12 sm:grid-cols-3 sm:gap-6">
