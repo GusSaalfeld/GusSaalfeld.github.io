@@ -25,6 +25,7 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (softwareGraphics()) return; // the page background shows instead
 
     // A fresh canvas per mount, because dispose() loses the context for good.
     const host = hostRef.current!;
@@ -105,6 +106,7 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
       }
       last = now;
       if (!stopped) raf = requestAnimationFrame(loop);
+      else document.documentElement.dataset.slime = "stopped"; // for testing: the slime gave up here
     };
     loop(performance.now());
 
@@ -136,4 +138,16 @@ export default function SlimeCanvas({ settings }: { settings?: Partial<SlimeSett
 function median(values: number[]) {
   const sorted = [...values].sort((a, b) => a - b);
   return sorted[Math.floor(sorted.length / 2)];
+}
+
+// Whether WebGL is drawn by the processor rather than a graphics card: a computer without a working
+// GPU driver, or a browser that's blocked it. There the simulation is so slow that its first frame
+// alone can freeze the page for seconds, before it can be timed, so it doesn't start at all
+function softwareGraphics() {
+  const gl = document.createElement("canvas").getContext("webgl2");
+  if (!gl) return false; // no WebGL2: SlimeSim fails to start, and the background shows anyway
+  const info = gl.getExtension("WEBGL_debug_renderer_info");
+  const renderer = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : "";
+  gl.getExtension("WEBGL_lose_context")?.loseContext(); // free it straight away
+  return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(renderer);
 }
