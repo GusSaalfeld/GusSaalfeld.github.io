@@ -42,8 +42,8 @@ export default function SelectedWork({ title, projects }: SelectedWorkProps) {
               {project.thumbnail && (
                 // Decorative: the title names the project for screen readers. The edge keeps a white
                 // page or screenshot from melting into the paper
-                <div className="relative aspect-[4/3] overflow-hidden border border-quiet-rule bg-quiet-rule group-hover:border-quiet-link group-focus-visible:border-quiet-link">
-                  <Image src={project.thumbnail} alt="" fill sizes="96px" className="object-cover" />
+                <div className="relative aspect-[4/3] overflow-hidden border border-quiet-rule bg-white group-hover:border-quiet-link group-focus-visible:border-quiet-link">
+                  <Image src={project.thumbnail} alt="" fill sizes="96px" className="object-cover object-left-top" />
                 </div>
               )}
             </>

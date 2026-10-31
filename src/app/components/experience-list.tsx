@@ -43,10 +43,10 @@ export default function ExperienceList({ title, roles }: ExperienceListProps) {
                 </h3>
                 {/* One point reads as a sentence; more than one, as a list */}
                 {points.length === 1 && (
-                  <p className="mt-2 max-w-[62ch] text-lg leading-[1.55] text-quiet-muted text-pretty">{points[0]}</p>
+                  <p className="mt-2 max-w-[62ch] text-lg leading-[1.55] text-quiet-ink text-pretty">{points[0]}</p>
                 )}
                 {points.length > 1 && (
-                  <ul className="mt-2 flex max-w-[62ch] list-disc flex-col gap-2 pl-5 text-lg leading-[1.55] text-quiet-muted marker:text-quiet-rule">
+                  <ul className="mt-2 flex max-w-[62ch] list-disc flex-col gap-2 pl-5 text-lg leading-[1.55] text-quiet-ink marker:text-quiet-muted">
                     {points.map((point) => (
                       <li key={point} className="text-pretty">{point}</li>
                     ))}

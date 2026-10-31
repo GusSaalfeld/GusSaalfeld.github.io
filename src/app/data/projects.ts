@@ -3,8 +3,8 @@ import type { Project } from "@/app/types";
 // The projects, in the order the portfolio lists them. To take one off the site, add hidden: true.
 // The order: work with real readers first, since hiring
 // managers weigh real use above practice pieces, and the first rows get the most attention.
-// Thumbnails under /placeholders/ are stock photos from Picsum (picsum.photos, Unsplash licence),
-// standing in until pictures of the real work are ready. Replace each with the work itself.
+// Thumbnails show the work itself: a writing sample's is the top of its first page. A project
+// without a real picture has none, rather than a stock photo that doesn't match it.
 // Each description is one sentence: what it is, who it was for, and what it achieved, in about
 // 15 to 20 words, like the barista manual's. The rest still need rewriting to that pattern.
 // Titles and genres are in sentence case: only the first word and proper nouns capitalised.
@@ -16,8 +16,8 @@ export const ProjectList: Project[] = [
         path: "capstone-project",
         ready: true,
         title: "Designing a feedback system for Dietrich College’s DEI department",
-        hoverDescription: "Using iterative design, user testing, and stakeholder interviews, I designed a feedback collection system still in use by the department today.",
-        thumbnail: "/placeholders/capstone-project.jpg",
+        hoverDescription: "Using iterative design, user testing, and stakeholder interviews, I designed a feedback system still in use by the department today.",
+        thumbnail: "", // none until there’s a real picture of the work
         genre: "User research",
         // DRAFT: from the resume. Check each line. Put each document's file in public/samples/ and add its
         // href below, and its link appears; screenshots of the form and the visualizations go in previews
@@ -31,20 +31,20 @@ export const ProjectList: Project[] = [
                 { name: "Handover documentation", description: "How to run and maintain the system, so the department could without me." },
                 { name: "Postmortem", description: "What went well, what didn’t, and what I’d do differently." },
             ],
-            summary: "A dashboard that collects and reports feedback on DEI events, which Dietrich College’s Office of Diversity, Equity, and Inclusion still uses today.",
+            summary: "A feedback system that collects and graphs feedback on DEI events, which Dietrich College’s Office of Diversity, Equity, and Inclusion still uses today.",
             outcomes: [
-                "The department still uses the dashboard to collect feedback on its events.",
+                "The department still uses the feedback system to collect feedback on its events.",
                 "Feedback from every event now arrives in one standard format, with graphs to inform decisions.",
                 "Handover documentation and a product ownership manual let the department run it without me.",
             ],
             challenges: [
                 {
                     problem: "Staff collected feedback on each event in their own way, so events couldn’t be compared.",
-                    solution: "Built one dashboard that collects feedback in a standard format and graphs it for decisions.",
+                    solution: "Built one feedback system that collects feedback in a standard format and graphs it for decisions.",
                 },
                 {
                     problem: "A system the staff didn’t like using wouldn’t get used.",
-                    solution: "Ran 30+ stakeholder interviews and user tests, and redesigned the dashboard from what they showed.",
+                    solution: "Ran 30+ stakeholder interviews and user tests, and redesigned the system from what they showed.",
                 },
                 {
                     problem: "The system had to keep running after my contract ended.",
@@ -58,7 +58,7 @@ export const ProjectList: Project[] = [
         ready: true,
         title: "Barista training manual",
         hoverDescription: "A training manual that my café used to train new baristas.",
-        thumbnail: "/placeholders/barista-training.jpg",
+        thumbnail: "/samples/previews/barista-training-manual-1.png", // the top of its first page
         genre: "Technical writing",
         // DRAFT: from the manual itself. Check each line, and replace the placeholder picture
         page: {
@@ -67,7 +67,7 @@ export const ProjectList: Project[] = [
             purpose: "Teach a new barista to make a latte, and with it how to use the espresso machine.",
             audience: "New baristas at La Prima’s Gates and Wean cafés on Carnegie Mellon’s campus.",
             format: "7 pages, PDF",
-            previews: [{ src: "/samples/previews/barista-training-manual-1.png", alt: "Page 1 of the manual" }, { src: "/samples/previews/barista-training-manual-2.png", alt: "Page 2 of the manual" }, { src: "/samples/previews/barista-training-manual-3.png", alt: "Page 3 of the manual" }],
+            previews: [{ src: "/samples/previews/barista-training-manual-1.png", alt: "Page 1 of the manual" }, { src: "/samples/previews/barista-training-manual-2.png", alt: "Page 2 of the manual" }],
             summary: "A seven-page training manual that takes a new barista through one drink, a hot 16 oz double latte, from cup to counter.",
             outcomes: [
                 "The café uses the manual to train new baristas.",
@@ -96,7 +96,7 @@ export const ProjectList: Project[] = [
         ready: true,
         title: "What happens when you type youtube.com into the web browser?",
         hoverDescription: "A beginner’s guide to what goes on behind the scenes whenever you look up a website in your web browser.",
-        thumbnail: "/placeholders/scientific-explainer.jpg",
+        thumbnail: "/samples/previews/what-happens-when-you-type-youtube-com-1.png", // the top of its first page
         genre: "Technical writing",
         // DRAFT: from the piece itself. Check each line, and replace the placeholder picture
         page: {
@@ -105,7 +105,7 @@ export const ProjectList: Project[] = [
             purpose: "Explain what a browser does to load a website, without the jargon that makes most explanations impenetrable.",
             audience: "Curious readers with no technical background who use the internet every day.",
             format: "7 pages, PDF",
-            previews: [{ src: "/samples/previews/what-happens-when-you-type-youtube-com-1.png", alt: "Page 1 of the explainer" }, { src: "/samples/previews/what-happens-when-you-type-youtube-com-2.png", alt: "Page 2 of the explainer" }, { src: "/samples/previews/what-happens-when-you-type-youtube-com-3.png", alt: "Page 3 of the explainer" }],
+            previews: [{ src: "/samples/previews/what-happens-when-you-type-youtube-com-1.png", alt: "Page 1 of the explainer" }, { src: "/samples/previews/what-happens-when-you-type-youtube-com-2.png", alt: "Page 2 of the explainer" }],
             summary: "A seven-page explainer that walks a beginner through what happens between typing a web address and seeing the page.",
             outcomes: [
                 "Covers DNS, TCP, HTTP, and how a page is drawn, without assuming any technical knowledge.",
@@ -134,7 +134,7 @@ export const ProjectList: Project[] = [
         ready: true,
         title: "Adding a new course export feature to Canvas",
         hoverDescription: "Microcopy, a UX mockup, and a feature announcement meant to simulate adding a course export feature to Canvas.",
-        thumbnail: "/placeholders/ux-writing.jpg",
+        thumbnail: "", // none until there’s a real picture of the work
         genre: "UX writing",
         // DRAFT: from the description. Check each line; the challenges are guesses at what was hard.
         // Put each piece's file in public/samples/ and add its href below, and its link appears;
@@ -177,7 +177,7 @@ export const ProjectList: Project[] = [
         ready: true,
         title: "Home server",
         hoverDescription: "My home server runs on Proxmox and hosts the open-source tools I use daily, such as a media server, password manager, and network-wide ad blocking.",
-        thumbnail: "/placeholders/home-server.jpg",
+        thumbnail: "", // none until there’s a real picture of the work
         genre: "Self-hosting",
         // DRAFT: from the description and the tools you listed. The challenges in particular are
         // guesses at what was hard: replace them with what actually was. Screenshots would make good previews
@@ -221,7 +221,7 @@ export const ProjectList: Project[] = [
         ready: true,
         title: "How to grow oyster mushrooms at home",
         hoverDescription: "A how-to guide that walks beginners through growing oyster mushrooms at home.",
-        thumbnail: "/placeholders/growing-mushrooms.jpg",
+        thumbnail: "/samples/previews/growing-oyster-mushrooms-at-home-1.png", // the top of its first page
         genre: "How-to guide",
         // DRAFT: from the guide itself. Check each line, and replace the placeholder picture
         page: {
@@ -230,7 +230,7 @@ export const ProjectList: Project[] = [
             purpose: "Show beginners that growing gourmet mushrooms at home is cheap and manageable, then walk them through it.",
             audience: "Beginners with no gardening or lab experience who want a cheap, low-effort project at home.",
             format: "5 pages, PDF",
-            previews: [{ src: "/samples/previews/growing-oyster-mushrooms-at-home-1.png", alt: "Page 1 of the guide" }, { src: "/samples/previews/growing-oyster-mushrooms-at-home-2.png", alt: "Page 2 of the guide" }, { src: "/samples/previews/growing-oyster-mushrooms-at-home-3.png", alt: "Page 3 of the guide" }],
+            previews: [{ src: "/samples/previews/growing-oyster-mushrooms-at-home-1.png", alt: "Page 1 of the guide" }, { src: "/samples/previews/growing-oyster-mushrooms-at-home-2.png", alt: "Page 2 of the guide" }],
             summary: "A five-page how-to guide to growing blue oyster mushrooms at home, from a syringe of spores to the first harvest.",
             outcomes: [
                 "Breaks growing into three stages, each with what to do, what to watch for, and how long it takes.",
@@ -259,7 +259,7 @@ export const ProjectList: Project[] = [
         ready: true,
         title: "Short stories and a study on computer science in fiction",
         hoverDescription: "Short stories with absurd premises, and a study of how fiction can demonstrate computer science’s impact on our inner lives, through Italo Calvino’s *Cosmicomics*.",
-        thumbnail: "/placeholders/creative-writing.jpg",
+        thumbnail: "", // none until there’s a real picture of the work
         genre: "Creative writing",
         // DRAFT: from the description and the SURF fellowship. Check each line, the date especially, and
         // add the stories and the study: their files in public/samples/, with an href below each

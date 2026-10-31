@@ -119,23 +119,24 @@ export default async function ProjectPage({ params }: Props) {
           </dl>
         )}
 
-        {/* The piece itself: the top of its first pages side by side, where the headings and first
-            lines are, each opening the whole piece. Two across on phones. A thin edge keeps white
-            pages from melting into the paper */}
+        {/* The piece itself: the top of its first pages, margins trimmed, large enough to read,
+            each opening the whole piece. Side by side from sm up. A thin edge keeps the white pages
+            from melting into the paper */}
         {page.previews && page.previews.length > 0 && (
-          <ul className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6">
-            {page.previews.map((preview, i) => (
-              <li key={preview.src} className={i === 2 ? "hidden sm:block" : ""}>
+          <ul className="mt-8 grid gap-6 sm:grid-cols-2">
+            {page.previews.map((preview) => (
+              <li key={preview.src}>
                 <a
                   href={page.sample?.href ?? preview.src}
-                  className="relative block aspect-[4/3] overflow-hidden border border-quiet-rule bg-white hover:border-quiet-link"
+                  className="block border border-quiet-rule bg-white hover:border-quiet-link"
                 >
                   <Image
                     src={preview.src}
                     alt={preview.alt}
-                    fill
-                    sizes="(min-width: 1024px) 296px, (min-width: 640px) 30vw, 45vw"
-                    className="object-cover object-top"
+                    width={1000}
+                    height={553}
+                    sizes="(min-width: 1024px) 452px, (min-width: 640px) 45vw, 100vw"
+                    className="block h-auto w-full"
                   />
                 </a>
               </li>

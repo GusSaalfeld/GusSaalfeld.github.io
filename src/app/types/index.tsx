@@ -22,7 +22,7 @@ export type ProjectPage = {
   format?: string,            // its form and length: "7 pages, PDF"
   builtWith?: string,         // other work: the tools it's made with, "Proxmox, Docker"
   services?: { name: string, role: string }[], // other work that runs things: each app, and what it's for
-  previews?: { src: string, alt: string }[], // pictures of the piece itself: pages, screens. Up to 3
+  previews?: { src: string, alt: string }[], // pictures of the piece itself: pages, screens. Two, side by side
   documents?: { name: string, description: string, href?: string }[], // what the project produced, each
                                             // with a line on what it is. One with an href links to its file
   outcomes: string[],         // three results, each one sentence: what changed, for whom
