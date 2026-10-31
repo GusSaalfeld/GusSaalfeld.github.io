@@ -25,12 +25,27 @@ const slimeSettings = {
   speciesPalettes: [[[0.765, 0.816, 0.749], [0.639, 0.722, 0.616], [0.498, 0.604, 0.471]]] as RGB[][],
 };
 
-// The browser tab's title. A page sets its own with metadata.title, and the template adds the name
+// The browser tab's title, and what a shared link shows. A page sets its own title with
+// metadata.title, and the template adds the name. The tab icon (icon.png, apple-icon.png,
+// favicon.ico) and the preview card (opengraph-image.png) are files beside this one, which Next
+// links in itself; metadataBase makes the card's address absolute, as link previews need
+const description =
+  "Programmer turned technical writer. I write documentation that helps people use software, and articles that help research reach a wider audience.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://augustus-saalfeld.com"),
   title: {
     default: "Augustus Saalfeld, technical and science writer",
     template: "%s · Augustus Saalfeld",
   },
+  description,
+  openGraph: {
+    type: "website",
+    siteName: "Augustus Saalfeld",
+    title: "Augustus Saalfeld, technical and science writer",
+    description,
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
