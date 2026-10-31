@@ -36,14 +36,14 @@ const description =
 export const metadata: Metadata = {
   metadataBase: new URL("https://augustus-saalfeld.com"),
   title: {
-    default: "Augustus Saalfeld, technical and science writer",
+    default: "Augustus Saalfeld, Technical & Science Writer",
     template: "%s · Augustus Saalfeld",
   },
   description,
   openGraph: {
     type: "website",
     siteName: "Augustus Saalfeld",
-    title: "Augustus Saalfeld, technical and science writer",
+    title: "Augustus Saalfeld, Technical & Science Writer",
     description,
   },
   twitter: { card: "summary_large_image" },

@@ -15,7 +15,7 @@ export default function Header({children}: HeaderProps) {
             <Link href="/" className="font-sans font-semibold hover:text-quiet-link hover:underline underline-offset-4">
                 Augustus Saalfeld
             </Link>
-            <span className="hidden lg:inline ml-3 text-quiet-muted">Technical and science writer</span>
+            <span className="hidden lg:inline ml-3 text-quiet-muted">Technical &amp; Science Writer</span>
             {children && <div>{children}</div>}
         </NavBar>
     );
