@@ -184,11 +184,19 @@ export const ProjectList: Project[] = [
             kind: "other",
             date: "2025–present",
             summary: "A home server running on Proxmox that hosts the open-source tools I use every day, in place of commercial services.",
-            builtWith: "Proxmox, Docker, Portainer, OpenWrt",
-            // DRAFT: name the apps themselves, as in "Mealie (recipe book)"
-            services: "A recipe book, a media server, and tracking protection for the whole network",
+            builtWith: "Proxmox, Docker, Portainer",
+            services: [
+                { name: "Mealie", role: "recipes" },
+                { name: "Jellyfin", role: "media" },
+                { name: "AdGuard Home", role: "ad blocking" },
+                { name: "Calibre", role: "ebooks" },
+                { name: "Vaultwarden", role: "passwords" },
+                { name: "OpenMediaVault", role: "network storage" },
+                { name: "Tailscale", role: "remote access" },
+                { name: "OpenWrt", role: "router" },
+            ],
             outcomes: [
-                "Hosts a recipe book, a media server, and tracking protection for every device on my network.",
+                "Hosts eight services I use daily, from recipes and media to passwords and network storage.",
                 "Replaces commercial services with open-source tools I control.",
                 "Gives me a place to learn infrastructure hands-on: virtualization, containers, and networking.",
             ],
@@ -199,7 +207,7 @@ export const ProjectList: Project[] = [
                 },
                 {
                     problem: "Blocking trackers for every device meant changing the network itself, not each device.",
-                    solution: "Configured the router with OpenWrt so the whole network uses the server’s tracking protection.",
+                    solution: "Set up the router with OpenWrt so every device on the network goes through AdGuard Home.",
                 },
                 {
                     problem: "A server I rely on daily has to be easy to fix when something goes wrong.",

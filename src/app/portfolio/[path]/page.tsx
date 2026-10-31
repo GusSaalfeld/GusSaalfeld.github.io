@@ -52,7 +52,6 @@ export default async function ProjectPage({ params }: Props) {
     ["Audience", page.audience],
     ["Format", page.format],
     ["Built with", page.builtWith],
-    ["Services", page.services],
   ].filter((fact): fact is [string, string] => Boolean(fact[1]));
 
   return (
@@ -91,7 +90,7 @@ export default async function ProjectPage({ params }: Props) {
           )}
         </div>
 
-        {facts.length > 0 && (
+        {(facts.length > 0 || page.services) && (
           <dl className="mt-8 grid gap-x-8 gap-y-4 md:grid-cols-3">
             {facts.map(([name, text]) => (
               <div key={name}>
@@ -99,6 +98,23 @@ export default async function ProjectPage({ params }: Props) {
                 <dd className="mt-1 text-base leading-[1.55] text-quiet-ink text-pretty">{withItalics(text)}</dd>
               </div>
             ))}
+            {/* What it runs, one app a line, the app in ink and what it's for muted. Two of the
+                three columns, in two columns of its own from sm up */}
+            {page.services && (
+              <div className="md:col-span-2">
+                <dt className="font-sans text-base font-semibold leading-[1.3] text-quiet-ink">Services</dt>
+                <dd className="mt-1">
+                  <ul className="grid gap-x-8 text-base leading-[1.55] sm:grid-cols-2">
+                    {page.services.map((service) => (
+                      <li key={service.name}>
+                        <span className="text-quiet-ink">{service.name}</span>
+                        <span className="text-quiet-muted">, {service.role}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
+              </div>
+            )}
           </dl>
         )}
 
