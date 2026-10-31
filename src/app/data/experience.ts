@@ -19,7 +19,7 @@ export const WorkList: Role[] = [
     },
     {
         title: "Voter registration",
-        organization: "", // TODO: the organization
+        organization: "", // left out on purpose: the organization can read as partisan
         dates: "2024",
     },
     {
@@ -61,7 +61,18 @@ export const WorkList: Role[] = [
     },
 ];
 
-export const EducationList: Role[] = [
+// The degree leads the education section, set apart from the courses taken since
+export const Degree: Role = {
+    title: "B.S., double major in Information Systems and Creative Writing",
+    organization: "Carnegie Mellon University",
+    dates: "2022",
+    points: [
+        "Coursework included Technical Writing, Software Documentation, Introduction to Computer Systems, Application Design and Development, Website Design and Development, and Principles of Software Construction.",
+    ],
+};
+
+// Courses since the degree, newest first
+export const CourseList: Role[] = [
     {
         title: "Professional and Technical Writing (graduate course)",
         organization: "Carnegie Mellon University",
@@ -71,13 +82,5 @@ export const EducationList: Role[] = [
         title: "AI and Ethics",
         organization: "London School of Economics",
         dates: "2024",
-    },
-    {
-        title: "B.S., double major in Information Systems and Creative Writing",
-        organization: "Carnegie Mellon University",
-        dates: "2022",
-        points: [
-            "Coursework included Technical Writing, Software Documentation, Introduction to Computer Systems, Application Design and Development, Website Design and Development, and Principles of Software Construction.",
-        ],
     },
 ];

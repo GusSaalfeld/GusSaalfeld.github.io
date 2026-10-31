@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Band, { PAGE_TOP, SECTION_GAP } from "@/app/components/band";
 import DownloadLink from "@/app/components/download-link";
 import ExperienceList from "@/app/components/experience-list";
-import { EducationList, WorkList } from "@/app/data/experience";
+import Education from "@/app/components/education";
+import { CourseList, Degree, WorkList } from "@/app/data/experience";
 
 export const metadata: Metadata = { title: "Experience" };
 
@@ -30,7 +31,7 @@ export default function Experience() {
         <ExperienceList title="Work" roles={WorkList} />
       </Band>
       <Band className={SECTION_GAP}>
-        <ExperienceList title="Education" roles={EducationList} />
+        <Education degree={Degree} courses={CourseList} />
       </Band>
     </>
   );
