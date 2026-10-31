@@ -11,7 +11,7 @@ import type { Project } from "@/app/types";
 // work share the layout; a writing sample adds its purpose and audience. The writing itself comes
 // before anything said about it: previews of its first pages, and the whole piece to download.
 // Previous and Next, small at the top for skimmers and titled at the end for readers who finish,
-// step through the pages of the same kind in Selected work's order, wrapping round at either end
+// step through every project page in Selected work's order, wrapping round at either end
 
 const WITH_PAGES = ProjectList.filter((project) => project.page);
 
@@ -37,14 +37,13 @@ export default async function ProjectPage({ params }: Props) {
   const project = WITH_PAGES.find((p) => p.path === path);
   if (!project) notFound();
   const page = project.page!;
-  const writing = page.kind === "writing";
 
-  // The pages of this kind, and this one's place among them. With only one, there's nowhere to go
-  const kind = WITH_PAGES.filter((p) => p.page!.kind === page.kind);
-  const at = kind.indexOf(project);
-  const previous = kind.length > 1 ? kind[(at - 1 + kind.length) % kind.length] : undefined;
-  const next = kind.length > 1 ? kind[(at + 1) % kind.length] : undefined;
-  const noun = writing ? "sample" : "project";
+  // This page's place among all the project pages. With only one, there's nowhere to go
+  const at = WITH_PAGES.indexOf(project);
+  const count = WITH_PAGES.length;
+  const previous = count > 1 ? WITH_PAGES[(at - 1 + count) % count] : undefined;
+  const next = count > 1 ? WITH_PAGES[(at + 1) % count] : undefined;
+  const noun = "project";
 
   // What it's for, who for, and its form, in one row: short facts to scan before reading
   const facts = [

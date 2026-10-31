@@ -18,10 +18,13 @@ export const ProjectList: Project[] = [
         hoverDescription: "Using iterative design, user testing, and stakeholder interviews, I designed a feedback collection system still in use by the department today.",
         thumbnail: "/placeholders/capstone-project.jpg",
         genre: "User research",
-        // DRAFT: from the resume. Check each line, and replace the placeholder picture
+        // DRAFT: from the resume. Check each line. The writing is the handover documentation and the
+        // product ownership manual: a PDF of either (in public/samples/) would give it previews and a download
         page: {
-            kind: "other",
+            kind: "writing",
             date: "Spring 2022",
+            purpose: "Collect feedback on DEI events in one consistent format, and hand the system over so the department could run it without me.",
+            audience: "Staff at Dietrich College’s Office of Diversity, Equity, and Inclusion, who run and evaluate its events.",
             format: "Dashboard, handover documentation, and a product ownership manual",
             summary: "A dashboard that collects and reports feedback on DEI events, which Dietrich College’s Office of Diversity, Equity, and Inclusion still uses today.",
             outcomes: [
@@ -135,7 +138,34 @@ export const ProjectList: Project[] = [
         title: "Home server",
         hoverDescription: "My home server runs on Proxmox and hosts the open-source tools I use daily, such as a recipe book, media server, and digital tracking protection.",
         thumbnail: "/placeholders/home-server.jpg",
-        genre: "Self-hosting"
+        genre: "Self-hosting",
+        // DRAFT: from the description and the tools you listed. The challenges in particular are
+        // guesses at what was hard: replace them with what actually was. Screenshots would make good previews
+        page: {
+            kind: "other",
+            date: "2025–present",
+            summary: "A home server running on Proxmox that hosts the open-source tools I use every day, in place of commercial services.",
+            format: "Proxmox, Docker, Portainer, OpenWrt",
+            outcomes: [
+                "Hosts a recipe book, a media server, and tracking protection for every device on my network.",
+                "Replaces commercial services with open-source tools I control.",
+                "Gives me a place to learn infrastructure hands-on: virtualization, containers, and networking.",
+            ],
+            challenges: [
+                {
+                    problem: "Running several services on one machine risks one breaking the others.",
+                    solution: "Ran each service in its own Docker container, managed through Portainer on Proxmox.",
+                },
+                {
+                    problem: "Blocking trackers for every device meant changing the network itself, not each device.",
+                    solution: "Configured the router with OpenWrt so the whole network uses the server’s tracking protection.",
+                },
+                {
+                    problem: "A server I rely on daily has to be easy to fix when something goes wrong.",
+                    solution: "Kept the setup in containers that can be rebuilt quickly, rather than one hand-tuned system.",
+                },
+            ],
+        },
     },
     {
         path: "growing-mushrooms",

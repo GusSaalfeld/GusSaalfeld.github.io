@@ -12,7 +12,7 @@ export type Project = {
 // piece to download; what it's for, who for, and its format; previews of the piece itself; three
 // outcomes; three problems and how I solved them; then the previous and next pages of its kind
 export type ProjectPage = {
-  kind: "writing" | "other",  // writing samples and other work: Previous and Next stay within a kind
+  kind: "writing" | "other",  // a writing sample shows its purpose and audience; other work leaves them out
   date: string,               // as shown under the title: "2026", "Spring 2022"
   summary: string,            // one sentence on what it is: the form, the length, the subject
   purpose?: string,           // what the piece is for, one short sentence
