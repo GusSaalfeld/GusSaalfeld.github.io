@@ -194,7 +194,7 @@ export const ProjectList: Project[] = [
                 { name: "Vaultwarden", role: "passwords" },
                 { name: "OpenMediaVault", role: "network storage" },
                 { name: "Tailscale", role: "remote access" },
-                { name: "OpenWrt", role: "router" },
+                { name: "OpenWrt", role: "router and VPN" },
             ],
             outcomes: [
                 "Hosts eight services I use daily, from recipes and media to passwords and network storage.",
