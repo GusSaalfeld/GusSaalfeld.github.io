@@ -22,19 +22,27 @@ export const ProjectList: Project[] = [
         page: {
             kind: "other",
             date: "Spring 2022",
+            format: "Dashboard, handover documentation, and a product ownership manual",
             summary: "A dashboard that collects and reports feedback on DEI events, which Dietrich College’s Office of Diversity, Equity, and Inclusion still uses today.",
-            image: { src: "/placeholders/capstone-project.jpg", alt: "Placeholder picture" },
             outcomes: [
                 "The department still uses the dashboard to collect feedback on its events.",
                 "Feedback from every event now arrives in one standard format, with graphs to inform decisions.",
                 "Handover documentation and a product ownership manual let the department run it without me.",
             ],
-            star: {
-                situation: "The Office of Diversity, Equity, and Inclusion collected feedback on its events, but in no consistent format, so it was hard to compare events or act on what people said.",
-                task: "As the office’s technical consultant, design a system to collect feedback and report it in a form the staff could use to make decisions.",
-                action: "Conducted 30+ stakeholder interviews and user tests, designed the dashboard iteratively from what they showed, then wrote handover documentation and a product ownership manual.",
-                result: "A dashboard that streamlines and standardizes data collection, and that the department still uses today.",
-            },
+            challenges: [
+                {
+                    problem: "Staff collected feedback on each event in their own way, so events couldn’t be compared.",
+                    solution: "Built one dashboard that collects feedback in a standard format and graphs it for decisions.",
+                },
+                {
+                    problem: "A system the staff didn’t like using wouldn’t get used.",
+                    solution: "Ran 30+ stakeholder interviews and user tests, and redesigned the dashboard from what they showed.",
+                },
+                {
+                    problem: "The system had to keep running after my contract ended.",
+                    solution: "Wrote handover documentation and a product ownership manual, so the department could run it without me.",
+                },
+            ],
         },
     },
     {
@@ -50,19 +58,28 @@ export const ProjectList: Project[] = [
             date: "2026",
             purpose: "Teach a new barista to make a latte, and with it how to use the espresso machine.",
             audience: "New baristas at La Prima’s Gates and Wean cafés on Carnegie Mellon’s campus.",
-            summary: "A step-by-step guide that teaches new baristas at La Prima’s CMU cafés to make a latte, and with it how to use the espresso machine.",
-            image: { src: "/placeholders/barista-training.jpg", alt: "Placeholder picture" },
+            format: "7 pages, PDF",
+            previews: [{ src: "/samples/previews/barista-training-manual-1.png", alt: "Page 1 of the manual" }, { src: "/samples/previews/barista-training-manual-2.png", alt: "Page 2 of the manual" }, { src: "/samples/previews/barista-training-manual-3.png", alt: "Page 3 of the manual" }],
+            summary: "A seven-page training manual that takes a new barista through one drink, a hot 16 oz double latte, from cup to counter.",
             outcomes: [
                 "The café uses the manual to train new baristas.",
                 "New baristas can follow one drink from cup code to counter in four steps, without a supervisor beside them.",
                 "Tables show what good and bad results look like, for tamping espresso and steaming milk, so baristas can check their own work.",
             ],
-            star: {
-                situation: "New baristas at La Prima’s Gates and Wean cafés learn the espresso machine during busy shifts, where mistakes like serving caffeine to a decaf order matter.",
-                task: "Write a guide a new barista could follow on their own, true to La Prima’s traditional Italian coffee-making.",
-                action: "Broke making a 16 oz double latte into four steps, from reading the cup code to serving the drink, and added comparison tables and safety notes on decaf and milk allergies.",
-                result: "A manual the café uses to train new baristas.",
-            },
+            challenges: [
+                {
+                    problem: "New baristas learn mid-shift, with no time to read ahead.",
+                    solution: "Organized the manual around one drink, so each step is the next thing they do.",
+                },
+                {
+                    problem: "“Good espresso” and “well-steamed milk” are hard to describe in words.",
+                    solution: "Added tables comparing too little, too much, and just right, by how each looks, sounds, and tastes.",
+                },
+                {
+                    problem: "Some mistakes, like caffeine in a decaf order, could hurt a customer.",
+                    solution: "Flagged the decaf and milk-allergy risks at the steps where they happen, not in a separate safety section.",
+                },
+            ],
             sample: { label: "Download the manual (PDF)", href: "/samples/barista-training-manual.pdf" },
         },
     },
@@ -79,19 +96,28 @@ export const ProjectList: Project[] = [
             date: "2026",
             purpose: "Explain what a browser does to load a website, without the jargon that makes most explanations impenetrable.",
             audience: "Curious readers with no technical background who use the internet every day.",
-            summary: "A beginner’s guide to what happens between typing a web address and seeing the page, in four steps.",
-            image: { src: "/placeholders/scientific-explainer.jpg", alt: "Placeholder picture" },
+            format: "7 pages, PDF",
+            previews: [{ src: "/samples/previews/what-happens-when-you-type-youtube-com-1.png", alt: "Page 1 of the explainer" }, { src: "/samples/previews/what-happens-when-you-type-youtube-com-2.png", alt: "Page 2 of the explainer" }, { src: "/samples/previews/what-happens-when-you-type-youtube-com-3.png", alt: "Page 3 of the explainer" }],
+            summary: "A seven-page explainer that walks a beginner through what happens between typing a web address and seeing the page.",
             outcomes: [
                 "Covers DNS, TCP, HTTP, and how a page is drawn, without assuming any technical knowledge.",
                 "Gives each idea an everyday comparison: a phone book, the post, a house’s blueprint and wiring.",
                 "Recaps the whole process in a single sentence a reader can carry away.",
             ],
-            star: {
-                situation: "Explanations of how the web works are written for engineers, so most people who use it every day can’t follow them.",
-                task: "Write an explanation that a reader with no technical background could follow from start to finish.",
-                action: "Broke loading a website into four steps, introduced each technical term only when it was needed, and paired every idea with an everyday comparison.",
-                result: "A self-contained guide that takes a beginner from a typed address to a page on screen.",
-            },
+            challenges: [
+                {
+                    problem: "Most readers stop at the first unfamiliar term.",
+                    solution: "Introduced each term, from DNS to HTTP, only at the step that needs it, and defined it in the same sentence.",
+                },
+                {
+                    problem: "The process is invisible, so it’s hard to picture.",
+                    solution: "Gave each step an everyday comparison: a phone book, the post, a house’s blueprint and wiring.",
+                },
+                {
+                    problem: "Four steps, each with its own detail, make it easy to lose the thread.",
+                    solution: "Summarized all four steps up front, then recapped them in one sentence at the end.",
+                },
+            ],
             sample: { label: "Download the explainer (PDF)", href: "/samples/what-happens-when-you-type-youtube-com.pdf" },
         },
     },
@@ -124,19 +150,28 @@ export const ProjectList: Project[] = [
             date: "2026",
             purpose: "Show beginners that growing gourmet mushrooms at home is cheap and manageable, then walk them through it.",
             audience: "Beginners with no gardening or lab experience who want a cheap, low-effort project at home.",
-            summary: "A how-to guide that takes a beginner from a syringe of spores to a harvest of blue oyster mushrooms in about six weeks.",
-            image: { src: "/placeholders/growing-mushrooms.jpg", alt: "Placeholder picture" },
+            format: "5 pages, PDF",
+            previews: [{ src: "/samples/previews/growing-oyster-mushrooms-at-home-1.png", alt: "Page 1 of the guide" }, { src: "/samples/previews/growing-oyster-mushrooms-at-home-2.png", alt: "Page 2 of the guide" }, { src: "/samples/previews/growing-oyster-mushrooms-at-home-3.png", alt: "Page 3 of the guide" }],
+            summary: "A five-page how-to guide to growing blue oyster mushrooms at home, from a syringe of spores to the first harvest.",
             outcomes: [
                 "Breaks growing into three stages, each with what to do, what to watch for, and how long it takes.",
                 "Lists every piece of equipment, and where to buy it, before the first step.",
                 "Ends with what to learn next, from a second harvest to making your own supplies.",
             ],
-            star: {
-                situation: "Growing mushrooms at home is cheap and takes only a few hours of work, but guides for it are written for hobbyists who already know the jargon.",
-                task: "Write a guide a beginner could follow on their own, starting with the easiest mushroom to grow.",
-                action: "Opened with why it’s worth doing, chose blue oysters for how forgiving they are, then explained each grower’s term as it came up and gave timelines for every stage.",
-                result: "A complete guide from first purchase to harvest, drawn from my own grows.",
-            },
+            challenges: [
+                {
+                    problem: "Growers’ guides assume you know terms like spawn, substrate, and pins.",
+                    solution: "Explained each term in plain words the first time it appears.",
+                },
+                {
+                    problem: "Beginners give up when a grow gets contaminated.",
+                    solution: "Chose blue oysters, the most forgiving species, and covered keeping things clean before the first step.",
+                },
+                {
+                    problem: "A grow takes about six weeks, so it’s hard to tell if it’s on track.",
+                    solution: "Gave a timeline for each stage, and what to look for before moving on.",
+                },
+            ],
             sample: { label: "Download the guide (PDF)", href: "/samples/growing-oyster-mushrooms-at-home.pdf" },
         },
     },

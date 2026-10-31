@@ -8,18 +8,19 @@ export type Project = {
   page?: ProjectPage, // the project's own page. Without one, there's no page at all
 };
 
-// A project's own page: the title, date, and links back and to its neighbours (a writing sample
-// adds its purpose and audience); a one-sentence summary; a picture; three outcomes; then the
-// story, as situation, task, action, and result
+// A project's own page: back to the portfolio; the title and date; a one-sentence summary with the
+// piece to download; what it's for, who for, and its format; previews of the piece itself; three
+// outcomes; three problems and how I solved them; then the previous and next pages of its kind
 export type ProjectPage = {
-  kind: "writing" | "other",  // a writing sample offers the piece itself to read; other work doesn't
+  kind: "writing" | "other",  // writing samples and other work: Previous and Next stay within a kind
   date: string,               // as shown under the title: "2026", "Spring 2022"
-  purpose?: string,           // writing samples: what the piece is for, one short sentence
-  audience?: string,          // writing samples: who it's written for, one short sentence
-  summary: string,            // one sentence: what it is and why it mattered. The page's lede
-  image: { src: string, alt: string }, // shown across the column. alt says what the picture shows
+  summary: string,            // one sentence on what it is: the form, the length, the subject
+  purpose?: string,           // what the piece is for, one short sentence
+  audience?: string,          // who it's written for, one short sentence
+  format?: string,            // its form and length: "7 pages, PDF"
+  previews?: { src: string, alt: string }[], // pictures of the piece itself: pages, screens. Up to 3
   outcomes: string[],         // three results, each one sentence: what changed, for whom
-  star: { situation: string, task: string, action: string, result: string },
+  challenges: { problem: string, solution: string }[], // three, each a sentence or two
   sample?: { label: string, href: string }, // the piece itself, to download: a PDF in public/samples/. Say what
                                             // downloads and its format: "Download the manual (PDF)"
 };
