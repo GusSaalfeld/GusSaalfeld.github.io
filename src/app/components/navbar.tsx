@@ -1,8 +1,8 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type NavBarProps = {
   children?: ReactNode
@@ -24,6 +24,14 @@ function isCurrent(href: string, pathname: string) {
 
 export default function NavBar({ children}: NavBarProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  // Contact jumps to the sign-off at the bottom of the page; on a page that leaves it off (the 404
+  // page), it goes to the portfolio's instead
+  const toContact = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (!document.querySelector("[data-no-contact]")) return;
+    e.preventDefault();
+    router.push("/#contact");
+  };
 
   // Plain paper, ruled off below, its contents lined up with the page's column. Four one-word
   // links fit on a phone, so they're always in view: beside the name from md up, under it below
@@ -41,6 +49,7 @@ export default function NavBar({ children}: NavBarProps) {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={link.href === "#contact" ? toContact : undefined}
                 aria-current={current ? "page" : undefined}
                 className={`underline-offset-4 hover:text-quiet-link hover:underline ${
                   current ? "text-quiet-ink underline decoration-1" : "text-quiet-muted"

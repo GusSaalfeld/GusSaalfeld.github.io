@@ -4,9 +4,9 @@ import type { ReactNode } from "react";
 // rather than set on one paper panel, so something between them (the name's .slime-letters) can
 // reach the slime behind the page. A band's own padding spaces it from the next, in multiples of
 // 24px; className sets it
-export default function Band({ children, className = "" }: { children: ReactNode; className?: string }) {
+export default function Band({ children, className = "", ...rest }: { children: ReactNode; className?: string; [data: `data-${string}`]: unknown }) {
   return (
-    <div className={`bg-quiet-paper px-6 md:px-12 ${className}`}>
+    <div className={`bg-quiet-paper px-6 md:px-12 ${className}`} {...rest}>
       <div className="column">{children}</div>
     </div>
   );

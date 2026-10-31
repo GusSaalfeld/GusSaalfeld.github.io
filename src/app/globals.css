@@ -85,6 +85,11 @@ body {
   border-radius: 2px;
 }
 
+/* A page that leaves off the contact sign-off (the 404 page) marks itself data-no-contact */
+body:has([data-no-contact]) #contact {
+  display: none;
+}
+
 /* A title link stretched over its whole row (Selected work): the row draws the focus ring, so the
    link itself doesn't draw a second one inside it */
 .stretched-link:focus-visible {
