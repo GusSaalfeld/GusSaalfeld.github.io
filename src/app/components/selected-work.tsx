@@ -15,8 +15,9 @@ type SelectedWorkProps = {
 
 // The projects as a ledger, like a bibliography: the kind of writing in its own column first, then
 // the title and one sentence on what it is, who it was for and what it achieved, then a small
-// picture at the right edge. On phones the kind of writing goes above the title. Rules between rows
-// to scan by. A project whose page is ready is a link: on hover or focus, the title turns slime green
+// picture at the right edge. On phones the kind of writing goes above the title. Rules between rows:
+// across the site, rules mark rows you can click, showing where each one starts and ends (lists you
+// only read, like Experience's, are separated by space alone). A project whose page is ready is a link: on hover or focus, the title turns slime green
 // and underlines, and the picture's edge turns green with it. Until then the row is plain text
 export default function SelectedWork({ title, projects }: SelectedWorkProps) {
   return (

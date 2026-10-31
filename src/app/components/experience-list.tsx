@@ -9,7 +9,8 @@ type ExperienceListProps = {
 const LINK = "text-quiet-link underline decoration-1 underline-offset-4 hover:decoration-2";
 
 // Roles on a timeline like Education's: the years in their own column, then the role and where on
-// one line. No rules: space alone separates the entries. A role with points is a full entry, set
+// one line. No rules: across the site, rules mark rows you can click, and these are read, not
+// clicked, so space alone separates the entries. A role with points is a full entry, set
 // large; one without is a single compact line, set like Education's courses, so the roles with
 // writing or engineering stand out while the order stays by date. On phones the years go above
 export default function ExperienceList({ title, roles }: ExperienceListProps) {

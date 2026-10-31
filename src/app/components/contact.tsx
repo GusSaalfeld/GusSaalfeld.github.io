@@ -27,7 +27,7 @@ export default function Contact() {
     <section id="contact" className="scroll-mt-24">
       <Band className={SECTION_GAP}>
         <h2 className="mb-6 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">Contact</h2>
-        <p className="max-w-[44ch] md:max-w-[52ch] text-2xl short:text-xl leading-[1.4] text-quiet-ink text-pretty">
+        <p className="max-w-[44ch] md:max-w-[52ch] text-xl md:text-2xl md:short:text-xl leading-[1.4] text-quiet-ink text-pretty">
           I&rsquo;m based in Pittsburgh and looking for technical and science writing roles. Email is the quickest way
           to reach me.
         </p>
