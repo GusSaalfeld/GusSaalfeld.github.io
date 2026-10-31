@@ -14,7 +14,12 @@ export default function About() {
           "I’m a technical and science writer based in Pittsburgh. I’ve written documentation, interface copy, technical explainers, and short stories.",
           "I started out as a programmer, but found a way to work writing into nearly every job I’ve held: I rewrote the onboarding for engineers at the Software Engineering Institute, which the team still uses, and documented what it took to bring the game Hexagroove to the Xbox and Steam stores for Ichigoichie Games.",
           "I moved every few years growing up, but Pittsburgh has been home for eight years now. My favorite part? Frick Park is five minutes from my front door.",
-          "I believe everyone is an expert in something. If you get in touch, tell me something interesting you learned recently. I’m always looking to learn.",
+          // "get in touch" goes to the Contact section, where the address and the copy button are
+          <>
+            I believe everyone is an expert in something. If you{" "}
+            <a href="#contact" className="text-quiet-link underline decoration-1 underline-offset-4 hover:decoration-2">get in touch</a>,
+            tell me something interesting you learned recently. I&rsquo;m always looking to learn.
+          </>,
         ]}>
           {/* Beside the text from md up, and between the heading and the text below, so there's
               a face to the words while you read them. The whole scene, uncropped */}

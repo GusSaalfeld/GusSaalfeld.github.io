@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 type CardProps = {
   title?: string;
-  description?: string | string[], // an array shows each entry as its own paragraph
+  description?: ReactNode | ReactNode[], // text, or text with links; an array shows each entry as its own paragraph
   children?: ReactNode,            // an image usually: beside the text from md up, between the
                                    // heading and the text below, so a face comes before the reading
   mediaFirst?: boolean,            // children on the left from md up
@@ -36,7 +36,7 @@ export default function Card({ title, description, children, mediaFirst, pageTit
           {[description].flat().map((paragraph, i) => (
             // A serif reads best with a little more leading. A page's lede is a step up, at 24px
             <p
-              key={paragraph}
+              key={i}
               className={`text-quiet-ink text-pretty ${
                 pageTitle && i === 0 ? "text-xl md:text-2xl md:short:text-xl leading-[1.4]" : "text-lg leading-[1.55]"
               }`}
