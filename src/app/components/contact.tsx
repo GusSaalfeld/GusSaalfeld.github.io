@@ -28,7 +28,7 @@ export default function Contact() {
       <Band className={SECTION_GAP}>
         <h2 className="mb-6 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">Contact</h2>
         <p className="max-w-[44ch] md:max-w-[52ch] text-2xl short:text-xl leading-[1.4] text-quiet-ink text-pretty">
-          I&rsquo;m looking for technical and science writing roles. Email is the quickest way
+          I&rsquo;m based in Pittsburgh and looking for technical and science writing roles. Email is the quickest way
           to reach me.
         </p>
         {/* The address on a line of its own, set like the project titles, with the button to copy it
