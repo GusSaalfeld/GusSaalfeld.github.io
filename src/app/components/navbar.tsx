@@ -9,7 +9,7 @@ type NavBarProps = {
 
 const NavLinks = [
   { href: "/portfolio", label: "Portfolio" },
-  { href: "/work-experience", label: "Experience" },
+  { href: "/experience", label: "Experience" },
   { href: "/about", label: "About" },
   { href: "#contact", label: "Contact" }, // the sign-off at the bottom of every page
 ];
