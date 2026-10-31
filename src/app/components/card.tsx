@@ -12,7 +12,7 @@ type CardProps = {
 
 // A section of the page: a heading and paragraphs, with children beside them reaching the
 // column's edge. The layout spaces sections apart, so there are no rules between them.
-// From md up, the text and children share the column equally, so a photo holds its own
+// From md up, the text takes three fifths of the column and the children two fifths
 export default function Card({ title, description, children, mediaFirst, pageTitle }: CardProps) {
   const Heading = pageTitle ? "h1" : "h2";
   const textColumn = children ? (mediaFirst ? "md:col-start-2" : "md:col-start-1") : "";
@@ -20,7 +20,9 @@ export default function Card({ title, description, children, mediaFirst, pageTit
   return (
     // Three grid items, so below md the children can sit between the heading and the paragraphs.
     // From md up, the children span both rows beside them
-    <section className={`grid gap-y-6 ${children ? "md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-x-12" : ""}`}>
+    // The children take two fifths of the width from md up, the text three fifths, so the text runs
+    // to about 55 characters a line, inside the 50 to 75 that reads best
+    <section className={`grid gap-y-6 ${children ? `${mediaFirst ? "md:grid-cols-[2fr_3fr]" : "md:grid-cols-[3fr_2fr]"} md:grid-rows-[auto_1fr] md:gap-x-12` : ""}`}>
       {title && (
         <Heading
           className={`max-w-[24ch] font-sans font-bold leading-[1.15] text-quiet-ink text-balance ${textColumn} md:row-start-1 ${
