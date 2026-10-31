@@ -38,7 +38,7 @@ export default function Card({ title, description, children, mediaFirst, pageTit
             <p
               key={paragraph}
               className={`text-quiet-ink text-pretty ${
-                pageTitle && i === 0 ? "text-xl md:text-2xl md:short:text-xl leading-[1.4]" : "text-lg leading-[1.65]"
+                pageTitle && i === 0 ? "text-xl md:text-2xl md:short:text-xl leading-[1.4]" : "text-lg leading-[1.55]"
               }`}
             >
               {paragraph}

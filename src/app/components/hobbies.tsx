@@ -37,13 +37,13 @@ export default function Hobbies() {
       <h2 className="font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">
         Interests and hobbies
       </h2>
-      <p className="mt-6 max-w-[62ch] text-lg leading-[1.65] text-quiet-ink text-pretty">
+      <p className="mt-6 max-w-[62ch] text-lg leading-[1.55] text-quiet-ink text-pretty">
         Want to know what I&rsquo;m watching, reading, or identifying? Find me on{" "}
         <a href="https://letterboxd.com/GusReviewsMovie/" className={LINK}>Letterboxd</a>,{" "}
         <a href="https://www.goodreads.com/gusreviewsbook" className={LINK}>Goodreads</a>, and{" "}
         <a href="https://www.inaturalist.org/people/augustus45814" className={LINK}>iNaturalist</a>.
       </p>
-      <p className="mt-6 max-w-[62ch] text-lg leading-[1.65] text-quiet-ink text-pretty">
+      <p className="mt-6 max-w-[62ch] text-lg leading-[1.55] text-quiet-ink text-pretty">
         Here are some things I do in my free time.
       </p>
       {/* 24px under the sentence that introduces them, so it leads straight into them */}

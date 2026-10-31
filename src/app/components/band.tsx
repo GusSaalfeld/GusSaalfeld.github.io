@@ -12,8 +12,8 @@ export default function Band({ children, className = "" }: { children: ReactNode
   );
 }
 
-// The space after a section: 72px, 96px from md up, and 48px on short screens so the first
-// project's thumbnail shows on a laptop
-export const SECTION_GAP = "pb-18 md:pb-24 short:pb-12 md:short:pb-12";
+// The space after a section, the same on every page: 48px, 72px from md up, and 48px on short
+// screens so the first project's thumbnail shows on a laptop
+export const SECTION_GAP = "pb-12 md:pb-18 short:pb-12 md:short:pb-12";
 // The space above a page's first band: 24px on short screens
 export const PAGE_TOP = "pt-12 md:pt-18 short:pt-6 md:short:pt-6";

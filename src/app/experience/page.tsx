@@ -6,18 +6,13 @@ import { EducationList, ToolGroups, WorkList } from "@/app/data/experience";
 
 export const metadata: Metadata = { title: "Experience" };
 
-// A step tighter than the site's SECTION_GAP between this page's own sections (48px, 72px from md
-// up, on the site's 24px steps), so the history skims in fewer screens. The last section keeps
-// SECTION_GAP before the contact sign-off
-const GAP = "pb-12 md:pb-18 short:pb-12 md:short:pb-12";
-
 // Built from the portfolio page: a title and a lede with the resume beside it, then the history on
 // one timeline: all the work, then education with the tools beside it. The title is set like the About page's, in ink: only the name on the
 // portfolio page shows the slime
 export default function Experience() {
   return (
     <>
-      <Band className={`${PAGE_TOP} ${GAP}`}>
+      <Band className={`${PAGE_TOP} ${SECTION_GAP}`}>
         <h1 className="font-sans text-[2.625rem] font-bold leading-[1.15] tracking-[-0.02em] text-quiet-ink">
           Experience
         </h1>
@@ -31,7 +26,7 @@ export default function Experience() {
           </div>
         </div>
       </Band>
-      <Band className={GAP}>
+      <Band className={SECTION_GAP}>
         <ExperienceList title="Work" roles={WorkList} />
       </Band>
       {/* Education next: the 2026 graduate course shows the move into writing is current. From lg up

@@ -32,7 +32,7 @@ export default function SelectedWork({ title, projects }: SelectedWorkProps) {
             <>
               {/* The kind of writing, in ink, so a reader sees what each piece is first. Without one, it
                   still holds the first column from md up, but takes no line on phones */}
-              <span className={`col-span-2 pt-1.5 font-sans text-base font-medium leading-[1.3] text-quiet-ink md:col-span-1 ${project.genre ? "" : "hidden md:block"}`}>
+              <span className={`col-span-2 pt-1.5 font-sans text-base font-normal leading-[1.3] text-quiet-ink md:col-span-1 ${project.genre ? "" : "hidden md:block"}`}>
                 {project.genre}
               </span>
               <span className="flex flex-col gap-1">
