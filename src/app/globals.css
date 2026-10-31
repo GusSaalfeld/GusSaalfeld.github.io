@@ -85,6 +85,13 @@ body {
   border-radius: 2px;
 }
 
+/* The skip link's target. It takes focus only so the next Tab starts inside the page, so it gets no
+   ring: a ring round the whole page reads as a glitch. (Here rather than as a utility class, which
+   the rule above, outside Tailwind's layers, would override) */
+main:focus {
+  outline: none;
+}
+
 /* One grade for every photo, so pictures from different phones and light read as one set and sit
    on the green-grey paper: a little less saturated, and a faint wash of the sage that tints the
    slime. Goes on the photo's positioned wrapper */

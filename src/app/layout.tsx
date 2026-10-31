@@ -40,10 +40,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-svh flex-col">
         <SlimeCanvas settings={slimeSettings} />
         {/* For keyboard users: the first stop on every page, hidden until it has focus, so a Tab
-            then Enter skips the navigation and goes straight to the page */}
+            then Enter skips the navigation: the page scrolls to sit just under the navbar, and the
+            next Tab goes to the page's first link. It shows the site's focus ring, nothing more */}
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-quiet-paper focus:px-4 focus:py-3 focus:font-sans focus:font-semibold focus:text-quiet-ink focus:border focus:border-quiet-ink"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-quiet-paper focus:px-4 focus:py-3 focus:font-sans focus:font-semibold focus:text-quiet-ink"
         >
           Skip to content
         </a>
@@ -51,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Every page sits between two slime banners, built from paper bands (Band), which space
             themselves. main has no background, so the name's letters can reach the slime */}
         <SlimeBanner masthead />
-        <main id="main" tabIndex={-1} className="flex flex-col scroll-mt-32 outline-none">
+        <main id="main" tabIndex={-1} className="flex flex-col scroll-mt-[7.5rem] md:scroll-mt-[4.5rem]">
           {children}   {/* the current page renders here */}
         </main>
         {/* Every page signs off with the email address, then the closing slime */}
