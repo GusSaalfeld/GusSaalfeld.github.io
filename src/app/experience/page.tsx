@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "Experience" };
 const GAP = "pb-12 md:pb-16 short:pb-12 md:short:pb-12";
 
 // Built from the portfolio page: a title and a lede with the resume beside it, then the history on
-// one timeline: all the work, education, then the tools. The title is set like the About page's, in ink: only the name on the
+// one timeline: all the work, then education with the tools beside it. The title is set like the About page's, in ink: only the name on the
 // portfolio page shows the slime
 export default function Experience() {
   return (
@@ -33,25 +33,26 @@ export default function Experience() {
       <Band className={GAP}>
         <ExperienceList title="Work" roles={WorkList} />
       </Band>
-      {/* Education next: the 2026 graduate course shows the move into writing is current */}
-      <Band className={GAP}>
-        <ExperienceList title="Education" roles={EducationList} />
-      </Band>
+      {/* Education next: the 2026 graduate course shows the move into writing is current. From lg up
+          the tools sit beside it in a narrow column, so the page ends sooner; below lg they follow */}
       <Band className={SECTION_GAP}>
-        <section>
-          <h2 className="mb-6 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">Tools</h2>
-          {/* The tools, grouped: the words a recruiter checks a match against, after the work they
-              came from. Quiet, like the hobby captions: the group in the sans, the tools muted.
-              Three across on wide screens, two, then one */}
-          <dl className="grid gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
-            {ToolGroups.map((group) => (
-              <div key={group.name}>
-                <dt className="font-sans text-base font-semibold leading-[1.3] text-quiet-ink">{group.name}</dt>
-                <dd className="mt-1 text-base leading-[1.55] text-quiet-muted text-pretty">{group.tools}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
+        <div className="grid gap-x-12 gap-y-16 lg:grid-cols-[minmax(0,1fr)_16rem]">
+          <ExperienceList title="Education" roles={EducationList} />
+          <section>
+            <h2 className="mb-4 font-sans text-[2rem] font-bold leading-[1.15] tracking-[-0.01em] text-quiet-ink">Tools</h2>
+            {/* The tools, grouped: the words a recruiter checks a match against, after the work they
+                came from. Quiet, like the hobby captions: the group in the sans, the tools muted.
+                Two across on tablets; one column beside Education, and on phones */}
+            <dl className="grid gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-1">
+              {ToolGroups.map((group) => (
+                <div key={group.name}>
+                  <dt className="font-sans text-base font-semibold leading-[1.3] text-quiet-ink">{group.name}</dt>
+                  <dd className="mt-1 text-base leading-[1.55] text-quiet-muted text-pretty">{group.tools}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        </div>
       </Band>
     </>
   );
