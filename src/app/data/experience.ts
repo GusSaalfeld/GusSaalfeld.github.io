@@ -1,11 +1,12 @@
 import type { Role } from "@/app/types";
 
-// The tools, grouped so a recruiter can scan for them. Only what you'd use in an interview task
+// The tools, grouped so a recruiter can scan for them. Only what you'd use in an interview task.
+// Plain commas, one tool each, no "and": these are lists to scan, not sentences
 export const ToolGroups: { name: string, tools: string }[] = [
-    { name: "Writing and publishing", tools: "Oxygen XML, Confluence, Markdown, Git and GitHub" },
-    { name: "Programming", tools: "Python, JavaScript and React, C#" },
+    { name: "Writing and publishing", tools: "Oxygen XML, Confluence, Markdown, Git, GitHub" },
+    { name: "Programming", tools: "Python, C#, JavaScript, React" },
     { name: "Build and project tracking", tools: "Docker, Jenkins, GitHub Actions, Jira, GitHub Issues" },
-    { name: "AI", tools: "Claude and Claude Code" },
+    { name: "AI", tools: "Claude, Claude Code" },
 ];
 
 // The work history and education, newest first. Dates are years: "2023", or "2025–2026" for a span
