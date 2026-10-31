@@ -18,9 +18,9 @@ type Hobby = {
 const HOBBIES: Hobby[] = [
   {
     name: "Rock climbing",
-    caption: "Climbing outdoors whenever the weather allows.",
+    caption: "While I mostly boulder, here’s me climbing at Smith Rock, Oregon.",
     photo: "/hobbies/rock-climbing.jpg",
-    alt: "Climbing a tall sandstone cliff on a rope, under a blue sky",
+    alt: "Climbing a tall rock face at Smith Rock, Oregon, on a rope, under a blue sky",
     focus: "50% 58%", // the climber, a little below the middle of the tall photo
   },
   {
