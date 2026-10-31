@@ -27,8 +27,8 @@ export default function Experience() {
           </div>
         </div>
         {/* The tools, grouped: the words a recruiter scans for. Quiet, like the hobby captions:
-            the group in the sans, the tools muted. Four across on wide screens, two, then one */}
-        <dl className="mt-12 grid gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-4">
+            the group in the sans, the tools muted. Three across on wide screens, two, then one */}
+        <dl className="mt-12 grid gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
           {ToolGroups.map((group) => (
             <div key={group.name}>
               <dt className="font-sans text-base font-semibold leading-[1.3] text-quiet-ink">{group.name}</dt>

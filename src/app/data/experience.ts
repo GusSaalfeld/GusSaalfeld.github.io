@@ -5,8 +5,9 @@ import type { Role } from "@/app/types";
 export const ToolGroups: { name: string, tools: string }[] = [
     { name: "Writing and publishing", tools: "Oxygen XML, Confluence, Markdown, Git, GitHub" },
     { name: "Programming", tools: "Python, C#, JavaScript, React" },
-    { name: "Build and project tracking", tools: "Docker, Jenkins, GitHub Actions, Jira, GitHub Issues" },
-    { name: "AI", tools: "Claude, Claude Code" },
+    { name: "Build and deploy", tools: "Docker, Jenkins, GitHub Actions" },
+    { name: "Project tracking", tools: "Jira, GitHub Issues" },
+    { name: "AI", tools: "Claude Code" },
 ];
 
 // The work history and education, newest first. Dates are years: "2023", or "2025–2026" for a span
