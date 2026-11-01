@@ -71,7 +71,7 @@ export const WorkList: Role[] = [
         dates: "2022",
         points: [
             "Conducted 30+ stakeholder interviews and user tests, and wrote handover documentation and a product ownership manual.",
-            "Built a feedback system for DEI events that streamlines data collection, standardizes data, and uses graphs to inform decision-making. The department still uses it today.",
+            "With two teammates, built a feedback system for DEI events that streamlines data collection, standardizes data, and uses graphs to inform decision-making. The department still uses it today.",
         ],
         link: { label: "See the project", href: "/portfolio/capstone-project" },
     },

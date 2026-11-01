@@ -47,13 +47,24 @@ export default async function ProjectPage({ params }: Props) {
   const next = count > 1 ? WITH_PAGES[(at + 1) % count] : undefined;
   const noun = "project";
 
-  // What it's for, who for, its form, and what it's made with, in one row: short facts to scan
+  // What it's for, who for, its form, what it's made with, and who made it: short facts to scan
   const facts = [
     ["Purpose", page.purpose],
     ["Audience", page.audience],
     ["Format", page.format],
     ["Built with", page.builtWith],
+    ["My role", page.role],
+    ["Team", page.team],
   ].filter((fact): fact is [string, string] => Boolean(fact[1]));
+
+  // The documents in their groups, in the order the groups first appear; ungrouped ones in one
+  // group without a name
+  const groups: { name?: string, documents: NonNullable<typeof page.documents> }[] = [];
+  for (const doc of page.documents ?? []) {
+    const group = groups.find((g) => g.name === doc.group);
+    if (group) group.documents.push(doc);
+    else groups.push({ name: doc.group, documents: [doc] });
+  }
 
   return (
     <>
@@ -145,21 +156,31 @@ export default async function ProjectPage({ params }: Props) {
         )}
       </Band>
 
-      {/* What the project produced: each document named, with what it is; a link once its file is added */}
-      {page.documents && page.documents.length > 0 && (
+      {/* What the project produced: each document named, with what it is; a link once its file is
+          added. In groups, each under its own heading, when the documents are many */}
+      {groups.length > 0 && (
         <Band className={SECTION_GAP}>
           <section>
-            <h2 className={`mb-6 ${HEADING}`}>What I delivered</h2>
-            <ul className="grid max-w-[62rem] gap-x-8 gap-y-6 md:grid-cols-2">
-              {page.documents.map((doc) => (
-                <li key={doc.name}>
-                  <p className="font-sans text-lg font-semibold leading-[1.35] text-quiet-ink">
-                    {doc.href ? <a href={doc.href} className={LINK}>{withItalics(doc.name)}</a> : withItalics(doc.name)}
-                  </p>
-                  <p className="mt-1 text-base leading-[1.55] text-quiet-muted text-pretty">{withItalics(doc.description)}</p>
-                </li>
+            <h2 className={`mb-6 ${HEADING}`}>{page.team ? "What we delivered" : "What I delivered"}</h2>
+            <div className="flex flex-col gap-12">
+              {groups.map((group) => (
+                <div key={group.name ?? ""}>
+                  {group.name && (
+                    <h3 className="mb-4 font-sans text-2xl font-semibold leading-[1.25] text-quiet-ink">{group.name}</h3>
+                  )}
+                  <ul className="grid max-w-[62rem] gap-x-8 gap-y-6 md:grid-cols-2">
+                    {group.documents.map((doc) => (
+                      <li key={doc.name}>
+                        <p className="font-sans text-lg font-semibold leading-[1.35] text-quiet-ink">
+                          {doc.href ? <a href={doc.href} className={LINK}>{withItalics(doc.name)}</a> : withItalics(doc.name)}
+                        </p>
+                        <p className="mt-1 text-base leading-[1.55] text-quiet-muted text-pretty">{withItalics(doc.description)}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </ul>
+            </div>
           </section>
         </Band>
       )}

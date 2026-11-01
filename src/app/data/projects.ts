@@ -16,39 +16,61 @@ export const ProjectList: Project[] = [
         path: "capstone-project",
         ready: true,
         title: "Designing a feedback system for Dietrich College’s DEI department",
-        hoverDescription: "A feedback system for Dietrich College’s DEI department, designed through iterative user testing and stakeholder interviews, still in use today.",
-        thumbnail: "", // none until there’s a real picture of the work
+        hoverDescription: "A post-event form and Tableau dashboards for Dietrich College’s DEI office, built with two teammates through stakeholder interviews and user testing, and still in use today.",
+        thumbnail: "/samples/dei/previews/thumb.png", // the top of the overview dashboard
         genre: "UX research and writing",
-        // DRAFT: from the resume. Check each line. Put each document's file in public/samples/ and add its
-        // href below, and its link appears; screenshots of the form and the visualizations go in previews
+        // DRAFT: from the team's final report and handover. Check each line, especially what's said to be
+        // mine. Documents are in public/samples/dei/, with participants' names and staff emails redacted
         page: {
             kind: "other",
             date: "Spring 2022",
-            documents: [
-                { name: "Project report", description: "What the office needed, what I built, and why." },
-                { name: "Final feedback form", description: "A screenshot of the form attendees fill in after an event." },
-                { name: "Data visualizations", description: "The graphs staff use to compare events and decide what to change." },
-                { name: "Handover documentation", description: "How to run and maintain the system, so the department could without me." },
-                { name: "Postmortem", description: "What went well, what didn’t, and what I’d do differently." },
+            summary: "A post-event form, spreadsheet, and Tableau dashboards that collect and graph data on DEI events across Dietrich College. Three student consultants built it for the college’s Office of Diversity, Equity, and Inclusion (now Access, Opportunity & Community Impact), which still uses it today.",
+            audience: "The associate dean for DEI, and the department volunteers who run DEI events and report on them.",
+            builtWith: "Google Forms, Google Sheets, Tableau",
+            role: "Documentation manager. I helped design and write the form, then revise it after each round of user testing, and co-wrote the testing script. I also put the form on the office’s website and wrote the handover documentation.",
+            team: "Gloria Moon, project manager, and Neha Choudhari, client relationship manager. Together they built the Tableau dashboards.",
+            previews: [
+                { src: "/samples/dei/previews/dashboard.png", alt: "The overview dashboard, with test data: events per goal, events per department, and RSVPs against attendance" },
+                { src: "/samples/dei/previews/website.png", alt: "The form on the DEI office’s web page in 2022, below the office’s contacts" },
             ],
-            summary: "A feedback system that collects and graphs feedback on DEI events, which Dietrich College’s Office of Diversity, Equity, and Inclusion still uses today.",
+            documents: [
+                { group: "Handed over to the office", name: "Final report", href: "/samples/dei/final-report.pdf", description: "What the office needed, what we built, and what we recommend next, with our sketches, flowchart, and dashboards. 14 pages, PDF." },
+                { group: "Handed over to the office", name: "Executive summary", href: "/samples/dei/executive-summary.pdf", description: "The project on two pages. PDF." },
+                { group: "Handed over to the office", name: "Handover guide", href: "/samples/dei/handover-guide.pdf", description: "How to update the form, who owns each part of the system, and how to extend it. Staff email addresses removed. 5 pages, PDF." },
+                { group: "Handed over to the office", name: "Research findings", href: "/samples/dei/research-findings.pdf", description: "The four pain points our interviews found, and who’s who in the college’s DEI work, for whoever works with the office next. 3 pages, PDF." },
+                { group: "Handed over to the office", name: "User testing script", href: "/samples/dei/user-testing-script.pdf", description: "A script for testing future changes to the form with the people who fill it in. 1 page, PDF." },
+                { group: "Handed over to the office", name: "Information flowchart", href: "/samples/dei/information-flowchart.png", description: "Every question in the final form, and the path each kind of event takes through it. Image." },
+                { group: "Handed over to the office", name: "Overall dashboard", href: "https://public.tableau.com/app/profile/gloria.moon2530/viz/final_dashboard_1_16513499829850/Dashboard1", description: "Events and attendance across the college. On Tableau Public, with test data." },
+                { group: "Handed over to the office", name: "Departments dashboard", href: "https://public.tableau.com/app/profile/gloria.moon2530/viz/final_dashboard_2_16513500162100/Dashboard2", description: "Events in each department, and how many succeeded. On Tableau Public, with test data." },
+                { group: "Handed over to the office", name: "Goals dashboard", href: "https://public.tableau.com/app/profile/gloria.moon2530/viz/final_dashboard_3/Dashboard3", description: "Events by goal: recruitment, education, and community building. On Tableau Public, with test data." },
+                { group: "Handed over to the office", name: "Website integration", href: "/samples/dei/website-integration.png", description: "The form on the office’s web page at handover. Image." },
+                { group: "Handed over to the office", name: "Pitch video", href: "/samples/dei/pitch-video.mp4", description: "A one-minute walkthrough of the form, to introduce it to new users. Video." },
+                { group: "Along the way", name: "Client context analysis", href: "/samples/dei/client-context-analysis.pdf", description: "Our first look at the office and its work, with five user stories. 5 pages, PDF." },
+                { group: "Along the way", name: "Revised proposal", href: "/samples/dei/revised-proposal.pdf", description: "The problem we chose to solve, the solution we proposed, and the alternatives we ruled out. 17 pages, PDF." },
+                { group: "Along the way", name: "Strategic plan lessons", href: "/samples/dei/strategic-plan-lessons.pdf", description: "How the form’s data could support the goals in the college’s DEI strategic plan. 4 pages, PDF." },
+                { group: "Along the way", name: "Dashboard plan", href: "/samples/dei/dashboard-plan.pdf", description: "The questions each dashboard had to answer. 2 pages, PDF." },
+                { group: "Along the way", name: "User testing findings", href: "/samples/dei/user-testing-findings.pdf", description: "Two rounds of feedback on the form, and what we changed. Testers’ names removed. 4 pages, PDF." },
+                { group: "Along the way", name: "MVP presentation", href: "/samples/dei/mvp-presentation.pdf", description: "The first working version, presented to the class. 9 slides, PDF." },
+                { group: "Along the way", name: "Final presentation", href: "/samples/dei/final-presentation.pdf", description: "The finished system and what it changed for the office. 15 slides, PDF." },
+                { group: "Along the way", name: "Sprint reports", href: "/samples/dei/sprint-reports.pdf", description: "Nine reports, February to April: what we did, who did it, and what came next. Participants’ names removed. 40 pages, PDF." },
+            ],
             outcomes: [
-                "The department still uses the feedback system to collect feedback on its events.",
-                "Feedback from every event now arrives in one standard format, with graphs to inform decisions.",
-                "Handover documentation and a product ownership manual let the department run it without me.",
+                "The office still uses the form to collect data on DEI events from across the college.",
+                "Organizers report an event in a few minutes, instead of answering the associate dean’s emails one by one.",
+                "Every response lands in one spreadsheet in a standard format, and three dashboards graph it by department and goal, so events can be compared.",
             ],
             challenges: [
                 {
-                    problem: "Staff collected feedback on each event in their own way, so events couldn’t be compared.",
-                    solution: "Built one feedback system that collects feedback in a standard format and graphs it for decisions.",
+                    problem: "DEI work is spread across the college’s departments and run by volunteers, and each reported its events its own way, if at all.",
+                    solution: "We interviewed stakeholders across the college to find the problem worth solving: getting event data into one place. Then we built on the Google tools staff already used, rather than a database they’d have to learn and maintain.",
                 },
                 {
-                    problem: "A system the staff didn’t like using wouldn’t get used.",
-                    solution: "Ran 30+ stakeholder interviews and user tests, and redesigned the system from what they showed.",
+                    problem: "A form people found confusing wouldn’t get filled in.",
+                    solution: "We tested it in two rounds, with people thinking aloud as they reported a real event, and changed it after each: clearer questions, a description of each goal, and a note that it takes three to five minutes.",
                 },
                 {
-                    problem: "The system had to keep running after my contract ended.",
-                    solution: "Wrote handover documentation and a product ownership manual, so the department could run it without me.",
+                    problem: "Volunteers would stop filling in the form once we left.",
+                    solution: "With the associate dean, we named one person in each department to answer for it, with a monthly reminder and awards for departments that report. I wrote down who does what in the handover guide.",
                 },
             ],
         },
