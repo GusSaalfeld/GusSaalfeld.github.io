@@ -14,10 +14,17 @@ WIDTH = 1000   # pixels: about twice the size they're shown, for sharp screens
 # The part of each page shown, as fractions of its width and height: inside the margins, top part
 LEFT, RIGHT, TOP, BOTTOM = 0.09, 0.91, 0.07, 0.42
 
+# Samples whose most telling pages aren't the first ones: which pages to show, numbered from 1.
+# The first one listed is also the thumbnail
+CHOSEN_PAGES = {
+    "canvas-course-export": [6, 1],  # the export form mockup, then the title and summary
+}
+
 for pdf in sorted(SAMPLES.glob("*.pdf")):
     doc = fitz.open(pdf)
-    for n in range(min(PAGES, doc.page_count)):
-        page = doc[n]
+    pages = CHOSEN_PAGES.get(pdf.stem, range(1, PAGES + 1))
+    for n, number in enumerate(p for p in pages if p <= doc.page_count):
+        page = doc[number - 1]
         r = page.rect
         clip = fitz.Rect(r.width * LEFT, r.height * TOP, r.width * RIGHT, r.height * BOTTOM)
         zoom = WIDTH / clip.width
@@ -28,4 +35,4 @@ for pdf in sorted(SAMPLES.glob("*.pdf")):
             thumb = fitz.Rect(clip.x0, clip.y0, clip.x1, clip.y0 + clip.width * 3 / 4)
             tz = 200 / thumb.width
             page.get_pixmap(matrix=fitz.Matrix(tz, tz), clip=thumb).save(OUT / f"{pdf.stem}-thumb.png")
-    print(pdf.name, min(PAGES, doc.page_count), "pages")
+    print(pdf.name, "pages", list(pages))

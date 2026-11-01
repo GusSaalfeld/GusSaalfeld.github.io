@@ -133,43 +133,44 @@ export const ProjectList: Project[] = [
         path: "ux-writing",
         ready: true,
         title: "Adding a new course export feature to Canvas",
-        hoverDescription: "Microcopy, a UX mockup, and a launch announcement for a course export feature in Canvas, written as if it were shipping.",
-        thumbnail: "", // none until there’s a real picture of the work
+        hoverDescription: "Research, a feature announcement, and microcopy for a proposed Canvas feature that lets students export a course to their own device.",
+        thumbnail: "/samples/previews/canvas-course-export-thumb.png", // the export form mockup
         genre: "UX writing",
-        // DRAFT: from the description. Check each line; the challenges are guesses at what was hard.
-        // Put each piece's file in public/samples/ and add its href below, and its link appears;
-        // screenshots of the mockup would make good previews
         page: {
             kind: "writing",
             date: "2026",
-            summary: "Microcopy, a UX mockup, and a launch announcement for a course export feature in Canvas, written as if it were shipping.",
-            purpose: "Show how I’d write for a new feature end to end: in the interface itself, and in telling users it exists.",
-            audience: "Teachers who use Canvas, the learning platform, and want to take their courses with them.",
-            format: "Microcopy, a mockup, and an announcement",
+            summary: "Research, a feature announcement, and microcopy for a proposed Canvas feature that lets students export a whole course to their own device or cloud storage.",
+            purpose: "Propose a feature that lets students keep their course content, and write what it takes to launch it: the announcement and the interface text.",
+            audience: "University students and alumni who use Canvas.",
+            format: "7 pages, PDF",
+            previews: [{ src: "/samples/previews/canvas-course-export-1.png", alt: "The export course form mockup, with its checkboxes and destination choices" }, { src: "/samples/previews/canvas-course-export-2.png", alt: "Page 1 of the project: its title and executive summary" }],
+            // Each part opens the PDF at its page
             documents: [
-                { name: "Microcopy", description: "The buttons, labels, messages, and errors a teacher meets while exporting a course." },
-                { name: "UX mockup", description: "The export flow, screen by screen, with the microcopy in place." },
-                { name: "Feature announcement", description: "The launch post that tells teachers what the feature does and how to find it." },
+                { name: "Research", description: "Personas, an empathy map, and an interview, turned into pain points and “how might we” statements, then a prototype tested with classmates.", href: "/samples/canvas-course-export.pdf#page=1" },
+                { name: "Feature announcement", description: "The launch post that tells students what the feature does, how to use it, and why it’s worth trying.", href: "/samples/canvas-course-export.pdf#page=3" },
+                { name: "Microcopy", description: "The tooltip, form, progress, success and error messages, and legal notice for the export flow.", href: "/samples/canvas-course-export.pdf#page=4" },
+                { name: "UX mockups", description: "The export button on a course homepage, the export form, the download in progress, and the success message.", href: "/samples/canvas-course-export.pdf#page=5" },
             ],
             outcomes: [
-                "Covers a feature from first click to finished export, including what happens when it fails.",
-                "Keeps one vocabulary throughout, so the button, the messages, and the announcement name things the same way.",
-                "Shows interface writing and announcement writing for the same feature, side by side.",
+                "A feature grounded in user research, from interviews and personas to a prototype tested with classmates.",
+                "An announcement built on the genre’s four moves, modeled on announcements from Spotify, Ticketmaster, and Goodreads.",
+                "Microcopy for the whole export flow that stays consistent: every message names the course and destination the student chose.",
             ],
             challenges: [
                 {
-                    problem: "An export can take a while, and a teacher can’t tell whether it’s working.",
-                    solution: "Wrote progress and completion messages that say what’s happening and what to do next.",
+                    problem: "Canvas’s interface is already cluttered, so a new feature could go unnoticed.",
+                    solution: "Wrote a two-sentence tooltip for the export button that says what it does and how, and an announcement that points students to it.",
                 },
                 {
-                    problem: "Export errors usually blame the user or say nothing useful.",
-                    solution: "Wrote each error to say what went wrong and how to fix it, in plain words.",
+                    problem: "Downloading a course file by file takes too long to be worth it.",
+                    solution: "Designed the export as one button and a short form, so a whole course downloads in as few as five clicks.",
                 },
                 {
-                    problem: "Teachers ignore announcements that read like marketing.",
-                    solution: "Led the announcement with the problem it solves, then the three steps to use it.",
+                    problem: "Sharing downloaded course content can be illegal, but a stern warning puts people off.",
+                    solution: "Wrote a short legal notice that warns plainly without sounding restrictive, with a link for more information.",
                 },
             ],
+            sample: { label: "Download the project (PDF)", href: "/samples/canvas-course-export.pdf" },
         },
     },
     {
