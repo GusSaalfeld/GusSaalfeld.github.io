@@ -89,7 +89,7 @@ export const ProjectList: Project[] = [
                     solution: "We tested it in two rounds, with people thinking aloud as they reported a real event, and changed it after each: clearer questions, a description of each goal, and a note that it takes three to five minutes.",
                 },
                 {
-                    problem: "Volunteers would stop filling in the form once we left.",
+                    problem: "Volunteers might stop filling in the form once we left.",
                     solution: "With the associate dean, we named one person in each department to answer for it, with a monthly reminder and awards for departments that report. I wrote down who does what in the handover guide.",
                 },
             ],
