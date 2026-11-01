@@ -35,6 +35,15 @@ body {
   font-family: var(--font-source-serif), Georgia, serif;
 }
 
+/* No bounce past the top or bottom on laptops. A touchpad's elastic overscroll pulls the page down
+   while the slime, fixed behind it, stays put, so the slime shows above the navbar for a moment.
+   Touchscreens keep it: there the bounce is also pull-to-refresh */
+@media (hover: hover) and (pointer: fine) {
+  html {
+    overscroll-behavior-y: none;
+  }
+}
+
 /* In-page links (the navbar's Contact) glide to their target, unless motion is turned down */
 @media (prefers-reduced-motion: no-preference) {
   html {
