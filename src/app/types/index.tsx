@@ -24,12 +24,20 @@ export type ProjectPage = {
   services?: { name: string, role: string }[], // other work that runs things: each app, and what it's for
   role?: string,              // team work: my part in it, "Documentation manager"
   team?: string,              // team work: who else made it, by name. With a team, I delivered becomes we did
+  teamPhoto?: { src: string, alt: string, caption: string }, // the team, shown beside its names
+  video?: { src: string, poster: string, caption: string, captions?: string }, // a short video of the work,
+                                            // beside the summary. Captions: a WebVTT file of what's said in it
   previews?: { src: string, alt: string, page?: number }[], // pictures of the piece itself: pages, screens. Two,
                                             // side by side. With a page, it opens the sample at that page
-  documents?: { name: string, description: string, href?: string, group?: string }[], // what the project
-                                            // produced, each with a line on what it is. One with an href links
-                                            // to its file. Documents with a group are listed under its name
+  documents?: { name: string, description: string, href?: string, group?: string, links?: { label: string, href: string }[] }[],
+                                            // what the project produced, each with a line on what it is. One
+                                            // with an href links to its file; one made of several files links
+                                            // each by its label instead. Documents with a group are listed
+                                            // under its name
   outcomes: string[],         // three results, each one sentence: what changed, for whom
+  outcomesImage?: { src: string, width: number, height: number, alt: string, caption: string, href?: string },
+                                            // a picture that shows a result, under them. It opens href, the
+                                            // whole picture it's cut from, or itself
   challenges: { problem: string, solution: string }[], // three, each a sentence or two
   sample?: { label: string, href: string }, // the piece itself, to download: a PDF in public/samples/. Say what
                                             // downloads and its format: "Download the manual (PDF)"

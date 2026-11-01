@@ -57,15 +57,6 @@ export const WorkList: Role[] = [
         ],
     },
     {
-        title: "SURF research grant",
-        organization: "Carnegie Mellon University",
-        dates: "2022",
-        points: [
-            "Addressed the lack of computer science fiction by writing a short story that dramatizes the computer science concept of abstraction, showing readers how it shapes our world.",
-        ],
-        link: { label: "Watch a summary of my research", href: "https://www.youtube.com/watch?v=hb2u9kJPV4E" },
-    },
-    {
         title: "Technical consultant",
         organization: "CMU Dietrich Office of Diversity, Equity, and Inclusion",
         dates: "2022",
@@ -74,6 +65,15 @@ export const WorkList: Role[] = [
             "With two teammates, built a feedback system for DEI events that streamlines data collection, standardizes data, and uses graphs to inform decision-making. The department still uses it today.",
         ],
         link: { label: "See the project", href: "/portfolio/capstone-project" },
+    },
+    {
+        title: "SURF research grant",
+        organization: "Carnegie Mellon University",
+        dates: "2022",
+        points: [
+            "Addressed the lack of computer science fiction by writing a short story that dramatizes the computer science concept of abstraction, showing readers how it shapes our world.",
+        ],
+        link: { label: "Watch a summary of my research", href: "https://www.youtube.com/watch?v=hb2u9kJPV4E" },
     },
     {
         title: "Video game software engineer",
