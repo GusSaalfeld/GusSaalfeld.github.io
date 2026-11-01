@@ -131,14 +131,14 @@ export default async function ProjectPage({ params }: Props) {
         )}
 
         {/* The piece itself: the top of its first pages, margins trimmed, large enough to read,
-            each opening the whole piece. Side by side from sm up. A thin edge keeps the white pages
+            each opening the whole piece at the page it shows. Side by side from sm up. A thin edge keeps the white pages
             from melting into the paper */}
         {page.previews && page.previews.length > 0 && (
           <ul className="mt-8 grid gap-6 sm:grid-cols-2">
             {page.previews.map((preview) => (
               <li key={preview.src}>
                 <a
-                  href={page.sample?.href ?? preview.src}
+                  href={page.sample ? `${page.sample.href}${preview.page ? `#page=${preview.page}` : ""}` : preview.src}
                   className="block border border-quiet-rule bg-white hover:border-quiet-link"
                 >
                   <Image

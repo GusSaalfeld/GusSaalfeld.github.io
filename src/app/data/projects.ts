@@ -16,7 +16,7 @@ export const ProjectList: Project[] = [
         path: "capstone-project",
         ready: true,
         title: "Designing a feedback system for Dietrich College’s DEI department",
-        hoverDescription: "A post-event form and Tableau dashboards for Dietrich College’s DEI office, built with two teammates through stakeholder interviews and user testing, and still in use today.",
+        hoverDescription: "A form and Tableau dashboards for Dietrich College’s DEI office, built with two teammates through stakeholder interviews and user testing, and still in use today.",
         thumbnail: "/samples/dei/previews/thumb.png", // the top of the overview dashboard
         genre: "UX research and writing",
         // DRAFT: from the team's final report and handover. Check each line, especially what's said to be
@@ -24,16 +24,14 @@ export const ProjectList: Project[] = [
         page: {
             kind: "other",
             date: "Spring 2022",
-            summary: "For my capstone project, I helped the Dietrich DEI office improve how it gathered feedback on volunteer-led events. My team designed a post-event form, spreadsheet, and Tableau dashboards that collect and graph data on DEI events across Dietrich College.",
+            summary: "For my capstone project, I helped the Dietrich DEI office improve how it gathered feedback on volunteer-led events. My team designed a form, spreadsheet, and Tableau dashboards that collect and graph data on DEI events across Dietrich College.",
             audience: "The associate dean for DEI, and the department volunteers who run DEI events and report on them.",
             builtWith: "Google Forms, Google Sheets, Tableau",
             role: "Documentation manager. I helped design and write the form, then revise it after each round of user testing, and co-wrote the testing script. I also put the form on the office’s website and wrote the handover documentation.",
             team: "Gloria Moon, project manager, and Neha Choudhari, client relationship manager. Together they also built the Tableau dashboards.",
             previews: [
                 { src: "/samples/dei/previews/form.png", alt: "The top of the final form: its title, how long it takes, and why to fill it in" },
-                { src: "/samples/dei/previews/flowchart.png", alt: "Part of the information flowchart: the form branches by the event’s goal, into recruitment, educational, and community building questions" },
                 { src: "/samples/dei/previews/dashboard.png", alt: "The overview dashboard, with test data: events per goal, events per department, and RSVPs against attendance" },
-                { src: "/samples/dei/previews/website.png", alt: "The form on the DEI office’s web page in 2022, below the office’s contacts" },
             ],
             documents: [
                 { group: "Handed over to the office", name: "Final report", href: "/samples/dei/final-report.pdf", description: "What the office needed, what we built, and what we recommend next, with our sketches, flowchart, and dashboards. An email address removed. 14 pages, PDF." },
@@ -91,7 +89,7 @@ export const ProjectList: Project[] = [
             purpose: "Teach a new barista to make a latte, and with it how to use the espresso machine.",
             audience: "New baristas at La Prima’s Gates and Wean cafés on Carnegie Mellon’s campus.",
             format: "7 pages, PDF",
-            previews: [{ src: "/samples/previews/barista-training-manual-1.png", alt: "Page 1 of the manual" }, { src: "/samples/previews/barista-training-manual-2.png", alt: "Page 2 of the manual" }],
+            previews: [{ src: "/samples/previews/barista-training-manual-1.png", page: 1, alt: "Page 1 of the manual" }, { src: "/samples/previews/barista-training-manual-2.png", page: 2, alt: "Page 2 of the manual" }],
             summary: "A seven-page training manual that takes a new barista through one drink, a hot 16 oz double latte, from cup to counter.",
             outcomes: [
                 "The café uses the manual to train new baristas.",
@@ -129,7 +127,7 @@ export const ProjectList: Project[] = [
             purpose: "Explain what a browser does to load a website, without the jargon that makes most explanations impenetrable.",
             audience: "Curious readers with no technical background who use the internet every day.",
             format: "7 pages, PDF",
-            previews: [{ src: "/samples/previews/what-happens-when-you-type-youtube-com-1.png", alt: "Page 1 of the explainer" }, { src: "/samples/previews/what-happens-when-you-type-youtube-com-2.png", alt: "Page 2 of the explainer" }],
+            previews: [{ src: "/samples/previews/what-happens-when-you-type-youtube-com-1.png", page: 1, alt: "Page 1 of the explainer" }, { src: "/samples/previews/what-happens-when-you-type-youtube-com-2.png", page: 2, alt: "Page 2 of the explainer" }],
             summary: "A seven-page explainer that walks a beginner through what happens between typing a web address and seeing the page.",
             outcomes: [
                 "Covers DNS, TCP, HTTP, and how a page is drawn, without assuming any technical knowledge.",
@@ -167,7 +165,7 @@ export const ProjectList: Project[] = [
             purpose: "Propose a feature that lets students keep their course content, and write what it takes to launch it: the announcement and the interface text.",
             audience: "University students and alumni who use Canvas.",
             format: "7 pages, PDF",
-            previews: [{ src: "/samples/previews/canvas-course-export-1.png", alt: "The export course form mockup, with its checkboxes and destination choices" }, { src: "/samples/previews/canvas-course-export-2.png", alt: "Page 1 of the project: its title and executive summary" }],
+            previews: [{ src: "/samples/previews/canvas-course-export-1.png", page: 6, alt: "The export course form mockup, with its checkboxes and destination choices" }, { src: "/samples/previews/canvas-course-export-2.png", page: 1, alt: "Page 1 of the project: its title and executive summary" }],
             // Each part opens the PDF at its page
             documents: [
                 { name: "Research", description: "Personas, an empathy map, and an interview, turned into pain points and “how might we” statements, then a prototype tested with classmates.", href: "/samples/canvas-course-export.pdf#page=1" },
@@ -255,7 +253,7 @@ export const ProjectList: Project[] = [
             purpose: "Show beginners that growing gourmet mushrooms at home is cheap and manageable, then walk them through it.",
             audience: "Beginners with no gardening or lab experience who want a cheap, low-effort project at home.",
             format: "5 pages, PDF",
-            previews: [{ src: "/samples/previews/growing-oyster-mushrooms-at-home-1.png", alt: "Page 1 of the guide" }, { src: "/samples/previews/growing-oyster-mushrooms-at-home-2.png", alt: "Page 2 of the guide" }],
+            previews: [{ src: "/samples/previews/growing-oyster-mushrooms-at-home-1.png", page: 1, alt: "Page 1 of the guide" }, { src: "/samples/previews/growing-oyster-mushrooms-at-home-2.png", page: 2, alt: "Page 2 of the guide" }],
             summary: "A five-page how-to guide to growing blue oyster mushrooms at home, from a syringe of spores to the first harvest.",
             outcomes: [
                 "Breaks growing into three stages, each with what to do, what to watch for, and how long it takes.",

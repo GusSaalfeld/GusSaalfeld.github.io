@@ -24,7 +24,8 @@ export type ProjectPage = {
   services?: { name: string, role: string }[], // other work that runs things: each app, and what it's for
   role?: string,              // team work: my part in it, "Documentation manager"
   team?: string,              // team work: who else made it, by name. With a team, I delivered becomes we did
-  previews?: { src: string, alt: string }[], // pictures of the piece itself: pages, screens. Two, side by side
+  previews?: { src: string, alt: string, page?: number }[], // pictures of the piece itself: pages, screens. Two,
+                                            // side by side. With a page, it opens the sample at that page
   documents?: { name: string, description: string, href?: string, group?: string }[], // what the project
                                             // produced, each with a line on what it is. One with an href links
                                             // to its file. Documents with a group are listed under its name
