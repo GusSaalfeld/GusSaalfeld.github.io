@@ -30,11 +30,13 @@ export const ProjectList: Project[] = [
             role: "Documentation manager. I helped design and write the form, then revise it after each round of user testing, and co-wrote the testing script. I also put the form on the office’s website and wrote the handover documentation.",
             team: "Gloria Moon, project manager, and Neha Choudhari, client relationship manager. Together they also built the Tableau dashboards.",
             previews: [
+                { src: "/samples/dei/previews/form.png", alt: "The top of the final form: its title, how long it takes, and why to fill it in" },
+                { src: "/samples/dei/previews/flowchart.png", alt: "Part of the information flowchart: the form branches by the event’s goal, into recruitment, educational, and community building questions" },
                 { src: "/samples/dei/previews/dashboard.png", alt: "The overview dashboard, with test data: events per goal, events per department, and RSVPs against attendance" },
                 { src: "/samples/dei/previews/website.png", alt: "The form on the DEI office’s web page in 2022, below the office’s contacts" },
             ],
             documents: [
-                { group: "Handed over to the office", name: "Final report", href: "/samples/dei/final-report.pdf", description: "What the office needed, what we built, and what we recommend next, with our sketches, flowchart, and dashboards. 14 pages, PDF." },
+                { group: "Handed over to the office", name: "Final report", href: "/samples/dei/final-report.pdf", description: "What the office needed, what we built, and what we recommend next, with our sketches, flowchart, and dashboards. An email address removed. 14 pages, PDF." },
                 { group: "Handed over to the office", name: "Executive summary", href: "/samples/dei/executive-summary.pdf", description: "The project on two pages. PDF." },
                 { group: "Handed over to the office", name: "Handover guide", href: "/samples/dei/handover-guide.pdf", description: "How to update the form, who owns each part of the system, and how to extend it. Staff email addresses removed. 5 pages, PDF." },
                 { group: "Handed over to the office", name: "Research findings", href: "/samples/dei/research-findings.pdf", description: "The four pain points our interviews found, and who’s who in the college’s DEI work, for whoever works with the office next. 3 pages, PDF." },
@@ -51,7 +53,7 @@ export const ProjectList: Project[] = [
                 { group: "Along the way", name: "Dashboard plan", href: "/samples/dei/dashboard-plan.pdf", description: "The questions each dashboard had to answer. 2 pages, PDF." },
                 { group: "Along the way", name: "User testing findings", href: "/samples/dei/user-testing-findings.pdf", description: "Two rounds of feedback on the form, and what we changed. Testers’ names removed. 4 pages, PDF." },
                 { group: "Along the way", name: "MVP presentation", href: "/samples/dei/mvp-presentation.pdf", description: "The first working version, presented to the class. 9 slides, PDF." },
-                { group: "Along the way", name: "Final presentation", href: "/samples/dei/final-presentation.pdf", description: "The finished system and what it changed for the office. 15 slides, PDF." },
+                { group: "Along the way", name: "Final presentation", href: "/samples/dei/final-presentation.pdf", description: "The finished system and what it changed for the office. Testers’ faces and email addresses removed. 15 slides, PDF." },
                 { group: "Along the way", name: "Sprint reports", href: "/samples/dei/sprint-reports.pdf", description: "Nine reports, February to April: what we did, who did it, and what came next. Participants’ names removed. 40 pages, PDF." },
             ],
             outcomes: [
