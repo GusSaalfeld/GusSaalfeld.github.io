@@ -28,7 +28,7 @@ export const ProjectList: Project[] = [
             audience: "The associate dean for DEI, and the department volunteers who run DEI events and report on them.",
             builtWith: "Google Forms, Google Sheets, Tableau",
             role: "Documentation manager. I helped design and write the form, then revise it after each round of user testing, and co-wrote the testing script. I also put the form on the office’s website and wrote the handover documentation.",
-            team: "Gloria Moon, project manager, and Neha Choudhari, client relationship manager. Together they built the Tableau dashboards.",
+            team: "Gloria Moon, project manager, and Neha Choudhari, client relationship manager. Together they also built the Tableau dashboards.",
             previews: [
                 { src: "/samples/dei/previews/dashboard.png", alt: "The overview dashboard, with test data: events per goal, events per department, and RSVPs against attendance" },
                 { src: "/samples/dei/previews/website.png", alt: "The form on the DEI office’s web page in 2022, below the office’s contacts" },
