@@ -24,7 +24,7 @@ export const ProjectList: Project[] = [
         page: {
             kind: "other",
             date: "Spring 2022",
-            summary: "A post-event form, spreadsheet, and Tableau dashboards that collect and graph data on DEI events across Dietrich College. Three student consultants built it for the college’s Office of Diversity, Equity, and Inclusion (now Access, Opportunity & Community Impact), which still uses it today.",
+            summary: "For my capstone project, I helped the Dietrich DEI office improve how it gathered feedback on volunteer-led events. My team designed a post-event form, spreadsheet, and Tableau dashboards that collect and graph data on DEI events across Dietrich College.",
             audience: "The associate dean for DEI, and the department volunteers who run DEI events and report on them.",
             builtWith: "Google Forms, Google Sheets, Tableau",
             role: "Documentation manager. I helped design and write the form, then revise it after each round of user testing, and co-wrote the testing script. I also put the form on the office’s website and wrote the handover documentation.",
