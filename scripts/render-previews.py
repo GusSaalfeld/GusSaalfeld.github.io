@@ -18,6 +18,7 @@ LEFT, RIGHT, TOP, BOTTOM = 0.09, 0.91, 0.07, 0.42
 # The first one listed is also the thumbnail
 CHOSEN_PAGES = {
     "canvas-course-export": [6, 1],  # the export form mockup, then the title and summary
+    "short-stories": [1, 7],         # the first page of each story
 }
 
 for pdf in sorted(SAMPLES.glob("*.pdf")):

@@ -69,7 +69,7 @@ export const WorkList: Role[] = [
     {
         title: "SURF research grant",
         organization: "Carnegie Mellon University",
-        dates: "2022",
+        dates: "2021–2022",
         points: [
             "Addressed the lack of computer science fiction by writing a short story that dramatizes the computer science concept of abstraction, showing readers how it shapes our world.",
         ],

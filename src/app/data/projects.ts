@@ -149,11 +149,6 @@ export const ProjectList: Project[] = [
             format: "7 pages, PDF",
             previews: [{ src: "/samples/previews/what-happens-when-you-type-youtube-com-1.png", page: 1, alt: "Page 1 of the explainer" }, { src: "/samples/previews/what-happens-when-you-type-youtube-com-2.png", page: 2, alt: "Page 2 of the explainer" }],
             summary: "A seven-page explainer that walks a beginner through what happens between typing a web address and seeing the page.",
-            outcomes: [
-                "Covers DNS, TCP, HTTP, and how a page is drawn, without assuming any technical knowledge.",
-                "Gives each idea an everyday comparison: a phone book, the post, a house’s blueprint and wiring.",
-                "Recaps the whole process in a single sentence a reader can carry away.",
-            ],
             challenges: [
                 {
                     problem: "Most readers stop at the first unfamiliar term.",
@@ -192,11 +187,6 @@ export const ProjectList: Project[] = [
                 { name: "Feature announcement", description: "The launch post that tells students what the feature does, how to use it, and why it’s worth trying.", href: "/samples/canvas-course-export.pdf#page=3" },
                 { name: "Microcopy", description: "The tooltip, form, progress, success and error messages, and legal notice for the export flow.", href: "/samples/canvas-course-export.pdf#page=4" },
                 { name: "UX mockups", description: "The export button on a course homepage, the export form, the download in progress, and the success message.", href: "/samples/canvas-course-export.pdf#page=5" },
-            ],
-            outcomes: [
-                "A feature grounded in user research, from interviews and personas to a prototype tested with classmates.",
-                "An announcement built on the genre’s four moves, modeled on announcements from Spotify, Ticketmaster, and Goodreads.",
-                "Microcopy for the whole export flow that stays consistent: every message names the course and destination the student chose.",
             ],
             challenges: [
                 {
@@ -238,11 +228,6 @@ export const ProjectList: Project[] = [
                 { name: "WireGuard", role: "VPN, through OpenWrt" },
                 { name: "Tailscale", role: "remote access" },
             ],
-            outcomes: [
-                "Hosts the services I use every day, from media and passwords to network storage and remote access.",
-                "Replaces commercial services with open-source tools I control.",
-                "Gives me a place to learn infrastructure hands-on: virtualization, containers, and networking.",
-            ],
             challenges: [
                 {
                     problem: "Running several services on one machine risks one breaking the others.",
@@ -275,11 +260,6 @@ export const ProjectList: Project[] = [
             format: "5 pages, PDF",
             previews: [{ src: "/samples/previews/growing-oyster-mushrooms-at-home-1.png", page: 1, alt: "Page 1 of the guide" }, { src: "/samples/previews/growing-oyster-mushrooms-at-home-2.png", page: 2, alt: "Page 2 of the guide" }],
             summary: "A five-page how-to guide to growing blue oyster mushrooms at home, from a syringe of spores to the first harvest.",
-            outcomes: [
-                "Breaks growing into three stages, each with what to do, what to watch for, and how long it takes.",
-                "Lists every piece of equipment, and where to buy it, before the first step.",
-                "Ends with what to learn next, from a second harvest to making your own supplies.",
-            ],
             challenges: [
                 {
                     problem: "Growers’ guides assume you know terms like spawn, substrate, and pins.",
@@ -300,42 +280,37 @@ export const ProjectList: Project[] = [
     {
         path: "creative-writing",
         ready: true,
-        title: "Short stories and a study on computer science in fiction",
-        hoverDescription: "Short stories with absurd premises, and a study of how fiction can demonstrate computer science’s impact on our inner lives, through Italo Calvino’s *Cosmicomics*.",
-        thumbnail: "", // none until there’s a real picture of the work
+        title: "Short stories and a research project on computer science fiction",
+        hoverDescription: "Two short stories, and a research project on writing fiction that turns computer science concepts into stories.",
+        thumbnail: "/samples/previews/short-stories-thumb.png", // the top of the first story
         genre: "Creative writing",
-        // DRAFT: from the description and the SURF fellowship. Check each line, the date especially, and
-        // add the stories and the study: their files in public/samples/, with an href below each
+        // Two things on one page, as creative writing is a side note here: two stories, and the research
+        // grant, shown by its proposal and talk (the story written for it is lost). No outcomes or
+        // challenges: on creative work they read as forced
         page: {
             kind: "writing",
-            date: "2022",
-            summary: "Short stories with absurd premises, and a study of how Italo Calvino’s *Cosmicomics* uses fiction to show computer science’s effect on our inner lives.",
-            purpose: "Explore how fiction can make an abstract computer science idea felt, not just understood.",
-            audience: "Readers of literary fiction, with or without a background in computer science.",
-            format: "Short stories and a research study",
+            date: "2021–2022",
+            summary: "Two of my short stories, and a research project on writing fiction that turns computer science concepts into stories.",
+            sample: { label: "Download the stories (PDF)", href: "/samples/short-stories.pdf" },
+            youtube: {
+                id: "hb2u9kJPV4E",
+                title: "Experimenting with Computer Science Fiction, CMU Meeting of the Minds 2022",
+                poster: "/samples/creative/surf-video-poster.jpg",
+                caption: "My research presentation at Carnegie Mellon’s Meeting of the Minds, 2022.",
+                group: "Research project",
+            },
+            previews: [
+                { src: "/samples/previews/short-stories-1.png", page: 1, alt: "The opening of “Views From East 1st to Marble Hill”" },
+                { src: "/samples/previews/short-stories-2.png", page: 7, alt: "The opening of “Shower Thought”" },
+            ],
+            documentsHeading: "", // two parts, each its own section
+            groupIntros: {
+                "Research project": "In 2021, Carnegie Mellon gave me a Summer Undergraduate Research Fellowship to write short stories that turn computer science concepts into fiction, in the style of Italo Calvino’s *Cosmicomics*. I presented what I found at Meeting of the Minds in 2022.",
+            },
             documents: [
-                { name: "Short stories", description: "Stories with absurd premises, including one that dramatizes abstraction." },
-                { name: "Study of *Cosmicomics*", description: "How Calvino turns scientific ideas into stories about how it feels to live with them." },
-                { name: "Research summary", description: "A video summary of the research, from Carnegie Mellon’s Meeting of the Minds.", href: "https://www.youtube.com/watch?v=hb2u9kJPV4E" },
-            ],
-            outcomes: [
-                "Won a SURF Creative Writing Fellowship from Carnegie Mellon to write it.",
-                "Presented the research at Carnegie Mellon’s Meeting of the Minds.",
-                "A story that makes abstraction, a core idea in computer science, something a reader feels.",
-            ],
-            challenges: [
-                {
-                    problem: "There’s very little fiction about computer science to learn from.",
-                    solution: "Studied how Calvino’s *Cosmicomics* turns physics and cosmology into stories, and applied it to computing.",
-                },
-                {
-                    problem: "Explaining an idea like abstraction kills a story.",
-                    solution: "Built each premise around the idea, so readers live through it instead of being told about it.",
-                },
-                {
-                    problem: "The stories had to work for readers who don’t know computer science.",
-                    solution: "Kept the technical idea under the surface: the story has to stand on its own.",
-                },
+                { group: "Short stories", name: "“Views From East 1st to Marble Hill”", href: "/samples/creative/views-from-east-1st-to-marble-hill.pdf", description: "A day in New York, minute by minute, where the ordinary keeps tipping into the absurd. 6 pages, PDF." },
+                { group: "Short stories", name: "“Shower Thought”", href: "/samples/creative/shower-thought.pdf", description: "A guided meditation that leads from a hot shower to the court of the Border Princes, where every visitor must choose whether to stay. 11 pages, PDF." },
+                { group: "Research project", name: "Research proposal", href: "/samples/creative/surf-research-proposal.pdf", description: "Why there’s so little fiction about computer science, what Calvino’s stories offer, and how I planned to write my own. 4 pages, PDF." },
             ],
         },
     },

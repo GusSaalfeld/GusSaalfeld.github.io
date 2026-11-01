@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import Band, { PAGE_TOP, SECTION_GAP } from "@/app/components/band";
 import DownloadLink from "@/app/components/download-link";
 import ResultsAndChallenges from "@/app/components/results-and-challenges";
+import YouTubeVideo from "@/app/components/youtube-video";
 import { VisibleProjects } from "@/app/data/projects";
 import { plain, withItalics } from "@/app/lib/italics";
 import type { Project, ProjectPage as ProjectPageData } from "@/app/types";
@@ -65,6 +66,21 @@ export default async function ProjectPage({ params }: Props) {
     else groups.push({ name: doc.group, documents: [doc] });
   }
 
+  // The decisions behind the piece: each problem in bold, with what I did about it beneath
+  const challenges = page.challenges && (
+    <section>
+      <h2 className={`mb-6 ${HEADING}`}>Challenges</h2>
+      <ul className="flex max-w-[62ch] flex-col gap-6">
+        {page.challenges.map(({ problem, solution }) => (
+          <li key={problem}>
+            <p className="font-sans text-lg font-semibold leading-[1.35] text-quiet-ink text-pretty">{withItalics(problem)}</p>
+            <p className="mt-1 text-lg leading-[1.55] text-quiet-ink text-pretty">{withItalics(solution)}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+
   return (
     <>
       <Band className={`${PAGE_TOP} ${SECTION_GAP}`}>
@@ -93,7 +109,7 @@ export default async function ProjectPage({ params }: Props) {
             with a video shows it beside the summary instead, the quickest way in: the whole video,
             play button and all, stays in the first screen on laptops. Two equal columns with the
             facts' 32px gutter; on phones the video follows the summary */}
-        {page.video ? (
+        {page.video || (page.youtube && !page.youtube.group) ? (
           <div className="mt-6 grid items-start gap-6 md:grid-cols-2 md:gap-x-8">
             <div>
               <p className="max-w-[44ch] text-xl leading-[1.45] text-quiet-ink text-pretty">{withItalics(page.summary)}</p>
@@ -106,7 +122,12 @@ export default async function ProjectPage({ params }: Props) {
                 </div>
               )}
             </div>
-            <VideoFigure video={page.video} />
+            {page.video ? <VideoFigure video={page.video} /> : page.youtube && (
+              <figure>
+                <YouTubeVideo id={page.youtube.id} title={page.youtube.title} poster={page.youtube.poster} />
+                <figcaption className="mt-2 text-sm leading-[1.45] text-quiet-muted text-pretty">{page.youtube.caption}</figcaption>
+              </figure>
+            )}
           </div>
         ) : (
           <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-12">
@@ -122,7 +143,7 @@ export default async function ProjectPage({ params }: Props) {
         )}
 
         {(facts.length > 0 || page.services || page.team) && (
-          <dl className={`${page.video ? "mt-12" : "mt-8"} grid gap-x-8 gap-y-4 md:grid-cols-3`}>
+          <dl className={`${page.video || (page.youtube && !page.youtube.group) ? "mt-12" : "mt-8"} grid gap-x-8 gap-y-4 md:grid-cols-3`}>
             {facts.map(([name, text]) => (
               <div key={name}>
                 <dt className="font-sans text-base font-semibold leading-[1.3] text-quiet-ink">{name}</dt>
@@ -202,83 +223,89 @@ export default async function ProjectPage({ params }: Props) {
         )}
       </Band>
 
-      {/* The results, then the decisions behind them, side by side on wide screens.
+      {/* The results, then the decisions behind them, side by side on wide screens; a page with no
+          results shows the decisions alone.
           Before the documents: the results are what a skimmer most needs, so they come first */}
-      <ResultsAndChallenges
-        outcomes={
-          <section>
-            <h2 className={`mb-6 ${HEADING}`}>Outcomes</h2>
-            <ul className="flex max-w-[62ch] list-disc flex-col gap-2 pl-5 text-lg leading-[1.55] text-quiet-ink marker:text-quiet-muted">
-              {page.outcomes.map((outcome) => (
-                <li key={outcome} className="text-pretty">{withItalics(outcome)}</li>
-              ))}
-            </ul>
-            {/* A picture that shows a result: proof beside the claim */}
-            {page.outcomesImage && (
-              <figure className="mt-6">
-                <a href={page.outcomesImage.href ?? page.outcomesImage.src} className="block border border-quiet-rule bg-white hover:border-quiet-link">
-                  <Image
-                    src={page.outcomesImage.src}
-                    alt={page.outcomesImage.alt}
-                    width={page.outcomesImage.width}
-                    height={page.outcomesImage.height}
-                    sizes="(min-width: 1024px) 288px, 100vw"
-                    className="block h-auto w-full"
-                  />
-                </a>
-                <figcaption className="mt-2 text-sm leading-[1.45] text-quiet-muted text-pretty">{page.outcomesImage.caption}</figcaption>
-              </figure>
-            )}
-          </section>
-        }
-        challenges={
-          // Each problem in bold, with what I did about it beneath: the decisions behind the piece
-          <section>
-            <h2 className={`mb-6 ${HEADING}`}>Challenges</h2>
-            <ul className="flex max-w-[62ch] flex-col gap-6">
-              {page.challenges.map(({ problem, solution }) => (
-                <li key={problem}>
-                  <p className="font-sans text-lg font-semibold leading-[1.35] text-quiet-ink text-pretty">{withItalics(problem)}</p>
-                  <p className="mt-1 text-lg leading-[1.55] text-quiet-ink text-pretty">{withItalics(solution)}</p>
-                </li>
-              ))}
-            </ul>
-          </section>
-        }
-      />
+      {challenges && (page.outcomes ? (
+        <ResultsAndChallenges
+          outcomes={
+            <section>
+              <h2 className={`mb-6 ${HEADING}`}>Outcomes</h2>
+              <ul className="flex max-w-[62ch] list-disc flex-col gap-2 pl-5 text-lg leading-[1.55] text-quiet-ink marker:text-quiet-muted">
+                {page.outcomes.map((outcome) => (
+                  <li key={outcome} className="text-pretty">{withItalics(outcome)}</li>
+                ))}
+              </ul>
+              {/* A picture that shows a result: proof beside the claim */}
+              {page.outcomesImage && (
+                <figure className="mt-6">
+                  <a href={page.outcomesImage.href ?? page.outcomesImage.src} className="block border border-quiet-rule bg-white hover:border-quiet-link">
+                    <Image
+                      src={page.outcomesImage.src}
+                      alt={page.outcomesImage.alt}
+                      width={page.outcomesImage.width}
+                      height={page.outcomesImage.height}
+                      sizes="(min-width: 1024px) 288px, 100vw"
+                      className="block h-auto w-full"
+                    />
+                  </a>
+                  <figcaption className="mt-2 text-sm leading-[1.45] text-quiet-muted text-pretty">{page.outcomesImage.caption}</figcaption>
+                </figure>
+              )}
+            </section>
+          }
+          challenges={challenges}
+        />
+      ) : (
+        // No results to report, as for most writing samples: the decisions alone, full width
+        <Band className={SECTION_GAP}>{challenges}</Band>
+      ))}
 
       {/* What the project produced: each document named, with what it is; a link once its file is
           added. In groups, each under its own heading, when the documents are many */}
       {groups.length > 0 && (
         <Band className={SECTION_GAP}>
           <section id="documents" className="scroll-mt-32">
-            <h2 className={`mb-6 ${HEADING}`}>{page.team ? "What we delivered" : "What I delivered"}</h2>
-            <div className="flex flex-col gap-12">
-              {groups.map((group) => (
-                <div key={group.name ?? ""}>
-                  {group.name && (
-                    <h3 className="mb-4 font-sans text-2xl font-semibold leading-[1.25] text-quiet-ink">{group.name}</h3>
-                  )}
-                  <ul className="grid max-w-[62rem] gap-x-8 gap-y-6 md:grid-cols-2">
-                    {group.documents.map((doc) => (
-                      <li key={doc.name}>
-                        <p className="font-sans text-lg font-semibold leading-[1.35] text-quiet-ink">
-                          {doc.href ? <a href={doc.href} className={LINK}>{withItalics(doc.name)}</a> : withItalics(doc.name)}
-                        </p>
-                        <p className="mt-1 text-base leading-[1.55] text-quiet-muted text-pretty">{withItalics(doc.description)}</p>
-                        {/* Several files under one name: each linked by its label, in a row */}
-                        {doc.links && (
-                          <ul className="mt-1 flex flex-wrap gap-x-5 gap-y-1 font-sans text-base leading-[1.5] text-quiet-ink">
-                            {doc.links.map((link) => (
-                              <li key={link.href}><a href={link.href} className={LINK}>{link.label}</a></li>
-                            ))}
-                          </ul>
-                        )}
-                      </li>
-                    ))}
+            {/* An empty heading leaves the overall one out, and the groups become the main headings:
+                a page of separate parts, such as stories and a research project */}
+            {page.documentsHeading !== "" && (
+              <h2 className={`mb-6 ${HEADING}`}>{page.documentsHeading ?? (page.team ? "What we delivered" : "What I delivered")}</h2>
+            )}
+            <div className={`flex flex-col ${page.documentsHeading === "" ? "gap-18" : "gap-12"}`}>
+              {groups.map((group) => {
+                // A group can open with a few sentences, and hold the YouTube video: its documents then
+                // take the left column and the video the right, as the summary and video do up top
+                const intro = group.name ? page.groupIntros?.[group.name] : undefined;
+                const video = page.youtube?.group && page.youtube.group === group.name ? page.youtube : undefined;
+                const list = (
+                  <ul className={`grid gap-x-8 gap-y-6 ${video ? "" : "max-w-[62rem] md:grid-cols-2"}`}>
+                    {group.documents.map((doc) => <DocumentItem key={doc.name} doc={doc} />)}
                   </ul>
-                </div>
-              ))}
+                );
+                const introText = intro && (
+                  <p className="mb-6 max-w-[62ch] text-lg leading-[1.55] text-quiet-ink text-pretty">{withItalics(intro)}</p>
+                );
+                return (
+                  <div key={group.name ?? ""}>
+                    {group.name && (page.documentsHeading === "" ? (
+                      <h2 className={`mb-6 ${HEADING}`}>{group.name}</h2>
+                    ) : (
+                      <h3 className="mb-4 font-sans text-2xl font-semibold leading-[1.25] text-quiet-ink">{group.name}</h3>
+                    ))}
+                    {video ? (
+                      <div className="grid items-start gap-6 md:grid-cols-2 md:gap-x-8">
+                        <div>{introText}{list}</div>
+                        <figure>
+                          <YouTubeVideo id={video.id} title={video.title} poster={video.poster} />
+                          <figcaption className="mt-2 text-sm leading-[1.45] text-quiet-muted text-pretty">{video.caption}</figcaption>
+                        </figure>
+                      </div>
+                    ) : (
+                      <>{introText}{list}</>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </section>
         </Band>
@@ -332,5 +359,25 @@ function VideoFigure({ video }: { video: NonNullable<ProjectPageData["video"]> }
       </video>
       <figcaption className="mt-2 text-sm leading-[1.45] text-quiet-muted text-pretty">{video.caption}</figcaption>
     </figure>
+  );
+}
+
+// One document: its name, linked to its file, and what it is beneath. One made of several files links
+// each by its label, in a row
+function DocumentItem({ doc }: { doc: NonNullable<ProjectPageData["documents"]>[number] }) {
+  return (
+    <li>
+      <p className="font-sans text-lg font-semibold leading-[1.35] text-quiet-ink">
+        {doc.href ? <a href={doc.href} className={LINK}>{withItalics(doc.name)}</a> : withItalics(doc.name)}
+      </p>
+      <p className="mt-1 text-base leading-[1.55] text-quiet-muted text-pretty">{withItalics(doc.description)}</p>
+      {doc.links && (
+        <ul className="mt-1 flex flex-wrap gap-x-5 gap-y-1 font-sans text-base leading-[1.5] text-quiet-ink">
+          {doc.links.map((link) => (
+            <li key={link.href}><a href={link.href} className={LINK}>{link.label}</a></li>
+          ))}
+        </ul>
+      )}
+    </li>
   );
 }

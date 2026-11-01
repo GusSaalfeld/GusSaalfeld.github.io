@@ -27,18 +27,24 @@ export type ProjectPage = {
   teamPhoto?: { src: string, alt: string, caption: string }, // the team, shown beside its names
   video?: { src: string, poster: string, caption: string, captions?: string }, // a short video of the work,
                                             // beside the summary. Captions: a WebVTT file of what's said in it
+  youtube?: { id: string, title: string, poster: string, caption: string, group?: string }, // or one on YouTube:
+                                            // beside the summary, or with a group of documents when named
   previews?: { src: string, alt: string, page?: number }[], // pictures of the piece itself: pages, screens. Two,
                                             // side by side. With a page, it opens the sample at that page
+  documentsHeading?: string,  // the heading over the documents, when "What I delivered" doesn't fit. Empty
+                              // leaves it out, making each group's name a main heading
+  groupIntros?: Record<string, string>, // a few sentences opening a group of documents, by its name  // the heading over the documents, when "What I delivered" doesn't fit
   documents?: { name: string, description: string, href?: string, group?: string, links?: { label: string, href: string }[] }[],
                                             // what the project produced, each with a line on what it is. One
                                             // with an href links to its file; one made of several files links
                                             // each by its label instead. Documents with a group are listed
                                             // under its name
-  outcomes: string[],         // three results, each one sentence: what changed, for whom
+  outcomes?: string[],        // three results, each one sentence: what changed, for whom. Creative work
+                                            // can leave these and the challenges out
   outcomesImage?: { src: string, width: number, height: number, alt: string, caption: string, href?: string },
                                             // a picture that shows a result, under them. It opens href, the
                                             // whole picture it's cut from, or itself
-  challenges: { problem: string, solution: string }[], // three, each a sentence or two
+  challenges?: { problem: string, solution: string }[], // three, each a sentence or two
   sample?: { label: string, href: string }, // the piece itself, to download: a PDF in public/samples/. Say what
                                             // downloads and its format: "Download the manual (PDF)"
 };
