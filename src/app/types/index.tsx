@@ -29,6 +29,7 @@ export type ProjectPage = {
                                             // beside the summary. Captions: a WebVTT file of what's said in it
   youtube?: { id: string, title: string, poster: string, caption: string, group?: string }, // or one on YouTube:
                                             // beside the summary, or with a group of documents when named
+  diagrams?: "home-server",   // diagrams of how the work is built, drawn by their own component
   previews?: { src: string, alt: string, page?: number }[], // pictures of the piece itself: pages, screens. Two,
                                             // side by side. With a page, it opens the sample at that page
   documentsHeading?: string,  // the heading over the documents, when "What I delivered" doesn't fit. Empty

@@ -208,38 +208,35 @@ export const ProjectList: Project[] = [
     {
         path: "home-server",
         ready: true,
-        title: "Home server",
-        hoverDescription: "My home server runs on Proxmox and hosts the open-source tools I use daily, such as a media server, password manager, and network-wide ad blocking.",
-        thumbnail: "", // none until there’s a real picture of the work
+        title: "Building a home server and self-hosting services",
+        hoverDescription: "A home server on Proxmox that runs its own router, network storage, and the open-source apps used every day, in place of commercial services.",
+        thumbnail: "/samples/home-server/thumb.png", // the top-left of the system diagram
         genre: "Self-hosting",
-        // DRAFT: from the description and the tools you listed. The challenges in particular are
-        // guesses at what was hard: replace them with what actually was. Screenshots would make good previews
+        // From the 2026-11 rebuild: the layout and numbers are real. Addresses, ports, and hostnames
+        // stay off the page; so does the download VM and the unused WireGuard server
         page: {
             kind: "other",
             date: "2025–present",
-            summary: "A home server running on Proxmox that hosts the open-source tools I use every day, in place of commercial services.",
-            builtWith: "Proxmox, Docker, Portainer",
-            services: [
-                { name: "Jellyfin", role: "media" },
-                { name: "AdGuard Home", role: "ad blocking" },
-                { name: "Vaultwarden", role: "passwords" },
-                { name: "OpenMediaVault", role: "network storage" },
-                { name: "OpenWrt", role: "router" },
-                { name: "WireGuard", role: "VPN, through OpenWrt" },
-                { name: "Tailscale", role: "remote access" },
+            summary: "A home server on one small PC that runs its own router and firewall, network storage, and the open-source apps used every day, in place of commercial services.",
+            builtWith: "Proxmox, OpenWrt, OpenMediaVault, Docker, Tailscale",
+            diagrams: "home-server",
+            outcomes: [
+                "Devices on the network browse without ads or trackers, blocked at the router by AdGuard Home.",
+                "Media, passwords, recipes, and ebooks run on self-hosted, open-source apps, in place of paid or ad-funded services.",
+                "Every app works from anywhere through Tailscale, while nothing on the server is open to the internet.",
             ],
             challenges: [
                 {
-                    problem: "Running several services on one machine risks one breaking the others.",
-                    solution: "Ran each service in its own Docker container, managed through Portainer on Proxmox.",
+                    problem: "The SSD filled up, and every virtual machine paused at once.",
+                    solution: "Traced the space to one storage disk, moved it to the larger drive, and turned on discard so deleted files free their space again. SSD use fell from 100% to 54%, and every app came back without losing data.",
                 },
                 {
-                    problem: "Blocking trackers for every device meant changing the network itself, not each device.",
-                    solution: "Set up the router with OpenWrt so every device on the network goes through AdGuard Home.",
+                    problem: "The router’s and hypervisor’s admin pages were open to the whole home network.",
+                    solution: "Restricted them to Tailscale, keeping access at home as a fallback. The server is now managed from anywhere without being exposed.",
                 },
                 {
-                    problem: "A server I rely on daily has to be easy to fix when something goes wrong.",
-                    solution: "Kept the setup in containers that can be rebuilt quickly, rather than one hand-tuned system.",
+                    problem: "Traffic through the VPN crawled at a few KB/s.",
+                    solution: "Measured each part of the route, found it crossing the Atlantic twice through servers in Sweden, and moved both VPN connections to servers in the US. Round trips fell from 113 to 19 milliseconds, and speeds rose from 6.6 to 34 MB/s.",
                 },
             ],
         },

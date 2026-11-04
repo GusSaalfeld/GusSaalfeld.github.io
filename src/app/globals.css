@@ -127,3 +127,22 @@ main:focus {
   opacity: 0.3;
   pointer-events: none;
 }
+
+/* Dashed lines with dashes long enough to read as dashed (8px, 6px gaps), for the home server
+   diagram's encrypted link. A CSS dashed border draws dashes only about three times its width, so
+   a thin one looks dotted or faint. Drawn as repeating gradients instead: dash-box frames a box on
+   all four sides, dash-line is one horizontal line */
+@utility dash-box {
+  background-image:
+    repeating-linear-gradient(90deg, var(--quiet-muted) 0 8px, transparent 8px 14px),
+    repeating-linear-gradient(90deg, var(--quiet-muted) 0 8px, transparent 8px 14px),
+    repeating-linear-gradient(180deg, var(--quiet-muted) 0 8px, transparent 8px 14px),
+    repeating-linear-gradient(180deg, var(--quiet-muted) 0 8px, transparent 8px 14px);
+  background-size: 100% 1.5px, 100% 1.5px, 1.5px 100%, 1.5px 100%;
+  background-position: 0 0, 0 100%, 0 0, 100% 0;
+  background-repeat: no-repeat;
+}
+@utility dash-line {
+  height: 1.5px;
+  background-image: repeating-linear-gradient(90deg, var(--quiet-muted) 0 8px, transparent 8px 14px);
+}

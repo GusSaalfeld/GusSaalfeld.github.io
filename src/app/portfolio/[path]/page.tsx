@@ -6,6 +6,7 @@ import Band, { PAGE_TOP, SECTION_GAP } from "@/app/components/band";
 import DownloadLink from "@/app/components/download-link";
 import ResultsAndChallenges from "@/app/components/results-and-challenges";
 import YouTubeVideo from "@/app/components/youtube-video";
+import HomeServerDiagrams from "@/app/components/home-server-diagrams";
 import { VisibleProjects } from "@/app/data/projects";
 import { plain, withItalics } from "@/app/lib/italics";
 import type { Project, ProjectPage as ProjectPageData } from "@/app/types";
@@ -195,6 +196,14 @@ export default async function ProjectPage({ params }: Props) {
               </div>
             )}
           </dl>
+        )}
+
+        {/* How the work is built, for work best shown as diagrams: straight after the facts, so the
+            first diagram starts in the first screen */}
+        {page.diagrams === "home-server" && (
+          <div className="mt-12">
+            <HomeServerDiagrams />
+          </div>
         )}
 
         {/* The piece itself: the top of its first pages, margins trimmed, large enough to read,
