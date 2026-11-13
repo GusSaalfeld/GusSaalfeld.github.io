@@ -72,7 +72,7 @@ function SystemDiagram() {
                 <App name="Vaultwarden" job="passwords" />
                 <App name="Mealie" job="recipes" />
                 <App name="Calibre-Web" job="ebooks" />
-                <App name="Caddy" job="web server" />
+                <App name="Caddy" job="reverse proxy" />
               </ul>
             </Frame>
           </li>
@@ -81,7 +81,7 @@ function SystemDiagram() {
       {/* The drives, along the bottom of the machine they're in */}
       <ul className="mt-5 grid gap-x-6 gap-y-1 border-t-2 border-quiet-ink pt-3 sm:grid-cols-2">
         <App name="SSD, 240 GB" job="the virtual machines" />
-        <App name="Hard drive, 2 TB" job="media and storage" />
+        <App name="Hard drive, 2 TB" job="media, storage, and backups" />
       </ul>
     </Frame>
   );
