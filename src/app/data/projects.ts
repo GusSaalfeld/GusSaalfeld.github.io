@@ -239,7 +239,7 @@ export const ProjectList: Project[] = [
                 },
                 {
                     problem: "Shutting down the apps took over a minute, and a full start took nearly 2½ minutes.",
-                    solution: "Read the shutdown logs and found services waiting out timeouts on the network share and the clock service, fixed the order things stop in, and trimmed fixed delays at startup. The apps now shut down in about 20 seconds instead of 75, and the server is ready about 55 seconds sooner.",
+                    solution: "Read the shutdown logs and found services waiting out timeouts on the network share and the clock service, fixed the order things stop in, and trimmed fixed delays at startup. The apps now shut down in about 15 seconds instead of 75, and the server is ready about 50 seconds sooner.",
                 },
             ],
         },
