@@ -222,7 +222,7 @@ export const ProjectList: Project[] = [
             diagrams: "home-server",
             outcomes: [
                 "Devices on the network browse without ads or trackers, blocked at the router by AdGuard Home.",
-                "Media, passwords, recipes, and ebooks run on self-hosted, open-source apps, in place of paid or ad-funded services.",
+                "Media, passwords, recipes, and ebooks run on self-hosted, open-source apps, so personal data stays at home instead of with commercial services.",
                 "Every app works from anywhere through Tailscale, while nothing on the server is open to the internet.",
                 "Every virtual machine is backed up nightly to the hard drive and twice a week off-site to Proton Drive, and a failed backup sends a push notification and an email.",
                 "Jellyfin converts 4K video on the processor’s built-in graphics, passed through to its virtual machine, so streams play smoothly on any device while the processor stays mostly idle.",
@@ -230,16 +230,16 @@ export const ProjectList: Project[] = [
             ],
             challenges: [
                 {
-                    problem: "The SSD filled up, and every virtual machine paused at once.",
-                    solution: "Traced the space to one storage disk, moved it to the larger drive, and turned on discard so deleted files free their space again. SSD use fell from 100% to 54%, and every app came back without losing data.",
-                },
-                {
                     problem: "The whole server froze whenever its media drive got busy.",
                     solution: "Found the 2 TB drive sitting in a USB 2 enclosure, moved it inside onto SATA, and moved the last part of the apps’ system disk onto the SSD. The drive now reads at 108 MB/s instead of being capped by USB 2, and the freezes stopped.",
                 },
                 {
-                    problem: "Traffic through the VPN crawled at a few KB/s.",
-                    solution: "Measured each part of the route, found it crossing the Atlantic twice through servers in Sweden, and moved both VPN connections to servers in the US. Round trips fell from 113 to 19 milliseconds, and speeds rose from 6.6 to 34 MB/s.",
+                    problem: "The SSD filled up, and every virtual machine paused at once.",
+                    solution: "Traced the space to one storage disk, moved it to the larger drive, and turned on discard so deleted files free their space again. SSD use fell from 100% to 54%, and every app came back without losing data.",
+                },
+                {
+                    problem: "Shutting down the apps took over a minute, and a full start took nearly 2½ minutes.",
+                    solution: "Read the shutdown logs and found services waiting out timeouts on the network share and the clock service, fixed the order things stop in, and trimmed fixed delays at startup. The apps now shut down in about 20 seconds instead of 75, and the server is ready about 55 seconds sooner.",
                 },
             ],
         },
